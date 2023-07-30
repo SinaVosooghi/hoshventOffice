@@ -1,0 +1,332 @@
+// ** React Imports
+import { Fragment, useState } from "react";
+
+import Select from "react-select";
+import Cleave from "cleave.js/react";
+
+// ** Reactstrap Imports
+import { selectThemeColors } from "@utils";
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Label,
+  Button,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  FormFeedback,
+  Badge,
+} from "reactstrap";
+
+// ** Third Party Components
+import * as yup from "yup";
+import toast from "react-hot-toast";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// ** Styles
+import "react-slidedown/lib/slidedown.css";
+import "@styles/react/libs/react-select/_react-select.scss";
+import "@styles/react/libs/flatpickr/flatpickr.scss";
+import "@styles/base/pages/app-invoice.scss";
+import { t } from "i18next";
+import { useMutation } from "@apollo/client";
+import { CREATE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
+import classnames from "classnames";
+import { useNavigate, useParams } from "react-router-dom";
+
+// ** Editor
+import { convertToRaw, EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "../../../../@core/scss/react/libs/editor/editor.scss";
+import draftToHtml from "draftjs-to-html";
+import { hashConfig } from "../../../../utility/Utils";
+import { MultiDatePicker } from "../../../../utility/helpers/datepicker/MultipleDatepicker";
+
+const statusOptions = [
+  { value: true, label: t("Active") },
+  { value: false, label: t("Deactive") },
+];
+
+const options = { numeral: true, numeralThousandsGroupStyle: "thousand" };
+
+const AddCard = () => {
+  const SignupSchema = yup.object().shape({
+    title: yup.string().required(`${t("Title")} ${t("field is required")}`),
+    code: yup.string().required(`${t("Code")} ${t("field is required")}`),
+  });
+  const { type } = useParams();
+
+  const [data, setData] = useState(null);
+  const [description, setDescription] = useState(EditorState.createEmpty());
+  const [startDate, setStartDate] = useState();
+  const [expireDate, setExpireDate] = useState();
+
+  const history = useNavigate();
+
+  // ** Hooks
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
+
+  const [create] = useMutation(CREATE_ITEM_MUTATION, {
+    refetchQueries: [GET_ITEMS_QUERY],
+    onCompleted: () => {
+      toast.success(t("Data saved successfully"));
+      history(`/apps/coupons/${type}`);
+    },
+    onError: (error) => {
+      toast.error(t(error.message));
+    },
+  });
+
+  const onSubmit = (data) => {
+    setData(data);
+    const rawContentState = convertToRaw(description.getCurrentContent());
+    const markup = draftToHtml(rawContentState, hashConfig, true);
+
+    const percent =
+      typeof data.percent === "string"
+        ? parseFloat(data.percent?.replaceAll(",", ""))
+        : data.percent;
+
+    const limit =
+      typeof data.limit === "string"
+        ? parseFloat(data.limit?.replaceAll(",", ""))
+        : data.limit;
+
+    setData(data);
+    create({
+      variables: {
+        input: {
+          ...data,
+          body: markup,
+          status: data.status?.value,
+          limit,
+          percent,
+          type,
+          expiredate: expireDate,
+          startdate: startDate,
+        },
+      },
+    });
+  };
+
+  const handleReset = () => {
+    reset({
+      title: "",
+      body: "",
+    });
+  };
+
+  const handleStartDateChange = (dateValue) => {
+    setStartDate(dateValue);
+  };
+
+  const handleExpireDateChange = (dateValue) => {
+    setExpireDate(dateValue);
+  };
+
+  return (
+    <>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Row>
+          <Col xl={9} md={8} sm={12}>
+            <Fragment>
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h4">
+                    {t("Add new coupon")}{" "}
+                    {type && <Badge className="ms-1">{t(type)}</Badge>}
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Row>
+                    <Col md={8} xs={12} className="mb-1">
+                      <Label className="form-label" for="title">
+                        {t("Title")} <span className="text-danger">*</span>
+                      </Label>
+                      <Controller
+                        id="title"
+                        name="title"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Title")}
+                            invalid={errors.title && true}
+                          />
+                        )}
+                      />
+                      {errors.title && (
+                        <FormFeedback>{errors.title.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    <Col md={4} xs={12}>
+                      <Label className="form-label" for="code">
+                        {t("Code")} <span className="text-danger">*</span>
+                      </Label>
+                      <Controller
+                        id="code"
+                        name="code"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Code")}
+                            invalid={errors.code && true}
+                          />
+                        )}
+                      />
+                      {errors.code && (
+                        <FormFeedback>{errors.code.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    <Col md={2} xs={12}>
+                      <Label className="form-label" for="percent">
+                        {t("Percent")} <span className="text-danger">*</span>
+                      </Label>
+                      <Controller
+                        id="percent"
+                        name="percent"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Percent")}
+                            invalid={errors.percent && true}
+                          />
+                        )}
+                      />
+                      {errors.percent && (
+                        <FormFeedback>{errors.percent.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    <Col md={2} xs={6}>
+                      <Label className="form-label" for="limit">
+                        {t("Limit")}
+                      </Label>
+                      <Controller
+                        id="limit"
+                        name="limit"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Cleave
+                            className="form-control"
+                            placeholder="10"
+                            options={options}
+                            id="numeral-formatting"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </Col>
+
+                    <Col md={2} xs={12}>
+                      <Label className="form-label" for="status">
+                        {t("Status")}:
+                      </Label>
+                      <Controller
+                        name="status"
+                        control={control}
+                        defaultValue={{ value: true, label: t("Active") }}
+                        render={({ field }) => (
+                          <Select
+                            isClearable={false}
+                            classNamePrefix="select"
+                            options={statusOptions}
+                            theme={selectThemeColors}
+                            placeholder={t("Select...")}
+                            className={classnames("react-select", {
+                              "is-invalid":
+                                data !== null && data.status === null,
+                            })}
+                            {...field}
+                          />
+                        )}
+                      />
+                    </Col>
+
+                    <Col md={3}>
+                      <Label className="form-label" for="startdate">
+                        {t("Start date")}:
+                      </Label>
+                      <MultiDatePicker
+                        handleDateChange={handleStartDateChange}
+                        picker={startDate}
+                        preSelect={startDate}
+                      />
+                    </Col>
+
+                    <Col md={3}>
+                      <Label className="form-label" for="expiredate">
+                        {t("Expire date")}:
+                      </Label>
+                      <MultiDatePicker
+                        handleDateChange={handleExpireDateChange}
+                        picker={expireDate}
+                        preSelect={expireDate}
+                      />
+                    </Col>
+                  </Row>
+
+                  <Col md={12} xs={12} className="mt-1">
+                    <Label className="form-label" for="body">
+                      {t("Description")}
+                    </Label>
+                    <div className="editor">
+                      <Editor
+                        editorState={description}
+                        onEditorStateChange={(data) => setDescription(data)}
+                      />
+                      {errors.body && (
+                        <FormFeedback>{errors.body.message}</FormFeedback>
+                      )}
+                    </div>
+                  </Col>
+                </CardBody>
+              </Card>
+            </Fragment>
+          </Col>
+          <Col xl={3} md={4} sm={12}>
+            <Row>
+              <Col md={12} xs={12}>
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    <Button block outline onClick={handleReset}>
+                      {t("Discard")}
+                    </Button>
+                    <Button
+                      color="success"
+                      block
+                      className="mt-50"
+                      type="submit"
+                    >
+                      {t("Save")}
+                    </Button>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Form>
+    </>
+  );
+};
+
+export default AddCard;

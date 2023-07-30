@@ -1,0 +1,392 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Hairline.woff");
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Thin.woff");
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-UltraLight.woff");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Light.woff");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Regular.woff");
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Medium.woff");
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-DemiBold.woff");
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Bold.woff");
+	font-weight: 800;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-ExtraBold.woff");
+	font-weight: 900;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff/DanaFaNum-Black.woff");
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Hairline.woff2");
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Thin.woff2");
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-UltraLight.woff2");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Light.woff2");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Regular.woff2");
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Medium.woff2");
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-DemiBold.woff2");
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: "dana";
+	src: url("../dana/woff2/DanaFaNum-Bold.woff2");
+	font-weight: 800;
+}
+
+body {
+	font-family: "dana", Montserrat !important;
+}
+
+.editor {
+	.rdw-editor-toolbar {
+		font-family: Montserrat !important;
+	}
+}
+
+.login-intro-wrapper {
+	background-color: #fff;
+
+	.login-intro {
+		background-color: #f8f7fa;
+		padding: 50px !important;
+		border-radius: 20px;
+	}
+
+	.login-image {
+		z-index: 2;
+		max-height: 680px;
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+}
+
+.customBadge {
+	background-color: #f7f7f7;
+	padding: 2px 10px;
+	border: 1px solid #e7e7e7;
+	line-height: 1;
+	border-radius: 25px;
+}
+
+.farsi-datepicker {
+	input {
+		background-color: inherit;
+		border-radius: 10px;
+		cursor: pointer;
+		opacity: 1 !important;
+		padding: 0.571rem 1rem;
+		background-color: #fff;
+		background-clip: padding-box;
+		border: 1px solid #d8d6de;
+		display: block;
+		width: 100%;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.45;
+		color: #6e6b7b;
+		appearance: none;
+		transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	}
+
+	.JDatePicker {
+		button {
+			width: 65px;
+			height: 34px;
+			margin-bottom: 10px;
+			border-radius: 10px;
+		}
+
+		.JDsubmit {
+			background-color: #53a67f;
+		}
+
+		-webkit-animation: none;
+		animation: none;
+		direction: ltr;
+		-webkit-box-shadow: -1px 0 0 #e6e6e6,
+		1px 0 0 #e6e6e6,
+		0 1px 0 #e6e6e6,
+		0 -1px 0 #e6e6e6,
+		0 3px 13px rgb(0 0 0 / 8%);
+		box-shadow: -1px 0 0 #e6e6e6,
+		1px 0 0 #e6e6e6,
+		0 1px 0 #e6e6e6,
+		0 -1px 0 #e6e6e6,
+		0 3px 13px rgb(0 0 0 / 8%);
+		text-align: center;
+		padding: 0;
+		border: 0;
+		border-radius: 5px;
+		background: #fff;
+		font-size: 14px;
+		line-height: 24px;
+		position: absolute;
+		width: 307.875px;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		z-index: 50;
+
+		.JC-years {
+			display: flex;
+			width: 100%;
+			font-size: 14px;
+			padding: 10px;
+
+			div {
+				display: flex;
+				width: 100%;
+			}
+
+			// .right {
+			// 	display: flex;
+			// }
+			// select {
+			// 	width: auto;
+			// }
+		}
+
+		.JC-days {
+			background-color: #fff;
+		}
+
+		.JC-months .holder:last-child {
+			font-weight: 600;
+			width: 100%;
+		}
+
+		.day-items {
+			background: none;
+			border: 1px solid transparent;
+			border-radius: 150px;
+			cursor: pointer;
+			margin: 0;
+			text-align: center;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			color: #393939;
+			font-weight: 400;
+			width: 14.8857143%;
+			-webkit-flex-basis: 14.2857143%;
+			-ms-flex-preferred-size: 14.2857143%;
+			flex-basis: 14.2857143%;
+			max-width: 43px;
+			height: 43px;
+			line-height: 39px;
+			display: inline-block;
+			position: relative;
+			-webkit-box-pack: center;
+			-webkit-justify-content: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+
+			&.current-date {
+				background: #0477bf;
+				color: #fff;
+				border-color: #0477bf;
+
+				&:hover {
+					background: #0477bf;
+					color: #fff;
+					border-color: #0477bf;
+				}
+			}
+
+			&:hover {
+				cursor: pointer;
+				background: #e6e6e6;
+				border-color: #e6e6e6;
+				border: 1px solid transparent;
+				border-radius: 150px;
+				margin: 0;
+				text-align: center;
+			}
+		}
+	}
+}
+
+.select__menu {
+	z-index: 100 !important;
+}
+
+.custom-avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	span {
+		font-size: 16px !important;
+	}
+}
+
+[dir="rtl"] .rdw-right-aligned-block {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
+.rdw-left-aligned-block {
+	direction: ltr !important;
+	text-align: left !important;
+}
+
+[dir="rtl"] .rdw-editor-wrapper.toolbar-bottom .rdw-editor-toolbar,
+[dir="rtl"] .rdw-editor-wrapper .rdw-editor-toolbar {
+	direction: ltr !important;
+}
+
+[dir] .rdw-dropdown-selectedtext {
+	flex-direction: row-reverse !important;
+}
+
+[dir] .dark-layout .farsi-datepicker input {
+	&:focus-within {
+		border: 1px solid #0477bf !important;
+	}
+
+	background-color: #293046;
+	border: 1px solid #404656 !important;
+	color: #b4b7bd;
+	outline: none;
+}
+
+[dir] .dark-layout .JDatePicker {
+	background-color: #293046 !important;
+	border: 1px solid #404656 !important;
+	color: #b4b7bd;
+	box-shadow: none;
+}
+
+[dir] .dark-layout .JC-days,
+[dir] .dark-layout .JC-days .day-items {
+	background-color: #293046 !important;
+	color: #b4b7bd;
+}
+
+.custom-pricing {
+	padding: 5px 10px;
+}
+
+.dark-layout .apexcharts-canvas .apexcharts-datalabels-group .apexcharts-datalabel-value {
+	font-family: "dana", Montserrat !important;
+}
+
+.section-item {
+	background-color: #f0f0f0;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.lesson-item {
+	background-color: #fff;
+	padding: 10px;
+
+	&:first-child {
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+	}
+
+	&:last-child {
+		border-bottom-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+}
+
+.week_day {
+	gap: 10px;
+}
+
+.horizontal-layout.navbar-sticky .horizontal-menu-wrapper .navbar-horizontal.header-navbar.fixed-top {
+	top: 55px;
+}
+
+.card-congratulations {
+	overflow: hidden;
+}
