@@ -41,11 +41,6 @@ import avatar20 from "@src/assets/images/portrait/small/avatar-s-20.jpg";
 // ** Styles
 import "@styles/react/libs/charts/apex-charts.scss";
 
-// ** Custom Hooks
-import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
-import { useGetOrders } from "../../../utility/gqlHelpers/useGetOrders";
-import { useGetPayments } from "../../../utility/gqlHelpers/useGetPayments";
-
 const AnalyticsDashboard = () => {
   // ** Context
   const { colors } = useContext(ThemeColors);

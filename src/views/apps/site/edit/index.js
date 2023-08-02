@@ -29,7 +29,7 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   countryOptions,
   CREATE_ITEM_MUTATION,
@@ -40,6 +40,8 @@ import {
   UPDATE_ITEM_MUTATION,
 } from "../gql";
 import { useNavigate, useParams } from "react-router-dom";
+import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
+import { useEffect } from "react";
 
 const AccountSettings = () => {
   const FormSchema = yup.object().shape({
@@ -79,6 +81,7 @@ const AccountSettings = () => {
     mode: "onChange",
     resolver: yupResolver(FormSchema),
   });
+  const { user, error } = useGetUser();
 
   const [update] = useMutation(UPDATE_ITEM_MUTATION, {
     context: {
@@ -96,10 +99,7 @@ const AccountSettings = () => {
     },
   });
 
-  useQuery(GET_ITEM_QUERY, {
-    variables: {
-      id: parseInt(id),
-    },
+  const [getWebsite] = useLazyQuery(GET_ITEM_QUERY, {
     fetchPolicy: "network-only",
     onCompleted: async ({ site }) => {
       if (site) {
@@ -112,7 +112,6 @@ const AccountSettings = () => {
 
         setLogo(site.logo);
 
-        console.log(site.user)
         reset({
           ...site,
           status: site.status
@@ -136,14 +135,12 @@ const AccountSettings = () => {
             label: timeZoneOptions.find((c) => c.value === site.timezone).label,
             value: site.timezone,
           },
-          ...(
-            site.user && {
-              user: {
-                label: site.user?.firstName + "" + site.user?.lastName ?? "",
-                value: site.user?.id,
-              },
-            }
-          ),
+          ...(site.user && {
+            user: {
+              label: site.user?.firstName + "" + site.user?.lastName ?? "",
+              value: site.user?.id,
+            },
+          }),
           category: {
             label: site.category?.title,
             value: site.category?.id,
@@ -160,6 +157,16 @@ const AccountSettings = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (user?.site) {
+      getWebsite({
+        variables: {
+          id: user?.site[0].id,
+        },
+      });
+    }
+  }, [user]);
 
   const onSubmit = (data) => {
     delete data.__typename;

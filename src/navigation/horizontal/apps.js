@@ -9,6 +9,7 @@ import {
   Box,
   CheckCircle,
   Home,
+  Shield,
 } from "react-feather";
 
 export default [
@@ -18,16 +19,10 @@ export default [
     icon: <Globe />,
     children: [
       {
-        id: "plans",
-        title: "Plans",
-        icon: <CheckCircle size={20} />,
-        navLink: "/apps/plans",
-      },
-      {
-        id: "sites",
-        title: "Sites",
-        icon: <Globe size={20} />,
-        navLink: "/apps/site",
+        id: "roles-permissions",
+        title: "Roles & Permissions",
+        icon: <Shield size={20} />,
+        navLink: "/apps/roles",
       },
       {
         id: "event-categories",

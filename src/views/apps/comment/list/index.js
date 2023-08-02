@@ -60,11 +60,11 @@ const CustomHeader = ({
             <option value={true}>{t("Active")}</option>
             <option value={false}>{t("Deactive")}</option>
           </Input>
-          <Button tag={Link} to="/apps/reviews/add" color="primary">
-            {t("Add Record")}
-          </Button>
         </Col>
-        <Col lg="6" className="d-flex align-items-center px-0 px-lg-1 justify-content-end">
+        <Col
+          lg="6"
+          className="d-flex align-items-center px-0 px-lg-1 justify-content-end"
+        >
           <div className="d-flex align-items-center ms-2">
             <label htmlFor="rows-per-page">{t("Show")}</label>
             <Input
@@ -80,7 +80,6 @@ const CustomHeader = ({
             </Input>
             <label htmlFor="rows-per-page">{t("Entries")}</label>
           </div>
-         
         </Col>
       </Row>
     </div>

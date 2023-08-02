@@ -5,8 +5,7 @@ export const ITEM_NAME = "users";
 export const ITEM_NAME_SINGULAR = "User";
 
 export const USER_TYPES = [
-  { value: "super", label: `${t("Admin")}` },
-  { value: "merchant", label: `${t("Merchant")}` },
+  { value: "tenant", label: `${t("Tenant")}` },
   { value: "instructor", label: `${t("Instructor")}` },
   { value: "user", label: `${t("User")}` },
   { value: "lecturer", label: `${t("Lecturer")}` },
@@ -86,6 +85,7 @@ export const GET_ITEM_QUERY = gql`
       about
       avatar
       site {
+        id
         title
         logo
       }

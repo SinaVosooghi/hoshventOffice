@@ -27,7 +27,7 @@ export default [
         id: "setting",
         title: "Setting",
         icon: <Settings size={20} />,
-        navLink: "/apps/setting",
+        navLink: "/apps/site/edit/",
       },
     ],
   },

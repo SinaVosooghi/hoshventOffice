@@ -357,7 +357,7 @@ const AppRoutes = [
   },
   {
     element: <EditSite />,
-    path: "/apps/site/edit/:id/",
+    path: "/apps/site/edit",
   },
   {
     element: <AddSite />,
@@ -538,10 +538,6 @@ const AppRoutes = [
   {
     element: <Orders />,
     path: "/apps/orders",
-  },
-  {
-    element: <Setting />,
-    path: "/apps/setting",
   },
 
   {
