@@ -10,6 +10,7 @@ import {
   CheckCircle,
   Home,
   Shield,
+  List,
 } from "react-feather";
 
 export default [
@@ -23,6 +24,12 @@ export default [
         title: "Roles & Permissions",
         icon: <Shield size={20} />,
         navLink: "/apps/roles",
+      },
+      {
+        id: "meus",
+        title: "Menu",
+        icon: <List size={20} />,
+        navLink: "/apps/menus",
       },
       {
         id: "event-categories",

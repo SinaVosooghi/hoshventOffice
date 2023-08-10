@@ -92,7 +92,6 @@ const AccountSettings = () => {
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
-      history(`/apps/site`);
     },
     onError: (error) => {
       toast.error(t(error.message));

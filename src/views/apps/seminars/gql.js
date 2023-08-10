@@ -45,6 +45,7 @@ export const GET_ITEMS_QUERY = gql`
             title
           }
         }
+        image
         status
         created
         updated

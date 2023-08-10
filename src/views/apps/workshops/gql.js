@@ -39,13 +39,16 @@ export const GET_ITEMS_QUERY = gql`
       workshops {
         id
         title
+        image
         hall {
           title
           event {
             title
           }
         }
+        price
         status
+        featured
         created
         updated
       }

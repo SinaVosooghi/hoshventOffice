@@ -158,7 +158,7 @@ const EditCard = () => {
           );
         }
 
-        setStartDate(event.end_date);
+        setEndDate(event.end_date);
         if (event.end_date) {
           setPreSelectedEndDate(
             momentJalali(event.end_date).format("jYYYY/jMM/jDD H:mm")

@@ -144,7 +144,7 @@ const EditCard = () => {
           );
         }
 
-        setStartDate(workshop.end_date);
+        setEndDate(workshop.end_date);
         if (workshop.end_date) {
           setPreSelectedEndDate(
             momentJalali(workshop.end_date).format("jYYYY/jMM/jDD H:mm")
@@ -467,7 +467,7 @@ const EditCard = () => {
                           className="form-control"
                           placeholder={preSelectedDate}
                           onChange={(unix) =>
-                            handleDateChange(moment.unix(unix).toDate())
+                            setStartDate(moment.unix(unix).toDate())
                           }
                           containerClass="farsi-datepicker"
                         />

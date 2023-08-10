@@ -49,12 +49,9 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
-import momentJalali from "moment-jalaali";
 
 import { GET_ITEMS_QUERY as GET_EVENTS_ITEMS } from "../../event/gql";
 import CardAction from "@components/card-actions";
-import { DateTimePicker } from "react-advance-jalaali-datepicker";
-import { UserSelect } from "../add/UsersSelects";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -112,20 +109,6 @@ const EditCard = () => {
 
         for (const [key, value] of Object.entries(hall)) {
           setValue(key, value);
-        }
-
-        setStartDate(hall.start_date);
-        if (hall.start_date) {
-          setPreSelectedDate(
-            momentJalali(hall.start_date).format("jYYYY/jMM/jDD H:mm")
-          );
-        }
-
-        setStartDate(hall.end_date);
-        if (hall.end_date) {
-          setPreSelectedEndDate(
-            momentJalali(hall.end_date).format("jYYYY/jMM/jDD H:mm")
-          );
         }
 
         await sleep(100);

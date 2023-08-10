@@ -321,6 +321,7 @@
   "Add new brand": "افزودن مشتری جدید",
   "Add new hall": "افزودن سالن جدید",
   "Hall details": "جزییات سالن",
+  "Add new menu": "افزودن منو جدید",
   "Save": "ذخیره",
   "Upload image": "بارگزاری تصویر",
   "Drop Files here or click to upload": "فایل ها را اینجا رها کنید یا برای آپلود کلیک کنید",
@@ -409,6 +410,9 @@
   "Notifications": "اطلاعیه",
   "Connections": "اتصالات",
   "Website details": "اطلاعات وبسایت",
+  "Guest": "میهمان",
+  "Exit": "خروج",
+  "Total": "مجموع",
   "Allowed JPG, GIF or PNG. Max size of 800kB": "JPG، GIF یا PNG مجاز است. حداکثر اندازه 800 کیلوبایت",
   "Upload": "بارگذاری",
   "Reset": "بازنشانی کنید",
@@ -631,5 +635,7 @@
   "More": "بیشتر",
   "You do not have access to login!": "شما اجازه ورود ندارید!",
   "tenant": "میزبان",
-  "Tenant": "میزبان"
+  "Tenant": "میزبان",
+  "Menu": "منو",
+  "Menus": "منوها"
 }

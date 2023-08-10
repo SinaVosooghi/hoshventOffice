@@ -9,6 +9,7 @@ export const USER_TYPES = [
   { value: "instructor", label: `${t("Instructor")}` },
   { value: "user", label: `${t("User")}` },
   { value: "lecturer", label: `${t("Lecturer")}` },
+  { value: "guest", label: `${t("Gueset")}` },
 ];
 
 export const CREATE_ITEM_MUTATION = gql`
@@ -59,6 +60,49 @@ export const GET_ITEMS_QUERY = gql`
         }
       }
       count
+    }
+  }
+`;
+
+export const GET_TIMELINE_ITEMS_QUERY = gql`
+  query userTimelines($input: GetTimelinsArgs!) {
+    userTimelines(input: $input) {
+      timelines {
+        id
+        user {
+          id
+          firstName
+          lastName
+        }
+        workshop {
+          id
+          title
+          slug
+          hall {
+            event {
+              title
+              image
+            }
+          }
+        }
+        seminar {
+          id
+          title
+          slug
+          hall {
+            event {
+              title
+              image
+            }
+          }
+        }
+        checkin
+        checkout
+        created
+        updated
+      }
+      count
+      total
     }
   }
 `;

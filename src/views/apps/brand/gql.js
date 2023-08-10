@@ -34,6 +34,7 @@ export const GET_ITEMS_QUERY = gql`
         title
         image
         status
+        featured
         created
         updated
       }

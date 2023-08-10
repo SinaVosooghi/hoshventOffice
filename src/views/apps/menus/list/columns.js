@@ -39,31 +39,30 @@ const renderClient = (row) => {
     <Avatar
       color={color}
       className="me-50"
-      content={row.firstName + " " + row.lastName ?? "John Doe"}
+      content={row.title ?? "John Doe"}
       initials
     />
   );
 };
+
 // ** Table columns
 export const columns = [
   {
     name: t("Title"),
     sortable: true,
-    minWidth: "350px",
+    minWidth: "250px",
     sortField: "client.name",
     // selector: row => row.client.name,
     cell: (row) => {
       const name = row.title ? row.title : t("Title");
-      const type = row.price;
+      const type = row.link ?? "-";
       return (
-        <Link to={`/apps/workshops/edit/${row.id}`}>
+        <Link to={`/apps/menus/edit/${row.id}`}>
           <div className="d-flex justify-content-left align-items-center">
             {renderClient(row)}
             <div className="d-flex flex-column">
               <h6 className="user-name text-truncate mb-0">{name}</h6>
-              <small className="text-truncate text-muted mb-0">
-                {type && type.toLocaleString() + " تومان"}
-              </small>
+              <small className="text-truncate text-muted mb-0">{t(type)}</small>
             </div>
           </div>
         </Link>
@@ -71,12 +70,16 @@ export const columns = [
     },
   },
   {
-    name: t("Hall"),
+    name: t("Order"),
     sortable: true,
-    minWidth: "150px",
-    cell: (row) => {
-      return <span>{row.hall?.title ?? "-"}</span>;
-    },
+    sortField: "updated",
+    width: "130px",
+    selector: (row) => row.order,
+    cell: (row) => (
+      <span className="text-capitalize">
+        {row.order}
+      </span>
+    ),
   },
   {
     name: t("Updated"),
@@ -121,24 +124,6 @@ export const columns = [
     ),
   },
   {
-    name: t("Featured"),
-    sortable: true,
-    width: "110px",
-    sortField: "featured",
-    selector: (row) => row.featured,
-    cell: (row) => (
-      <span className="text-capitalize">
-        <Badge
-          className="text-capitalize"
-          color={!row.featured ? "light-danger" : "light-success"}
-          pill
-        >
-          {row.featured ? t("Active") : t("Deactive")}
-        </Badge>
-      </span>
-    ),
-  },
-  {
     name: t("Actions"),
     width: "200px",
     cell: (row) => {
@@ -149,7 +134,7 @@ export const columns = [
 
       return (
         <>
-          <Link to={`/apps/workshops/edit/${row.id}`}>
+          <Link to={`/apps/menus/edit/${row.id}`}>
             <Button color="primary" outline size="sm">
               {t("Edit")}
             </Button>{" "}
@@ -158,7 +143,7 @@ export const columns = [
             className="ms-50"
             to={"#"}
             onClick={(e) => {
-              e.prhallDefault();
+              e.preventDefault();
               if (confirm(t("Do you want to delete?"))) {
                 deleteItem({
                   variables: { id: row.id },

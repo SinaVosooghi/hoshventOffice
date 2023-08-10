@@ -40,6 +40,10 @@ const Brands = lazy(() => import("../../views/apps/brand/list"));
 const EditBrand = lazy(() => import("../../views/apps/brand/edit"));
 const AddBrand = lazy(() => import("../../views/apps/brand/add"));
 
+const Menus = lazy(() => import("../../views/apps/menus/list"));
+const EditMenu = lazy(() => import("../../views/apps/menus/edit"));
+const AddMenu = lazy(() => import("../../views/apps/menus/add"));
+
 const Workshops = lazy(() => import("../../views/apps/workshops/list"));
 const EditWorkshop = lazy(() => import("../../views/apps/workshops/edit"));
 const AddWorkshop = lazy(() => import("../../views/apps/workshops/add"));
@@ -313,6 +317,19 @@ const AppRoutes = [
   {
     element: <AddBrand />,
     path: "/apps/brands/add/",
+  },
+
+  {
+    element: <Menus />,
+    path: "/apps/Menus/",
+  },
+  {
+    element: <EditMenu />,
+    path: "/apps/Menus/edit/:id/",
+  },
+  {
+    element: <AddMenu />,
+    path: "/apps/Menus/add/",
   },
   {
     element: <Workshops />,

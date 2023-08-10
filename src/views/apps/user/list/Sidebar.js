@@ -97,6 +97,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
     },
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
+      toggleSidebar();
       toast.success(t("Data saved successfully"));
     },
     onError: (error) => {
@@ -117,7 +118,6 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   const onSubmit = (data) => {
     setData(data);
 
-    toggleSidebar();
     create({
       variables: {
         input: {

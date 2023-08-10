@@ -250,7 +250,7 @@ const EditCard = () => {
           featured: data.featured?.value,
           capacity: parseInt(data.capacity),
           price,
-          event: typeof data.event === "object" ? data.event?.value : null,
+          hall: typeof data.hall === "object" ? data.hall?.value : null,
           state: typeof data.state === "object" ? data.state?.value : null,
           lecturers: lecturersItems,
           start_date: moment(startDate).toISOString(),
@@ -466,7 +466,7 @@ const EditCard = () => {
                           className="form-control"
                           placeholder={preSelectedDate}
                           onChange={(unix) =>
-                            handleDateChange(moment.unix(unix).toDate())
+                            setStartDate(moment.unix(unix).toDate())
                           }
                           containerClass="farsi-datepicker"
                         />

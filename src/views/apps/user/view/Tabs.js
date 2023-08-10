@@ -1,32 +1,33 @@
 // ** React Imports
-import { Fragment } from 'react'
+import { Fragment } from "react";
 
 // ** Reactstrap Imports
-import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
+import { User, Lock, Bookmark, Bell, Link, Clock } from "react-feather";
 
 // ** User Components
-import InvoiceList from './InvoiceList'
-import SecurityTab from './SecurityTab'
-import Connections from './Connections'
-import BillingPlanTab from './BillingTab'
-import UserTimeline from './UserTimeline'
-import Notifications from './Notifications'
-import UserProjectsList from './UserProjectsList'
+import InvoiceList from "./InvoiceList";
+import SecurityTab from "./SecurityTab";
+import Connections from "./Connections";
+import BillingPlanTab from "./BillingTab";
+import UserTimeline from "./UserTimeline";
+import Notifications from "./Notifications";
+import UserProjectsList from "./UserProjectsList";
+import UserAttends from "./UserAttends";
 
-const UserTabs = ({ active, toggleTab }) => {
+const UserTabs = ({ active, toggleTab, user }) => {
   return (
     <Fragment>
-      <Nav pills className='mb-2'>
+      <Nav pills className="mb-2">
         <NavItem>
-          <NavLink active={active === '1'} onClick={() => toggleTab('1')}>
-            <User className='font-medium-3 me-50' />
-            <span className='fw-bold'>Account</span>
+          <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
+            <Clock className="font-medium-3 me-50" />
+            <span className="fw-bold">نتایج</span>
           </NavLink>
         </NavItem>
-        <NavItem>
+        {/* <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
             <Lock className='font-medium-3 me-50' />
             <span className='fw-bold'>Security</span>
@@ -49,15 +50,15 @@ const UserTabs = ({ active, toggleTab }) => {
             <Link className='font-medium-3 me-50' />
             <span className='fw-bold'>Connections</span>
           </NavLink>
-        </NavItem>
+        </NavItem> */}
       </Nav>
       <TabContent activeTab={active}>
-        <TabPane tabId='1'>
-          <UserProjectsList />
-          <UserTimeline />
-          <InvoiceList />
+        <TabPane tabId="1">
+          <UserAttends user={user}/>
+          {/* <UserTimeline />
+          <InvoiceList /> */}
         </TabPane>
-        <TabPane tabId='2'>
+        {/* <TabPane tabId='2'>
           <SecurityTab />
         </TabPane>
         <TabPane tabId='3'>
@@ -68,9 +69,9 @@ const UserTabs = ({ active, toggleTab }) => {
         </TabPane>
         <TabPane tabId='5'>
           <Connections />
-        </TabPane>
+        </TabPane> */}
       </TabContent>
     </Fragment>
-  )
-}
-export default UserTabs
+  );
+};
+export default UserTabs;
