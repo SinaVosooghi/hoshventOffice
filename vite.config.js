@@ -7,9 +7,6 @@ import NodeGlobalsPolyfillPlugin from "@esbuild-plugins/node-globals-polyfill";
 
 export default () => {
   return defineConfig({
-    define: {
-      global: 'globalThis'
-    },
     plugins: [react()],
     server: {
       port: 4000,
