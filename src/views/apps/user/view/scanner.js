@@ -2,11 +2,18 @@
 import { Card, CardBody, CardHeader, Col, Progress, Row } from "reactstrap";
 
 // ** Third Party Components
-import { ChevronDown, Clock } from "react-feather";
+import { BarChart, ChevronDown, Clock } from "react-feather";
 import DataTable from "react-data-table-component";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
+
+// ** Label Images
+import xdLabel from "@src/assets/images/icons/brands/xd-label.png";
+import vueLabel from "@src/assets/images/icons/brands/vue-label.png";
+import htmlLabel from "@src/assets/images/icons/brands/html-label.png";
+import reactLabel from "@src/assets/images/icons/brands/react-label.png";
+import sketchLabel from "@src/assets/images/icons/brands/sketch-label.png";
 
 // ** Styles
 import "@styles/react/libs/tables/react-dataTable-component.scss";
@@ -120,7 +127,7 @@ export const columns = [
   },
 ];
 
-const UserAttends = ({ user }) => {
+const Scanner = ({ user }) => {
   const [value, setValue] = useState("");
   const [sort, setSort] = useState("desc");
   const [sortColumn, setSortColumn] = useState("id");
@@ -144,26 +151,11 @@ const UserAttends = ({ user }) => {
           skip: (currentPage - 1) * rowsPerPage,
           searchTerm: value,
           status: statusValue ?? null,
-          user: parseInt(user),
+          scannedby: parseInt(user),
         },
       },
     });
   }, [sort, sortColumn, currentPage, value]);
-
-  const handleFilter = (val) => {
-    setValue(val);
-    getItems({
-      variables: {
-        input: {
-          limit: rowsPerPage,
-          skip: (currentPage - 1) * rowsPerPage,
-          searchTerm: value,
-          status: statusValue ?? null,
-          user: parseInt(user),
-        },
-      },
-    });
-  };
 
   const handlePagination = (page) => {
     getItems({
@@ -173,7 +165,7 @@ const UserAttends = ({ user }) => {
           skip: (currentPage - 1) * rowsPerPage,
           searchTerm: value,
           status: statusValue ?? null,
-          user: parseInt(user),
+          scannedby: parseInt(user),
         },
       },
     });
@@ -227,9 +219,21 @@ const UserAttends = ({ user }) => {
 
   return (
     <Card>
-      <CardHeader tag="h4">لیست مراجعه کاربر</CardHeader>
+      <CardHeader tag="h4">لیست اسکن ها</CardHeader>
       <CardBody>
         <Row>
+          <Col lg="3" sm="6">
+            <StatsHorizontal
+              color="danger"
+              statTitle={`${t("Total")} ${t("Scans")}`}
+              icon={<BarChart size={20} />}
+              renderStats={
+                <h3 className="fw-bolder mb-75">
+                  {userTimelines?.userTimelines.count} عدد
+                </h3>
+              }
+            />
+          </Col>
           <Col lg="3" sm="6">
             <StatsHorizontal
               color="danger"
@@ -267,4 +271,4 @@ const UserAttends = ({ user }) => {
   );
 };
 
-export default UserAttends;
+export default Scanner;

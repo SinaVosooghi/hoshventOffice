@@ -42,6 +42,7 @@ import { GET_ITEMS_QUERY } from "../../roles-permissions/gql";
 import { sleep } from "../../../../utility/Utils";
 import toast from "react-hot-toast";
 import InputPasswordToggle from "@components/input-password-toggle";
+import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -64,6 +65,10 @@ const UserInfoCard = ({ selectedUser }) => {
   const [show, setShow] = useState(false);
   const [roleOptions, setRoleOptions] = useState([
     { value: "", label: `${t("Select")} ${t("Role")}` },
+  ]);
+
+  const [categories, setCategories] = useState([
+    { value: null, label: `${t("All")} ${t("Categories")}` },
   ]);
 
   const [data, setData] = useState(null);
@@ -114,8 +119,34 @@ const UserInfoCard = ({ selectedUser }) => {
             label: t(user?.usertype),
             value: user?.usertype,
           },
+          category: {
+            label: t(user?.category?.title),
+            value: user?.category?.id,
+          },
         });
       }
+    },
+  });
+
+  useQuery(GET_CATEGORIES_ITEMS, {
+    fetchPolicy: "network-only",
+    variables: {
+      input: {
+        limit: 5,
+        skip: 0,
+        type: "user",
+      },
+    },
+    onCompleted: ({ categories }) => {
+      categories?.categories?.map((category) =>
+        setCategories((prev) => [
+          ...prev,
+          { value: category.id, label: category.title },
+        ])
+      );
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 
@@ -174,14 +205,15 @@ const UserInfoCard = ({ selectedUser }) => {
     delete data.__typename;
     const avatar = data.avatar;
     delete data.avatar;
+    delete data.site;
 
     update({
       variables: {
-        refetchQueries: [GET_ITEM_QUERY],
         input: {
           ...data,
           ...(typeof avatar !== "string" && { avatar }),
           role: parseInt(data.role.value),
+          category: parseInt(data.category.value),
           status: data.usertype.status,
           usertype: data.usertype.value,
           mobilenumber: parseInt(data.mobilenumber),
@@ -261,8 +293,8 @@ const UserInfoCard = ({ selectedUser }) => {
         type = t("Super");
         break;
       }
-      case "merchant": {
-        type = t("Merchant");
+      case "tenant": {
+        type = t("Tenant");
         break;
       }
       case "judge": {
@@ -271,6 +303,10 @@ const UserInfoCard = ({ selectedUser }) => {
       }
       case "lecturer": {
         type = t("Lecturer");
+        break;
+      }
+      case "user": {
+        type = t("User");
         break;
       }
     }
@@ -311,7 +347,7 @@ const UserInfoCard = ({ selectedUser }) => {
                   {renderUserType(selectedUser?.usertype)}
                 </h4>
                 <small>
-                  {t("User")} {t("Type")}
+                  {t("Usertype")}
                 </small>
               </div>
             </div>
@@ -367,6 +403,15 @@ const UserInfoCard = ({ selectedUser }) => {
                         {selectedUser?.role?.title}
                       </Badge>
                     </span>
+                  </li>
+                )}
+
+                {selectedUser?.category && (
+                  <li className="mb-75">
+                    <span className="fw-bolder me-25">
+                      {t("Category")}:
+                    </span>
+                    <span>{selectedUser?.category?.title}</span>
                   </li>
                 )}
 
@@ -641,6 +686,28 @@ const UserInfoCard = ({ selectedUser }) => {
                       placeholder={t("Select...")}
                       className={classnames("react-select", {
                         "is-invalid": data !== null && data.role === null,
+                      })}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="category">
+                  {t("Categories")}
+                </Label>
+                <Controller
+                  name="category"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      isClearable={false}
+                      classNamePrefix="select"
+                      options={categories}
+                      theme={selectThemeColors}
+                      placeholder={t("Select...")}
+                      className={classnames("react-select", {
+                        "is-invalid": data !== null && data.category === null,
                       })}
                       {...field}
                     />

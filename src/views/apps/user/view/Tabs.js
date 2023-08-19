@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link, Clock } from "react-feather";
+import { User, Lock, Bookmark, Bell, Link, Clock, Code } from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
@@ -16,17 +16,31 @@ import UserTimeline from "./UserTimeline";
 import Notifications from "./Notifications";
 import UserProjectsList from "./UserProjectsList";
 import UserAttends from "./UserAttends";
+import Scanner from "./scanner";
 
-const UserTabs = ({ active, toggleTab, user }) => {
+const UserTabs = ({ active, toggleTab, user, type }) => {
   return (
     <Fragment>
       <Nav pills className="mb-2">
-        <NavItem>
-          <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
-            <Clock className="font-medium-3 me-50" />
-            <span className="fw-bold">نتایج</span>
-          </NavLink>
-        </NavItem>
+        {type === "user" ||
+          (type === "guest" && (
+            <NavItem>
+              <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
+                <Clock className="font-medium-3 me-50" />
+                <span className="fw-bold">نتایج</span>
+              </NavLink>
+            </NavItem>
+          ))}
+
+        {type === "instructor" && (
+          <NavItem>
+            <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
+              <Code className="font-medium-3 me-50" />
+              <span className="fw-bold">اسکن ها</span>
+            </NavLink>
+          </NavItem>
+        )}
+
         {/* <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
             <Lock className='font-medium-3 me-50' />
@@ -54,9 +68,12 @@ const UserTabs = ({ active, toggleTab, user }) => {
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
-          <UserAttends user={user}/>
+          <UserAttends user={user} />
           {/* <UserTimeline />
           <InvoiceList /> */}
+        </TabPane>
+        <TabPane tabId="2">
+          <Scanner user={user} />
         </TabPane>
         {/* <TabPane tabId='2'>
           <SecurityTab />

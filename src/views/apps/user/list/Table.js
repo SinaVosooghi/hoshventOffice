@@ -46,6 +46,8 @@ import {
 } from "../gql";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { GET_ITEMS_QUERY as GET_ROLES_ITEMS } from "../../roles-permissions/gql";
+import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
+
 import { GET_ITEMS_QUERY as GET_USERS_ITEMS } from "../gql";
 import { noDataToDisplay } from "../../../../utility/Utils";
 import { useNavigate, useParams } from "react-router-dom";
@@ -221,6 +223,16 @@ const UsersList = () => {
     number: 0,
   });
 
+  const [currentCategory, setCurrentCategory] = useState({
+    value: null,
+    label: `${t("All")} ${t("Categories")}`,
+    number: 0,
+  });
+
+  const [categories, setCategories] = useState([
+    { value: null, label: `${t("All")} ${t("Categories")}` },
+  ]);
+
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -249,6 +261,28 @@ const UsersList = () => {
     },
   });
 
+  useQuery(GET_CATEGORIES_ITEMS, {
+    fetchPolicy: "network-only",
+    variables: {
+      input: {
+        limit: 5,
+        skip: 0,
+        type: "user",
+      },
+    },
+    onCompleted: ({ categories }) => {
+      categories?.categories?.map((category) =>
+        setCategories((prev) => [
+          ...prev,
+          { value: category.id, label: category.title },
+        ])
+      );
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   // ** Get data on mount
   useEffect(() => {
     getItems({
@@ -260,6 +294,7 @@ const UsersList = () => {
           role: currentRole.value ?? null,
           status: currentStatus.value ?? null,
           usertype: currentUsertype.value,
+          category: currentCategory.value ?? null,
         },
       },
     });
@@ -270,6 +305,7 @@ const UsersList = () => {
     currentUsertype,
     currentStatus,
     currentRole,
+    currentCategory,
   ]);
 
   useEffect(() => {
@@ -369,7 +405,7 @@ const UsersList = () => {
           <Row>
             {type !== "teacher" && (
               <>
-                <Col md="4">
+                <Col md="3">
                   <Label for="role-select">{t("Role")}</Label>
                   <Select
                     isClearable={false}
@@ -383,7 +419,7 @@ const UsersList = () => {
                     }}
                   />
                 </Col>
-                <Col md="4">
+                <Col md="3">
                   <Label for="status-select">{t("Type")}</Label>
                   <Select
                     theme={selectThemeColors}
@@ -400,7 +436,22 @@ const UsersList = () => {
               </>
             )}
 
-            <Col md="4">
+            <Col md="3">
+              <Label for="status-select">{t("Category")}</Label>
+              <Select
+                theme={selectThemeColors}
+                isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={categories}
+                value={currentCategory}
+                onChange={(data) => {
+                  setCurrentCategory(data);
+                }}
+              />
+            </Col>
+
+            <Col md="3">
               <Label for="status-select">{t("Status")}</Label>
               <Select
                 theme={selectThemeColors}

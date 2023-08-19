@@ -38,6 +38,7 @@ const UserView = () => {
     fetchPolicy: "network-only",
     onCompleted: async ({ user }) => {
       if (user) {
+        if (user.usertype === "instructor") setActive("2");
         setSelectedUser(user);
       }
     },
@@ -50,7 +51,12 @@ const UserView = () => {
           <UserInfoCard selectedUser={selectedUser} />
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} user={id} />
+          <UserTabs
+            active={active}
+            toggleTab={toggleTab}
+            user={id}
+            type={selectedUser.usertype}
+          />
         </Col>
       </Row>
     </div>

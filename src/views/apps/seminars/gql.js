@@ -83,6 +83,7 @@ export const GET_ITEM_QUERY = gql`
         id
         title
         event {
+          id
           title
         }
       }

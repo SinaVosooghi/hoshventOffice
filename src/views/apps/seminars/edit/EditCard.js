@@ -55,6 +55,7 @@ import { GET_ITEMS_QUERY as GET_HALLS_ITEMS } from "../../halls/gql";
 import CardAction from "@components/card-actions";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
 import { UserSelect } from "../add/UsersSelects";
+import Attendees from "../../../extensions/import-export/Attendees";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -137,7 +138,6 @@ const EditCard = () => {
           setValue(key, value);
         }
 
-        console.log(seminar);
         setStartDate(seminar.start_date);
         if (seminar.start_date) {
           setPreSelectedDate(
@@ -683,6 +683,7 @@ const EditCard = () => {
           </Col>
         </Row>
       </Form>
+      <Attendees seminar={data} type="seminar" />
     </>
   );
 };

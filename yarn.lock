@@ -1311,6 +1311,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
+"@devmehq/react-qr-code@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@devmehq/react-qr-code/-/react-qr-code-1.0.9.tgz#1b04dc72b661900e19fea577dd65e13945a3fc39"
+  integrity sha512-72cKmR/gnUBALi8rIvJzknVCYPArPypSH1CZU05SylWwQ++iOCNUEc3qcqH1Yp/5vv6PSlH8hYeTA93W5YkYFw==
+
 "@emotion/babel-plugin@^11.10.5":
   version "11.10.5"
   resolved "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.10.5.tgz"
@@ -9163,6 +9168,11 @@ react-sortablejs@6.0.0:
   dependencies:
     classnames "^2.2.6"
     tiny-invariant "^1.1.0"
+
+react-to-print@^2.14.13:
+  version "2.14.13"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-2.14.13.tgz#cd0349f7ef93c8af5120fac0ef6c4f3d100df490"
+  integrity sha512-PqUGgTRZvkyBzWgaZHVBECWPX2nGEc3HOUy6WNXof6HT4yTFI92wtIkqQtr4jfvHbadqjwTgzgh6vgN8KXlWWw==
 
 react-transition-group@2.9.0:
   version "2.9.0"

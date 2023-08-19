@@ -5,11 +5,10 @@ export const ITEM_NAME = "users";
 export const ITEM_NAME_SINGULAR = "User";
 
 export const USER_TYPES = [
-  { value: "tenant", label: `${t("Tenant")}` },
   { value: "instructor", label: `${t("Instructor")}` },
   { value: "user", label: `${t("User")}` },
   { value: "lecturer", label: `${t("Lecturer")}` },
-  { value: "guest", label: `${t("Gueset")}` },
+  { value: "guest", label: `${t("Guest")}` },
 ];
 
 export const CREATE_ITEM_MUTATION = gql`
@@ -73,6 +72,7 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
           id
           firstName
           lastName
+          mobilenumber
         }
         workshop {
           id
@@ -107,6 +107,18 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
   }
 `;
 
+export const GET_BULK_CHECKIN = gql`
+  mutation bulkcheckin($input: Bulkaction!) {
+    bulkcheckin(input: $input)
+  }
+`;
+
+export const GET_BULK_CHECKOUT = gql`
+  mutation bulkcheckout($input: Bulkaction!) {
+    bulkcheckout(input: $input)
+  }
+`;
+
 export const GET_PDF = gql`
   query usersPdf($input: GetUsersApiArgs!) {
     usersPdf(input: $input)
@@ -128,6 +140,10 @@ export const GET_ITEM_QUERY = gql`
       status
       about
       avatar
+      category {
+        id
+        title
+      }
       site {
         id
         title

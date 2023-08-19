@@ -11,56 +11,56 @@ PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Hairline.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-ExtraLight.woff");
 	font-weight: 100;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Thin.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-Thin.woff");
 	font-weight: 200;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-UltraLight.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/DanaFaNum-UltraLight.woff");
 	font-weight: 300;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Light.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-Regular.woff");
 	font-weight: 400;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Regular.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-Regular.woff");
 	font-weight: 500;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Medium.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-Medium.woff");
 	font-weight: 600;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-DemiBold.woff");
+	font-family: "peyda";
+	src: url("../fonts/woff/PeydaWebFaNum-SemiBold.woff");
 	font-weight: 700;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-Bold.woff");
+	font-family: "fonts";
+	src: url("../dana/woff/PeydaWebFaNum-Bold.woff");
 	font-weight: 800;
 }
 
 @font-face {
-	font-family: "dana";
-	src: url("../dana/woff/DanaFaNum-ExtraBold.woff");
+	font-family: "fonts";
+	src: url("../dana/woff/PeydaWebFaNum-Black.woff");
 	font-weight: 900;
 }
 
@@ -119,7 +119,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 body {
-	font-family: "dana", Montserrat !important;
+	font-family: "peyda", Montserrat !important;
 }
 
 .editor {
