@@ -142,6 +142,17 @@ export const columns = [
     ),
   },
   {
+    name: t("Category"),
+    sortable: true,
+    minWidth: "172px",
+    sortField: "usetype",
+    cell: (row) => (
+      <span className="text-capitalize">
+        {row?.category?.title}
+      </span>
+    ),
+  },
+  {
     name: t("Updated"),
     sortable: true,
     sortField: "updated",

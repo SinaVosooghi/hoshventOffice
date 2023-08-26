@@ -45,6 +45,7 @@ export const GET_ITEMS_QUERY = gql`
         id
         subject
         status
+        sms
         from {
           id
           firstName

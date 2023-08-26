@@ -27,6 +27,8 @@ import SupportTracker from "@src/views/ui-elements/cards/analytics/SupportTracke
 import OrdersReceived from "@src/views/ui-elements/cards/statistics/OrdersReceived";
 import SubscribersGained from "@src/views/ui-elements/cards/statistics/SubscribersGained";
 import ProfitLineChart from "@src/views/ui-elements/cards/statistics/ProfitLineChart";
+import Earnings from "@src/views/ui-elements/cards/analytics/Earnings";
+import OrdersBarChart from "@src/views/ui-elements/cards/statistics/OrdersBarChart";
 
 // ** Images
 import jsonImg from "@src/assets/images/icons/json.png";
@@ -40,10 +42,24 @@ import avatar20 from "@src/assets/images/portrait/small/avatar-s-20.jpg";
 
 // ** Styles
 import "@styles/react/libs/charts/apex-charts.scss";
+import StatsCard from "@src/views/ui-elements/cards/statistics/StatsCard";
+import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
+import { useGetInvoices } from "../../../utility/gqlHelpers/useGetInvoices";
+import { useGetUsers } from "../../../utility/gqlHelpers/useGetUsers";
+import { useGetProducts } from "../../../utility/gqlHelpers/useGetProducts";
+import { useGetOrders } from "../../../utility/gqlHelpers/useGetOrders";
+import { useGetChats } from "../../../utility/gqlHelpers/useGetChats";
+import { useGetAttendees } from "../../../utility/gqlHelpers/useGetAttendees";
 
 const AnalyticsDashboard = () => {
   // ** Context
   const { colors } = useContext(ThemeColors);
+  const { invoices, invoiceCount } = useGetInvoices();
+  const { usersCount } = useGetUsers();
+  const { productsCount } = useGetProducts();
+  const { chats } = useGetChats();
+  const { user } = useGetUser();
+  const { count } = useGetAttendees();
 
   // ** Vars
   const avatarGroupArr = [
@@ -83,6 +99,7 @@ const AnalyticsDashboard = () => {
       img: avatar20,
     },
   ];
+
   const data = [
     {
       title: "12 Invoices have been paid",
@@ -129,22 +146,22 @@ const AnalyticsDashboard = () => {
     },
   ];
 
+  const smsCount = chats.filter((c) => c.sms).length;
+
   return (
     <div id="dashboard-analytics">
       <Row className="match-height">
-        <Col lg="3" sm="6">
-          <SubscribersGained
-            kFormatter={kFormatter}
-            color={colors.primary.main}
+        <Col lg="6" sm="6">
+          <StatsCard
+            cols={{ xl: "3", sm: "6" }}
+            invoiceCount={invoiceCount}
+            totalSMS={user?.site[0]?.plan?.sms ?? 0}
+            smsCount={smsCount}
+            usersCount={usersCount}
+            productsCount={productsCount}
+            attendeesCount={count}
           />
         </Col>
-        <Col lg="3" sm="6">
-          <OrdersReceived
-            kFormatter={kFormatter}
-            warning={colors.warning.main}
-          />
-        </Col>
-
         <Col lg="3" sm="6">
           <SubscribersGained
             kFormatter={kFormatter}

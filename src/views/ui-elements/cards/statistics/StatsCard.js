@@ -20,14 +20,15 @@ import { t } from "i18next";
 const StatsCard = ({
   cols,
   invoiceCount,
-  courseCount,
+  totalSMS,
+  smsCount,
   usersCount,
-  productsCount,
+  attendeesCount,
 }) => {
   const data = [
     {
-      title: courseCount,
-      subtitle: t("Courses"),
+      title: `${totalSMS} / ${smsCount}`,
+      subtitle: t("Sent SMS"),
       color: "light-primary",
       icon: <TrendingUp size={24} />,
     },
@@ -38,8 +39,8 @@ const StatsCard = ({
       icon: <User size={24} />,
     },
     {
-      title: productsCount,
-      subtitle: t("Products"),
+      title: attendeesCount,
+      subtitle: t("Attendees"),
       color: "light-danger",
       icon: <Box size={24} />,
     },

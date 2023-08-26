@@ -53,6 +53,10 @@ export const GET_ITEMS_QUERY = gql`
         created
         status
         avatar
+        category {
+          id
+          title
+        }
         role {
           id
           title
@@ -148,6 +152,11 @@ export const GET_ITEM_QUERY = gql`
         id
         title
         logo
+        plan {
+          id
+          title
+          sms
+        }
       }
       role {
         id

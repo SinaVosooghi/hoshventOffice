@@ -28,6 +28,8 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
   FormFeedback,
+  Row,
+  Col,
 } from "reactstrap";
 
 // ** Utils
@@ -47,17 +49,30 @@ import { getUsersSelect } from "../../../utility/gqlHelpers/getUsers";
 import { useEffect } from "react";
 import { CREATE_ITEM_MUTATION, GET_ITEMS_QUERY } from "./gql";
 import { useGetSelectDepartments } from "../../../utility/gqlHelpers/useGetSelectDepartments";
+import { getCategoriesSelect } from "../../../utility/gqlHelpers/getCategories";
 
 const ComposePopup = (props) => {
   const SignupSchema = yup.object().shape({
     subject: yup.string().required(`${t("Subject")} ${t("field is required")}`),
+    priority: yup
+      .object()
+      .required(`${t("Priority")} ${t("field is required")}`),
+    type: yup.object().required(`${t("Type")} ${t("field is required")}`),
   });
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [usersOptions, setUsersOptions] = useState(null);
+  const [categoriesOptions, setCategoriesOptions] = useState(null);
   const [departmentOptions, setDepartmentOptions] = useState(null);
 
   const usersData = getUsersSelect();
+  const categoriesData = getCategoriesSelect("user");
   const departmentsData = useGetSelectDepartments();
+
+  useEffect(() => {
+    if (categoriesData.length) {
+      setCategoriesOptions(categoriesData);
+    }
+  }, [categoriesData]);
 
   useEffect(() => {
     if (departmentsData.length) {
@@ -97,7 +112,13 @@ const ComposePopup = (props) => {
       toast.success(t("Data saved successfully"));
     },
     onError: (error) => {
-      toast.error(t(error.message));
+      if (error.message === "SMS Count finished") {
+        toast.error(
+          "تعداد  پیامک های ارسال شما به پایان رسیده است! جهت شارژ مجدد یک تیکت ثبت کنید."
+        );
+      } else {
+        toast.error(t(error.message));
+      }
     },
   });
 
@@ -135,9 +156,13 @@ const ComposePopup = (props) => {
           ...data,
           body: markup,
           status: data.status?.value,
+          sms: data.sms,
+          email: data.email,
+          system: data.system,
           type: data.type?.value,
           priority: data.priority?.value,
           department: data.department?.value,
+          category: data.category?.value,
           to: users,
         },
       },
@@ -210,6 +235,35 @@ const ComposePopup = (props) => {
           </div>
           <div className="compose-mail-form-field">
             <Label for="email-to" className="form-label">
+              {t("Category")}:
+            </Label>
+            <div className="flex-grow-1">
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    id="category"
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    options={categoriesOptions}
+                    className="react-select select-borderless"
+                    placeholder={t("Select...")}
+                    classNamePrefix="select"
+                    components={{ Option: SelectComponent }}
+                    {...field}
+                  />
+                )}
+              />
+              {errors.category && (
+                <FormFeedback style={{ display: "block" }}>
+                  {errors.category.message}
+                </FormFeedback>
+              )}
+            </div>
+          </div>
+          <div className="compose-mail-form-field">
+            <Label for="email-to" className="form-label">
               {t("Type")}:
             </Label>
             <div className="flex-grow-1">
@@ -230,6 +284,11 @@ const ComposePopup = (props) => {
                   />
                 )}
               />
+              {errors.type && (
+                <FormFeedback style={{ display: "block" }}>
+                  {errors.type.message}
+                </FormFeedback>
+              )}
             </div>
           </div>
           <div className="compose-mail-form-field">
@@ -254,6 +313,11 @@ const ComposePopup = (props) => {
                   />
                 )}
               />
+              {errors.priority && (
+                <FormFeedback style={{ display: "block" }}>
+                  {errors.priority.message}
+                </FormFeedback>
+              )}
             </div>
           </div>
           <div className="compose-mail-form-field">
@@ -297,6 +361,11 @@ const ComposePopup = (props) => {
                 />
               )}
             />
+            {errors.subject && (
+              <FormFeedback style={{ display: "block" }}>
+                {errors.subject.message}
+              </FormFeedback>
+            )}
           </div>
           <div id="message-editor">
             <Editor
@@ -315,6 +384,62 @@ const ComposePopup = (props) => {
               }}
             />
           </div>
+          <Row
+            className="compose-footer-wrapper"
+            style={{ justifyContent: "flex-start" }}
+          >
+            <Col md={2}>
+              <br />
+              <div className="form-check">
+                <Label className="form-label" for="system">
+                  ارسال سیستمی
+                </Label>
+                <Controller
+                  name="system"
+                  control={control}
+                  defaultValue={true}
+                  render={({ field }) => (
+                    <Input
+                      type="checkbox"
+                      name="system"
+                      defaultChecked
+                      {...field}
+                    />
+                  )}
+                />
+              </div>{" "}
+            </Col>
+            <Col md={2}>
+              <br />
+              <div className="form-check">
+                <Label className="form-label" for="sms">
+                  ارسال پیامکی
+                </Label>
+                <Controller
+                  name="sms"
+                  control={control}
+                  render={({ field }) => (
+                    <Input type="checkbox" name="sms" {...field} />
+                  )}
+                />
+              </div>{" "}
+            </Col>
+            <Col md={2}>
+              <br />
+              <div className="form-check">
+                <Label className="form-label" for="email">
+                  ارسال ایمیلی
+                </Label>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <Input type="checkbox" name="email" {...field} />
+                  )}
+                />
+              </div>{" "}
+            </Col>
+          </Row>
           <div className="compose-footer-wrapper">
             <div className="btn-wrapper d-flex align-items-center">
               <Button color="primary" type="submit" className="me-1">
