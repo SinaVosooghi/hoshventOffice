@@ -37,6 +37,11 @@ export const GET_ITEMS_QUERY = gql`
         amount
         updated
         created
+        user {
+          firstName
+          lastName
+          mobilenumber
+        }
       }
       count
     }
@@ -50,6 +55,10 @@ export const GET_ITEM_QUERY = gql`
       refid
       authority
       statusCode
+      user {
+        firstName
+        lastName
+      }
       amount
       updated
       created

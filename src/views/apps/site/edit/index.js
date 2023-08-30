@@ -134,24 +134,6 @@ const AccountSettings = () => {
             label: timeZoneOptions.find((c) => c.value === site.timezone).label,
             value: site.timezone,
           },
-          ...(site.user && {
-            user: {
-              label: site.user?.firstName + "" + site.user?.lastName ?? "",
-              value: site.user?.id,
-            },
-          }),
-          category: {
-            label: site.category?.title,
-            value: site.category?.id,
-          },
-          plan: {
-            label: site.plan?.title,
-            value: site.plan?.id,
-          },
-          type: {
-            label: t(site?.type),
-            value: site?.type,
-          },
         });
       }
     },
@@ -227,13 +209,6 @@ const AccountSettings = () => {
                   setDescription={setDescription}
                   setLogo={setLogo}
                   logo={logo}
-                />
-              </TabPane>
-              <TabPane tabId="2">
-                <SecurityTabContent
-                  control={control}
-                  errors={errors}
-                  handleSubmit={handleSubmit}
                 />
               </TabPane>
               <TabPane tabId="3">

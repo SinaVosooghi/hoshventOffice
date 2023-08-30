@@ -39,8 +39,8 @@ const AddActions = ({
               onChange={(e) => setInvoiceType(e.target.value)}
               defaultValue={invoiceType}
             >
-              <option value="shop">{t("Product")}</option>
-              <option value="service">{t("Service")}</option>
+              <option value="event">{t("Event")}</option>
+              <option value="plan">{t("Plan")}</option>
             </Input>
           </div>
           <Button

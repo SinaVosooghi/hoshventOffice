@@ -15,12 +15,6 @@ const Tabs = ({ activeTab, toggleTab }) => {
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink active={activeTab === "2"} onClick={() => toggleTab("2")}>
-          <Lock size={18} className="me-50" />
-          <span className="fw-bold">{t("Security")}</span>
-        </NavLink>
-      </NavItem>
-      <NavItem>
         <NavLink active={activeTab === "3"} onClick={() => toggleTab("3")}>
           <CreditCard size={18} className="me-50" />
           <span className="fw-bold">{t("Payment Details")}</span>

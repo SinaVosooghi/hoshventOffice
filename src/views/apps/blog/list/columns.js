@@ -28,11 +28,18 @@ const renderClient = (row) => {
     ],
     color = states[stateNum];
 
-  return (
+  return row.image ? (
     <Avatar
       color={color}
       className="me-50"
-      content={row.client ? row.client.name : "John Doe"}
+      content={row.title ?? "John Doe"}
+      img={`${import.meta.env.VITE_BASE_API}/${row.image}`}
+    />
+  ) : (
+    <Avatar
+      color={color}
+      className="me-50"
+      content={row.title ?? "John Doe"}
       initials
     />
   );

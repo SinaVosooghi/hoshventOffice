@@ -241,49 +241,7 @@ const AccountTabs = ({
                 </FormFeedback>
               )}
             </Col>
-            <Col md={2} xs={12} className="mb-1">
-              <Label className="form-label" for="slug">
-                {t("Slug")} <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                id="slug"
-                name="slug"
-                defaultValue=""
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    placeholder={t("Slug")}
-                    invalid={errors.slug && true}
-                  />
-                )}
-              />
-              {errors.slug && (
-                <FormFeedback>{errors.slug.message}</FormFeedback>
-              )}
-            </Col>
-            <Col sm="2" className="mb-1">
-              <Label className="form-label" for="domain">
-                {t("Domain")}
-              </Label>
-              <Controller
-                name="domain"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    id="domain"
-                    placeholder="https://google.com"
-                    invalid={errors.domain && true}
-                    {...field}
-                  />
-                )}
-              />
-              {errors.domain && (
-                <FormFeedback>
-                  {t("Please enter a valid")} {t("Domain")}
-                </FormFeedback>
-              )}
-            </Col>
+
             <Col sm="4" className="mb-1">
               <Label className="form-label" for="email">
                 {t("Email")}
@@ -417,33 +375,7 @@ const AccountTabs = ({
                 )}
               />
             </Col>
-            <Col sm="3" className="mb-1">
-              <Label className="form-label" for="category">
-                {t("Category")} <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                name="category"
-                control={control}
-                defaultValue={categoriesOptions[0]}
-                render={({ field }) => (
-                  <Select
-                    id="category"
-                    isClearable={false}
-                    classNamePrefix="select"
-                    options={categoriesOptions}
-                    theme={selectThemeColors}
-                    defaultValue={categoriesOptions[0]}
-                    className={classnames("react-select")}
-                    {...field}
-                  />
-                )}
-              />
-              {errors && errors.category && (
-                <FormFeedback style={{ display: "block" }}>
-                  {t("Please enter a valid")} {t("Category")}
-                </FormFeedback>
-              )}
-            </Col>
+
             <Col sm="3" className="mb-1">
               <Label className="form-label" for="language">
                 {t("Language")}
@@ -466,76 +398,7 @@ const AccountTabs = ({
                 )}
               />
             </Col>
-            <Col sm="3" className="mb-1">
-              <Label className="form-label" for="timezone">
-                {t("Timezone")}
-              </Label>
-              <Controller
-                name="timezone"
-                control={control}
-                defaultValue={timeZoneOptions[0]}
-                render={({ field }) => (
-                  <Select
-                    id="timezone"
-                    isClearable={false}
-                    className="react-select"
-                    classNamePrefix="select"
-                    options={timeZoneOptions}
-                    theme={selectThemeColors}
-                    defaultValue={timeZoneOptions[0]}
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
-            <Col sm="2" className="mb-1">
-              <Label className="form-label" for="type">
-                {t("Type")} <span className="text-danger">*</span>{" "}
-              </Label>
-              <Controller
-                name="type"
-                control={control}
-                defaultValue={typeOptions[0]}
-                render={({ field }) => (
-                  <Select
-                    id="type"
-                    isClearable={false}
-                    className="react-select"
-                    classNamePrefix="select"
-                    options={typeOptions}
-                    theme={selectThemeColors}
-                    defaultValue={typeOptions[0]}
-                    {...field}
-                  />
-                )}
-              />
-              {errors && errors.type && (
-                <FormFeedback style={{ display: "block" }}>
-                  {t("Please enter a valid")} {t("Type")}
-                </FormFeedback>
-              )}
-            </Col>
-            <Col md={4} xs={12}>
-              <Label className="form-label" for="plan">
-                {t("Plan")}
-              </Label>
-              <Controller
-                name="plan"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    id="plan"
-                    isClearable={false}
-                    className="react-select"
-                    classNamePrefix="select"
-                    placeholder={t("Select...")}
-                    options={plansItems}
-                    theme={selectThemeColors}
-                    {...field}
-                  />
-                )}
-              />{" "}
-            </Col>
+
             <Col md={12} xs={12}>
               <Label className="form-label" for="body">
                 {t("Description")}

@@ -52,7 +52,7 @@ const Item = ({ i, deleteForm, products, handleChangeItems }) => {
                       setPrice(p.offprice ?? p.price);
                     }}
                     theme={selectThemeColors}
-                    placeholder={`${t("Select")} ${t("Product")}...`}
+                    placeholder={`${t("Select")} ${t("Event")}...`}
                   />
                 </>
               </Col>

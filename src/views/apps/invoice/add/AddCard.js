@@ -50,6 +50,8 @@ import { getCouponsSelect } from "../../../../utility/gqlHelpers/getCoupons";
 import { getCoursesSelect } from "../../../../utility/gqlHelpers/getCourses";
 import Avatar from "@components/avatar";
 import { useNavigate } from "react-router-dom";
+import { getEventsSelect } from "../../../../utility/gqlHelpers/getEvents";
+import { getPlansSelect } from "../../../../utility/gqlHelpers/getPlans";
 
 const AddCard = ({ setSendSidebarOpen }) => {
   const FormSchema = yup.object().shape({
@@ -83,18 +85,18 @@ const AddCard = ({ setSendSidebarOpen }) => {
   const [total, setTotal] = useState(0);
   const [donePayment, setDonePayment] = useState(false);
   const [shipping, setShipping] = useState(null);
-  const [invoiceType, setInvoiceType] = useState("shop");
+  const [invoiceType, setInvoiceType] = useState("event");
 
-  const [products, setProducts] = useState(null);
   const [coupons, setCoupons] = useState(null);
-  const [courses, setCourses] = useState(null);
+  const [events, setEvents] = useState(null);
+  const [plans, setPlans] = useState(null);
 
   const [items, setItems] = useState([]);
 
   const usersData = getUsersSelect();
-  const productsData = getProductsSelect();
   const couponsData = getCouponsSelect();
-  const coursesData = getCoursesSelect();
+  const eventsData = getEventsSelect();
+  const plansData = getPlansSelect();
 
   useEffect(() => {
     document.querySelector("#repeater-wrapper")?.remove();
@@ -102,10 +104,10 @@ const AddCard = ({ setSendSidebarOpen }) => {
   }, [invoiceType]);
 
   useEffect(() => {
-    if (coursesData.length) {
-      setCourses(coursesData);
+    if (eventsData.length) {
+      setEvents(eventsData);
     }
-  }, [coursesData]);
+  }, [eventsData]);
 
   useEffect(() => {
     if (couponsData.length) {
@@ -114,10 +116,10 @@ const AddCard = ({ setSendSidebarOpen }) => {
   }, [couponsData]);
 
   useEffect(() => {
-    if (productsData.length) {
-      setProducts(productsData);
+    if (plansData.length) {
+      setPlans(plansData);
     }
-  }, [productsData]);
+  }, [plansData]);
 
   useEffect(() => {
     if (usersData.length) {
@@ -418,7 +420,7 @@ const AddCard = ({ setSendSidebarOpen }) => {
                     <Item
                       i={i}
                       key={i}
-                      products={invoiceType === "shop" ? products : courses}
+                      products={invoiceType === "event" ? events : plans}
                       control={control}
                       errors={errors}
                       deleteForm={deleteForm}

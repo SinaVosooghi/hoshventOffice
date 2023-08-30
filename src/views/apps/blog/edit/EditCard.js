@@ -147,6 +147,11 @@ const EditCard = () => {
   });
 
   const [update] = useMutation(UPDATE_ITEM_MUTATION, {
+    context: {
+      headers: {
+        "apollo-require-preflight": true,
+      },
+    },
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
@@ -162,6 +167,7 @@ const EditCard = () => {
     delete data.__typename;
     delete data.created;
     delete data.updated;
+    const image = data.image;
 
     const rawContentState = convertToRaw(description.getCurrentContent());
     const rawContentStateSeoBody = convertToRaw(
@@ -171,12 +177,13 @@ const EditCard = () => {
     const markup = draftToHtml(rawContentState, hashConfig, true);
     const markupSeo = draftToHtml(rawContentStateSeoBody, hashConfig, true);
 
+    delete data.image;
     update({
       variables: {
         refetchQueries: [GET_ITEM_QUERY],
         input: {
           ...data,
-          image: images,
+          ...(typeof image !== "string" && { image }),
           status: data.status?.value,
           featured: data.featured?.value,
           category: data.category ? data.category?.value : null,
@@ -460,14 +467,36 @@ const EditCard = () => {
                   </CardBody>
                 </Card>
               </Col>
-
-              {images && (
-                <Col md={12} xs={12}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle tag="h4">{t("Image")} </CardTitle>
-                    </CardHeader>
-                    <CardBody>
+              <Col md={12} xs={12}>
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    <Label className="form-label" for="image">
+                      {t("Image")}
+                    </Label>
+                    <Controller
+                      control={control}
+                      name={"image"}
+                      render={({ field: { value, onChange, ...field } }) => {
+                        return (
+                          <Input
+                            {...field}
+                            value={value?.fileName}
+                            onChange={(event) => {
+                              onChange(event.target.files[0]);
+                            }}
+                            type="file"
+                            id="image"
+                          />
+                        );
+                      }}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md={12} xs={12}>
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    {images && (
                       <Row>
                         <Row>
                           <Col md={12} className="mb-50">
@@ -491,17 +520,9 @@ const EditCard = () => {
                           </Col>
                         </Row>
                       </Row>
-                    </CardBody>
-                  </Card>
-                </Col>
-              )}
-
-              <Col md={12} xs={12}>
-                <FileUploaderSingle
-                  title={t("Upload image")}
-                  setImages={setImages}
-                  isMultiple={false}
-                />
+                    )}
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
           </Col>

@@ -27,7 +27,7 @@ const renderClient = (row) => {
       initials
       className="me-1"
       color={"light-primary"}
-      content={row.firstName + " " + row.lastName || "John Doe"}
+      content={row.user?.firstName + " " + row?.user?.lastName || "John Doe"}
     />
   );
 };
@@ -61,18 +61,8 @@ const renderRole = (row) => {
 
   return (
     <span className="text-truncate text-capitalize align-middle">
-      <Link
-        to={`/apps/roles/edit/${row.role.id}`}
-        className="user_name text-truncate text-body"
-      >
-        <Icon
-          size={18}
-          className={`${
-            roleObj[row.role] ? roleObj[row.role].class : ""
-          } me-50`}
-        />
-        {row.role.title}
-      </Link>
+      <Icon size={18} className={` me-50`} />
+      {row.refid}
     </span>
   );
 };
@@ -81,62 +71,59 @@ export const columns = [
   {
     name: t("User"),
     sortable: true,
-    minWidth: "300px",
+    width: "300px",
     sortField: "fullName",
     selector: (row) => row.firstName,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">
         {renderClient(row)}
         <div className="d-flex flex-column">
-          <Link
-            to={`/apps/user/view/${row.id}`}
-            className="user_name text-truncate text-body"
-            onClick={() => store.dispatch(getUser(row.id))}
-          >
-            <span className="fw-bolder">
-              {row.firstName + " " + row.lastName}{" "}
-            </span>
-          </Link>
+          <span className="fw-bolder">
+            {row.user?.firstName + " " + row.user?.lastName}{" "}
+          </span>
           <small className="text-truncate text-muted mb-0">{row.email}</small>
         </div>
       </div>
     ),
   },
   {
-    name: t("Role"),
+    name: t("Mobile"),
     sortable: true,
     minWidth: "172px",
-    sortField: "role",
-    selector: (row) => row.role,
-    cell: (row) => renderRole(row),
+    cell: (row) => {
+      return row.user?.mobilenumber;
+    },
   },
   {
-    name: t("Type"),
+    name: t("Total"),
     sortable: true,
-    minWidth: "172px",
-    sortField: "usetype",
-    selector: (row) => row.usetype,
+    width: "162px",
+    selector: (row) => row.amount,
     cell: (row) => (
-      <span className="text-capitalize">
-        {t(capitalizeFirstLetter(row.usertype))}
-      </span>
+      <>{row.amount ? row.amount?.toLocaleString() + " تومان " : ""}</>
     ),
   },
   {
-    name: t("Updated"),
+    name: t("Status Code"),
     sortable: true,
-    sortField: "updated",
-    selector: (row) => row.updated,
-    cell: (row) => (
-      <span className="text-capitalize">
-        {row.updated ? moment(row.updated).format("YYYY/MM/D") : "-"}
-      </span>
-    ),
+    width: "90px",
+    sortField: "statusCode",
+    selector: (row) => row.statusCode,
+    cell: (row) => <span className="text-capitalize">{row.statusCode}</span>,
+  },
+  {
+    name: t("Code"),
+    sortable: true,
+    minWidth: "172px",
+    sortField: "statusCode",
+    selector: (row) => row.statusCode,
+    cell: (row) => <span className="text-capitalize">{row.authority}</span>,
   },
   {
     name: t("Created"),
     sortable: true,
     sortField: "created",
+    width: "120px",
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
@@ -147,7 +134,7 @@ export const columns = [
   {
     name: t("Status"),
     sortable: true,
-    minWidth: "138px",
+    width: "138px",
     sortField: "status",
     selector: (row) => row.status,
     cell: (row) => (
@@ -164,7 +151,7 @@ export const columns = [
   },
   {
     name: t("Actions"),
-    width: "150px",
+    width: "80px",
     cell: (row) => {
       const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
         ...fallbackHandler("delete"),
@@ -172,9 +159,6 @@ export const columns = [
 
       return (
         <>
-          <Link to={`/apps/user/view/${row.id}`}>
-            <Edit2 className="font-medium-3 text-body" />
-          </Link>
           <Link
             className="ms-1"
             to={"#"}

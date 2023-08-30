@@ -68,7 +68,6 @@ const AddCard = () => {
   );
 
   const [data, setData] = useState(null);
-  const [images, setImages] = useState(null);
 
   const history = useNavigate();
   const [categoriesOptions, setCategoriesOptions] = useState([
@@ -103,6 +102,11 @@ const AddCard = () => {
   });
 
   const [create] = useMutation(CREATE_ITEM_MUTATION, {
+    context: {
+      headers: {
+        "apollo-require-preflight": true,
+      },
+    },
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
@@ -127,7 +131,7 @@ const AddCard = () => {
       variables: {
         input: {
           ...data,
-          image: images,
+          image: data.image,
           status: data.status?.value,
           featured: data.featured?.value,
           category: data.category ? data.category?.value : null,
@@ -376,11 +380,30 @@ const AddCard = () => {
                 </Card>
               </Col>
               <Col md={12} xs={12}>
-                <FileUploaderSingle
-                  title={t("Upload image")}
-                  setImages={setImages}
-                  isMultiple={false}
-                />
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    <Label className="form-label" for="image">
+                      {t("Image")}
+                    </Label>
+                    <Controller
+                      control={control}
+                      name={"image"}
+                      render={({ field: { value, onChange, ...field } }) => {
+                        return (
+                          <Input
+                            {...field}
+                            value={value?.fileName}
+                            onChange={(event) => {
+                              onChange(event.target.files[0]);
+                            }}
+                            type="file"
+                            id="image"
+                          />
+                        );
+                      }}
+                    />
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
           </Col>

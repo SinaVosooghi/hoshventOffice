@@ -33,6 +33,7 @@ export const GET_ITEMS_QUERY = gql`
         id
         title
         slug
+        image
         category {
           title
         }

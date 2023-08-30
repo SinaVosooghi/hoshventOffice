@@ -65,7 +65,7 @@ const UsersList = () => {
             <Col lg="3" sm="6">
               <StatsHorizontal
                 color="success"
-                statTitle={`${t("Total")} ${t("Students")}`}
+                statTitle={`${t("Total")} ${t("Attendees")}`}
                 icon={<UserCheck size={20} />}
                 renderStats={<h3 className="fw-bolder mb-75">{students}</h3>}
               />

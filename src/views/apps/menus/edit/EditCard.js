@@ -123,7 +123,7 @@ const EditCard = () => {
         input: {
           ...data,
           status: data.status?.value,
-          order: data.order ? parseFloat(data.order.replaceAll(",", "")) : null,
+          order: data.order,
         },
       },
     });
