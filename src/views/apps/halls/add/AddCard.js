@@ -117,7 +117,6 @@ const AddCard = () => {
           body: markup,
           status: data.status?.value,
           featured: data.featured?.value,
-          state: typeof data.state === "object" ? data.state?.value : null,
           event: typeof data.event === "object" ? data.event?.value : null,
         },
       },
