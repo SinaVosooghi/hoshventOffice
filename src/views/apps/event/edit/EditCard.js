@@ -34,7 +34,6 @@ import "@styles/base/pages/app-invoice.scss";
 import { t } from "i18next";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ITEMS_QUERY, GET_ITEM_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
-import { GET_ITEMS_QUERY as GET_SITES_ITEMS } from "../../site/gql";
 import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
 
 import classnames from "classnames";
@@ -64,7 +63,6 @@ const EditCard = () => {
   const SignupSchema = yup.object().shape({
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
     slug: yup.string().required(`${t("Slug")} ${t("field is required")}`),
-    site: yup.object().required(`${t("Site")} ${t("field is required")}`),
     category: yup
       .object()
       .required(`${t("Category")} ${t("field is required")}`),
@@ -80,7 +78,6 @@ const EditCard = () => {
   const [pdf, setPdf] = useState(null);
 
   const history = useNavigate();
-  const [sitesOptions, setSitesOptions] = useState([]);
   const [categoriesOptions, setCategoriesOptions] = useState([]);
 
   const [startDate, setStartDate] = useState(null);
@@ -116,23 +113,6 @@ const EditCard = () => {
     formState: { errors },
   } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
   const { id } = useParams();
-
-  useQuery(GET_SITES_ITEMS, {
-    fetchPolicy: "network-only",
-    variables: {
-      input: {
-        skip: 0,
-      },
-    },
-    onCompleted: ({ sites }) => {
-      sites?.sites?.map((site) =>
-        setSitesOptions((prev) => [
-          ...prev,
-          { value: site.id, label: site.title },
-        ])
-      );
-    },
-  });
 
   useQuery(GET_ITEM_QUERY, {
     variables: { id: parseInt(id) },
@@ -189,10 +169,6 @@ const EditCard = () => {
             label: event.category?.title,
             value: event.category?.id,
           },
-          site: {
-            label: event.site?.title,
-            value: event.site?.id,
-          },
         });
       }
     },
@@ -244,7 +220,6 @@ const EditCard = () => {
           ...(typeof image !== "string" && { image }),
           status: data.status?.value,
           featured: data.featured?.value,
-          site: data.site ? data.site?.value : null,
           category: data.category ? data.category?.value : null,
           body: markup,
           seobody: markupSeo,
@@ -316,34 +291,6 @@ const EditCard = () => {
                       />
                       {errors.slug && (
                         <FormFeedback>{errors.slug.message}</FormFeedback>
-                      )}
-                    </Col>
-
-                    <Col md={3}>
-                      <Label className="form-label" for="site">
-                        {t("Site")} <span className="text-danger">*</span>
-                      </Label>
-                      <Controller
-                        name="site"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            isClearable={false}
-                            classNamePrefix="select"
-                            options={sitesOptions}
-                            theme={selectThemeColors}
-                            placeholder={t("Select...")}
-                            className={classnames("react-select", {
-                              "is-invalid": data !== null && data.site === null,
-                            })}
-                            {...field}
-                          />
-                        )}
-                      />
-                      {errors.site && (
-                        <FormFeedback style={{ display: "block" }}>
-                          {errors.site.message}
-                        </FormFeedback>
                       )}
                     </Col>
 

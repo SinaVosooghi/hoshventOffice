@@ -65,15 +65,12 @@ export const GET_ITEM_QUERY = gql`
       language
       timezone
       zipcode
-      domain
       cardnumber
       sheba
       slug
       seobody
       seotitle
       body
-      status
-      type
       logo
       created
       updated
@@ -81,15 +78,8 @@ export const GET_ITEM_QUERY = gql`
         id
         title
       }
-      user {
-        id
-        firstName
-        lastName
-      }
-      category {
-        id
-        title
-      }
+    
+    
     }
   }
 `;

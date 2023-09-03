@@ -46,11 +46,6 @@ import { useEffect } from "react";
 const AccountSettings = () => {
   const FormSchema = yup.object().shape({
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
-    slug: yup.string().required(`${t("Slug")} ${t("field is required")}`),
-    type: yup.object().required(`${t("Type")} ${t("field is required")}`),
-    category: yup
-      .object()
-      .required(`${t("Category")} ${t("field is required")}`),
   });
 
   // ** States
@@ -113,27 +108,6 @@ const AccountSettings = () => {
 
         reset({
           ...site,
-          status: site.status
-            ? {
-                label: t("Active"),
-                value: site.status,
-              }
-            : {
-                label: t("Deactive"),
-                value: site.status,
-              },
-          country: {
-            label: countryOptions.find((c) => c.value === site.country).label,
-            value: site.country,
-          },
-          language: {
-            label: languageOptions.find((c) => c.value === site.language).label,
-            value: site.language,
-          },
-          timezone: {
-            label: timeZoneOptions.find((c) => c.value === site.timezone).label,
-            value: site.timezone,
-          },
         });
       }
     },
@@ -153,6 +127,7 @@ const AccountSettings = () => {
     delete data.__typename;
     delete data.created;
     delete data.updated;
+    delete data.plan;
     const rawContentState = convertToRaw(description.getCurrentContent());
     const markup = draftToHtml(rawContentState, hashConfig, true);
 
@@ -165,19 +140,6 @@ const AccountSettings = () => {
         input: {
           ...data,
           body: markup,
-          status: data.status?.value,
-          featured: data.featured?.value,
-          country:
-            typeof data.country === "object" ? data.country?.value : null,
-          language:
-            typeof data.language === "object" ? data.language?.value : null,
-          type: typeof data.type === "object" ? data.type?.value : null,
-          timezone:
-            typeof data.timezone === "object" ? data.timezone?.value : null,
-          user: typeof data.user === "object" ? data.user?.value : null,
-          category:
-            typeof data.category === "object" ? data.category?.value : null,
-          plan: typeof data.plan === "object" ? data.plan?.value : null,
           ...(typeof logo !== "string" && { logo }),
         },
       },
