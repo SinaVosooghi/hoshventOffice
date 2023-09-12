@@ -67,7 +67,7 @@ const AccountSettings = () => {
 
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                <AccountTabContent data={data} />
+                {/* <AccountTabContent data={data} /> */}
               </TabPane>
               <TabPane tabId="2">
                 <DeleteAccount />

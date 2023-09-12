@@ -42,6 +42,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 import { useEffect } from "react";
+import RegisterFields from "./RegisterFields";
 
 const AccountSettings = () => {
   const FormSchema = yup.object().shape({
@@ -53,6 +54,8 @@ const AccountSettings = () => {
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [logo, setLogo] = useState(null);
   const [data, setData] = useState(null);
+  const [items, setItems] = useState([]);
+  const [count, setCount] = useState(1);
 
   const history = useNavigate();
   const { id } = useParams();
@@ -67,9 +70,10 @@ const AccountSettings = () => {
   };
   const {
     control,
-    reset,
     handleSubmit,
-    setValue,
+    getValues,
+    reset,
+    setValue,    register,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -105,6 +109,7 @@ const AccountSettings = () => {
         }
 
         setLogo(site.logo);
+        setCount(site.registerFields?.length);
 
         reset({
           ...site,
@@ -146,6 +151,26 @@ const AccountSettings = () => {
     });
   };
 
+  const handleChangeItems = (item) => {
+    const foundItem = items.findIndex((p) => p.idx === item.idx);
+    delete foundItem.__typename;
+
+    if (foundItem === -1) {
+      setItems([...items, item]);
+    } else {
+      let newArr = [...items];
+      newArr[foundItem] = item;
+
+      setItems(newArr);
+    }
+  };
+
+  const deleteItem = (i) => {
+    const filter = items.filter((p) => p.idx !== i);
+
+    setItems(filter);
+  };
+
   return (
     <Fragment>
       <Breadcrumbs
@@ -171,6 +196,26 @@ const AccountSettings = () => {
                   setDescription={setDescription}
                   setLogo={setLogo}
                   logo={logo}
+                />
+              </TabPane>
+              <TabPane tabId="2">
+                <RegisterFields
+                  control={control}
+                  errors={errors}
+                  handleSubmit={handleSubmit}
+                  defaultCount={count}
+                  handleChangeItems={handleChangeItems}
+                  items={items}
+                  deleteItem={deleteItem}
+                  register={register}
+                  {...{
+                    control,
+                    register,
+                    defaultValues,
+                    getValues,
+                    setValue,
+                    errors,
+                  }}
                 />
               </TabPane>
               <TabPane tabId="3">

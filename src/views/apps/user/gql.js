@@ -144,6 +144,15 @@ export const GET_ITEM_QUERY = gql`
       status
       about
       avatar
+      registerFields
+      seminars {
+        id
+        title
+      }
+      workshops {
+        id
+        title
+      }
       category {
         id
         title

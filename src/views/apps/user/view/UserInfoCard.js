@@ -43,6 +43,8 @@ import { sleep } from "../../../../utility/Utils";
 import toast from "react-hot-toast";
 import InputPasswordToggle from "@components/input-password-toggle";
 import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
+import { WorkshopMultiSelect } from "../list/WorkshopMultiSelect";
+import { SeminarMultiSelect } from "../list/SeminarMultiSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -70,6 +72,9 @@ const UserInfoCard = ({ selectedUser }) => {
   const [categories, setCategories] = useState([
     { value: null, label: `${t("All")} ${t("Categories")}` },
   ]);
+
+  const [seminarItems, setSeminarItems] = useState([]);
+  const [workshopItems, setWorkshopItems] = useState([]);
 
   const [data, setData] = useState(null);
   useQuery(GET_ITEMS_QUERY, {
@@ -99,6 +104,34 @@ const UserInfoCard = ({ selectedUser }) => {
           setValue(key, value);
         }
         await sleep(500);
+
+        if (user.workshops.length) {
+          setWorkshopItems([]);
+          user.workshops.map((event) => {
+            setWorkshopItems((oldArray) => [
+              ...oldArray,
+              {
+                value: event.id,
+                label: event.title,
+                image: event.image,
+              },
+            ]);
+          });
+        }
+
+        if (user.seminars.length) {
+          setSeminarItems([]);
+          user.seminars.map((event) => {
+            setSeminarItems((oldArray) => [
+              ...oldArray,
+              {
+                value: event.id,
+                label: event.title,
+                image: event.image,
+              },
+            ]);
+          });
+        }
 
         reset({
           ...user,
@@ -207,6 +240,9 @@ const UserInfoCard = ({ selectedUser }) => {
     delete data.avatar;
     delete data.site;
 
+    const workshopFiltered = workshopItems.map((m) => m.value);
+    const seminarFiltered = seminarItems.map((m) => m.value);
+
     update({
       variables: {
         input: {
@@ -218,6 +254,8 @@ const UserInfoCard = ({ selectedUser }) => {
           usertype: data.usertype.value,
           mobilenumber: parseInt(data.mobilenumber),
           phonenumber: parseInt(data.phonenumber),
+          seminars: seminarFiltered,
+          workshops: workshopFiltered,
         },
       },
     });
@@ -346,9 +384,7 @@ const UserInfoCard = ({ selectedUser }) => {
                 <h4 className="mb-0">
                   {renderUserType(selectedUser?.usertype)}
                 </h4>
-                <small>
-                  {t("Usertype")}
-                </small>
+                <small>{t("Usertype")}</small>
               </div>
             </div>
             <div className="d-flex align-items-start">
@@ -408,9 +444,7 @@ const UserInfoCard = ({ selectedUser }) => {
 
                 {selectedUser?.category && (
                   <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {t("Category")}:
-                    </span>
+                    <span className="fw-bolder me-25">{t("Category")}:</span>
                     <span>{selectedUser?.category?.title}</span>
                   </li>
                 )}
@@ -424,33 +458,55 @@ const UserInfoCard = ({ selectedUser }) => {
                   </li>
                 )}
 
-                {selectedUser?.phonenumber && (
+                {selectedUser?.phonenumber ? (
                   <li className="mb-75">
                     <span className="fw-bolder me-25">
                       {t("Phone number")}:
                     </span>
                     <span>{selectedUser?.phonenumber}</span>
                   </li>
+                ) : (
+                  ""
                 )}
 
-                {selectedUser?.address && (
+                {selectedUser?.address ? (
                   <li className="mb-75">
                     <span className="fw-bolder me-25">{t("Address")}:</span>
                     <span>{selectedUser?.address}</span>
                   </li>
+                ) : (
+                  ""
                 )}
 
-                {selectedUser?.about && (
+                {selectedUser?.about ? (
                   <li className="mb-75">
                     <span className="fw-bolder me-25">{t("About")}:</span>
                     <span>{selectedUser?.about}</span>
                   </li>
+                ) : (
+                  ""
+                )}
+
+                {Object.entries(selectedUser.registerFields).map(
+                  (field, index) => {
+                    return (
+                      <li className="mb-75" key={index}>
+                        <span className="fw-bolder me-25">{field[0]}:</span>
+                        <span>{field[1]}</span>
+                      </li>
+                    );
+                  }
                 )}
               </ul>
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => setShow(true)}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShow(true);
+              }}
+            >
               {t("Edit")}
             </Button>
             {selectedUser?.status ? (
@@ -624,6 +680,26 @@ const UserInfoCard = ({ selectedUser }) => {
                   name="password"
                   control={control}
                   render={({ field }) => <InputPasswordToggle {...field} />}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="workshops">
+                  {t("Workshops")}:
+                </Label>
+
+                <WorkshopMultiSelect
+                  items={workshopItems}
+                  setItems={setWorkshopItems}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="seminars">
+                  {t("Seminars")}:
+                </Label>
+
+                <SeminarMultiSelect
+                  items={seminarItems}
+                  setItems={setSeminarItems}
                 />
               </Col>
               <Col md={6} xs={12}>

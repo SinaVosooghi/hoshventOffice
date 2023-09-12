@@ -74,12 +74,15 @@ export const GET_ITEM_QUERY = gql`
       logo
       created
       updated
+      registerFields {
+        order
+        type
+        title
+      }
       plan {
         id
         title
       }
-    
-    
     }
   }
 `;

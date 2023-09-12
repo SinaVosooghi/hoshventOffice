@@ -107,7 +107,6 @@ const EditCard = () => {
 
         await sleep(100);
 
-        console.log(service.start_date);
         setStartDate(service.start_date);
         if (service && service?.start_date) {
           setPreSelectedDate(
@@ -213,12 +212,6 @@ const EditCard = () => {
           ...(typeof image !== "string" && { image }),
         },
       },
-    });
-  };
-  const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
     });
   };
 
