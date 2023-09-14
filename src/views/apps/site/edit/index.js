@@ -43,6 +43,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 import { useEffect } from "react";
 import RegisterFields from "./RegisterFields";
+import PrintCard from "./PrintCard";
 
 const AccountSettings = () => {
   const FormSchema = yup.object().shape({
@@ -73,7 +74,8 @@ const AccountSettings = () => {
     handleSubmit,
     getValues,
     reset,
-    setValue,    register,
+    setValue,
+    register,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -220,6 +222,13 @@ const AccountSettings = () => {
               </TabPane>
               <TabPane tabId="3">
                 <BillingTabContent
+                  control={control}
+                  errors={errors}
+                  handleSubmit={handleSubmit}
+                />
+              </TabPane>
+              <TabPane tabId="4">
+                <PrintCard
                   control={control}
                   errors={errors}
                   handleSubmit={handleSubmit}

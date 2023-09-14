@@ -487,16 +487,17 @@ const UserInfoCard = ({ selectedUser }) => {
                   ""
                 )}
 
-                {Object.entries(selectedUser.registerFields).map(
-                  (field, index) => {
-                    return (
-                      <li className="mb-75" key={index}>
-                        <span className="fw-bolder me-25">{field[0]}:</span>
-                        <span>{field[1]}</span>
-                      </li>
-                    );
-                  }
-                )}
+                {selectedUser?.registerFields &&
+                  Object.entries(selectedUser?.registerFields)?.map(
+                    (field, index) => {
+                      return (
+                        <li className="mb-75" key={index}>
+                          <span className="fw-bolder me-25">{field[0]}:</span>
+                          <span>{field[1]}</span>
+                        </li>
+                      );
+                    }
+                  )}
               </ul>
             ) : null}
           </div>

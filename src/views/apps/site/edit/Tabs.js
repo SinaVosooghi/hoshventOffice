@@ -11,6 +11,7 @@ import {
   Globe,
   CreditCard,
   UserCheck,
+  Printer,
 } from "react-feather";
 import { t } from "i18next";
 
@@ -23,6 +24,7 @@ const Tabs = ({ activeTab, toggleTab }) => {
           <span className="fw-bold">{t("Site")}</span>
         </NavLink>
       </NavItem>
+
       <NavItem>
         <NavLink active={activeTab === "2"} onClick={() => toggleTab("2")}>
           <UserCheck size={18} className="me-50" />
@@ -33,6 +35,12 @@ const Tabs = ({ activeTab, toggleTab }) => {
         <NavLink active={activeTab === "3"} onClick={() => toggleTab("3")}>
           <CreditCard size={18} className="me-50" />
           <span className="fw-bold">{t("Payment Details")}</span>
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink active={activeTab === "4"} onClick={() => toggleTab("4")}>
+          <Printer size={18} className="me-50" />
+          <span className="fw-bold">{t("Card setting")}</span>
         </NavLink>
       </NavItem>
     </Nav>
