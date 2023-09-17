@@ -9,7 +9,18 @@ export const ROLES_ARRAY = [
   { title: "Roles", value: "roles" },
   { title: "Chats", value: "messages" },
   { title: "Setting", value: "setting" },
-  { title: "Coupons", value: "coupons" },
+  { title: "Plans", value: "plans" },
+  { title: "Sites", value: "sites" },
+  { title: "Events", value: "events" },
+  { title: "Services", value: "services" },
+  { title: "Halls", value: "halls" },
+  { title: "Workshops", value: "workshops" },
+  { title: "Seminars", value: "seminars" },
+  { title: "Payments", value: "payments" },
+  { title: "Contacts", value: "contacts" },
+  { title: "Menues", value: "menus" },
+  { title: "Brands", value: "brands" },
+  { title: "Sliders", value: "sliders" },
 ];
 
 export const CREATE_ITEM_MUTATION = gql`

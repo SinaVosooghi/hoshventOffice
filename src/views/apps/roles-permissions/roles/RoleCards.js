@@ -130,9 +130,7 @@ const RoleCards = () => {
                 <Card>
                   <CardBody>
                     <div className="d-flex justify-content-between">
-                      <span>{`${t("Total")} ${item.users.length} ${t(
-                        "users"
-                      )}`}</span>
+                      <span>سطح دسترسی برای</span>
                     </div>
                     <div className="d-flex justify-content-between align-items-end mt-1 pt-25">
                       <div className="role-heading">

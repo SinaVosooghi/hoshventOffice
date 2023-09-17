@@ -16,5 +16,7 @@ export default [
     title: "Payments",
     icon: <CreditCard size={20} />,
     navLink: "/apps/payments",
+    action: "read",
+    resource: "read-payments",
   },
 ];

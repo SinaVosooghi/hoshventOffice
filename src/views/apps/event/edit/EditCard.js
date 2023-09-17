@@ -333,7 +333,7 @@ const EditCard = () => {
                         defaultValue=""
                         control={control}
                         render={({ field }) => (
-                          <Input {...field} placeholder={t("Duration")} />
+                          <Input {...field} placeholder="۱۲۰ دقیقه" />
                         )}
                       />
                     </Col>

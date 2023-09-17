@@ -19,7 +19,6 @@ import {
   BookOpen,
   Calendar,
   Box,
-  CheckCircle,
   Home,
 } from "react-feather";
 
@@ -32,18 +31,21 @@ export default [
     title: "Roles & Permissions",
     icon: <Shield size={20} />,
     navLink: "/apps/roles",
+    resource: "read-roles",
   },
   {
     id: "user-categories",
     title: "User Categories",
     icon: <Server size={20} />,
     navLink: "/apps/categories/user",
+    resource: "read-categories",
   },
   {
     id: "users",
     title: "Users",
     icon: <Users size={20} />,
     navLink: "/apps/user/list/all",
+    resource: "read-users",
   },
   {
     header: "Sites",
@@ -53,12 +55,7 @@ export default [
     title: "Site Categories",
     icon: <Server size={20} />,
     navLink: "/apps/categories/site",
-  },
-  {
-    id: "plans",
-    title: "Plans",
-    icon: <CheckCircle size={20} />,
-    navLink: "/apps/plans",
+    resource: "read-categories",
   },
   {
     id: "sites",

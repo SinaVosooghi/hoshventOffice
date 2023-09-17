@@ -2,27 +2,6 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 
-const Chat = lazy(() => import("../../views/apps/chat"));
-const Todo = lazy(() => import("../../views/apps/todo"));
-const Email = lazy(() => import("../../views/apps/ticket"));
-const Kanban = lazy(() => import("../../views/apps/kanban"));
-const Calendar = lazy(() => import("../../views/apps/calendar"));
-
-const InvoiceAdd = lazy(() => import("../../views/apps/invoice/add"));
-const InvoiceList = lazy(() => import("../../views/apps/invoice/list"));
-const InvoiceEdit = lazy(() => import("../../views/apps/invoice/edit"));
-const InvoicePrint = lazy(() => import("../../views/apps/invoice/print"));
-const InvoicePreview = lazy(() => import("../../views/apps/invoice/preview"));
-
-const EcommerceShop = lazy(() => import("../../views/apps/ecommerce/shop"));
-const EcommerceDetail = lazy(() => import("../../views/apps/ecommerce/detail"));
-const EcommerceWishlist = lazy(() =>
-  import("../../views/apps/ecommerce/wishlist")
-);
-const EcommerceCheckout = lazy(() =>
-  import("../../views/apps/ecommerce/checkout")
-);
-
 const UserList = lazy(() => import("../../views/apps/user/list"));
 const UserView = lazy(() => import("../../views/apps/user/view"));
 
@@ -31,6 +10,7 @@ const EditRole = lazy(() => import("../../views/apps/roles-permissions/edit"));
 const Permissions = lazy(() =>
   import("../../views/apps/roles-permissions/permissions")
 );
+const Chat = lazy(() => import("../../views/apps/chat"));
 
 const Categories = lazy(() => import("../../views/apps/category/list"));
 const EditCategory = lazy(() => import("../../views/apps/category/edit"));
@@ -55,14 +35,6 @@ const AddSeminar = lazy(() => import("../../views/apps/seminars/add"));
 const Halls = lazy(() => import("../../views/apps/halls/list"));
 const EditHall = lazy(() => import("../../views/apps/halls/edit"));
 const AddHall = lazy(() => import("../../views/apps/halls/add"));
-
-const Questions = lazy(() => import("../../views/apps/questions/list"));
-const EditQuestion = lazy(() => import("../../views/apps/questions/edit"));
-const AddQuestion = lazy(() => import("../../views/apps/questions/add"));
-
-const Variations = lazy(() => import("../../views/apps/variations/list"));
-const EditVariation = lazy(() => import("../../views/apps/variations/edit"));
-const AddVariation = lazy(() => import("../../views/apps/variations/add"));
 
 const Sliders = lazy(() => import("../../views/apps/sliders/list"));
 const EditSlider = lazy(() => import("../../views/apps/sliders/edit"));
@@ -111,22 +83,12 @@ const Setting = lazy(() => import("../../views/apps/setting"));
 const Contacts = lazy(() => import("../../views/apps/contact/list"));
 const EditContacts = lazy(() => import("../../views/apps/contact/edit"));
 
-const Sites = lazy(() => import("../../views/apps/site/list"));
 const EditSite = lazy(() => import("../../views/apps/site/edit"));
-const AddSite = lazy(() => import("../../views/apps/site/add"));
-const NewSite = lazy(() => import("../../views/apps/site/new"));
 
 const Events = lazy(() => import("../../views/apps/event/list"));
 const EditEvent = lazy(() => import("../../views/apps/event/edit"));
 const AddEvent = lazy(() => import("../../views/apps/event/add"));
-
-const Services = lazy(() => import("../../views/apps/services/list"));
-const EditService = lazy(() => import("../../views/apps/services/edit"));
-const AddService = lazy(() => import("../../views/apps/services/add"));
-
-const Plans = lazy(() => import("../../views/apps/plans/list"));
-const EditPlans = lazy(() => import("../../views/apps/plans/edit"));
-const AddPlans = lazy(() => import("../../views/apps/plans/add"));
+const Email = lazy(() => import("../../views/apps/ticket"));
 
 const AppRoutes = [
   {
@@ -135,6 +97,8 @@ const AppRoutes = [
     meta: {
       appLayout: true,
       className: "email-application",
+      action: "read",
+      resource: "read-messages",
     },
   },
   {
@@ -143,6 +107,8 @@ const AppRoutes = [
     meta: {
       appLayout: true,
       className: "email-application",
+      action: "read",
+      resource: "read-messages",
     },
   },
   {
@@ -151,6 +117,8 @@ const AppRoutes = [
     meta: {
       appLayout: true,
       className: "email-application",
+      action: "read",
+      resource: "read-messages",
     },
   },
   {
@@ -166,128 +134,44 @@ const AppRoutes = [
     },
   },
   {
-    element: <Todo />,
-    path: "/apps/todo",
-    meta: {
-      appLayout: true,
-      className: "todo-application",
-    },
-  },
-  {
-    element: <Todo />,
-    path: "/apps/todo/:filter",
-    meta: {
-      appLayout: true,
-      className: "todo-application",
-    },
-  },
-  {
-    element: <Todo />,
-    path: "/apps/todo/tag/:tag",
-    meta: {
-      appLayout: true,
-      className: "todo-application",
-    },
-  },
-  {
-    element: <Calendar />,
-    path: "/apps/calendar",
-  },
-  {
-    element: <Kanban />,
-    path: "/apps/kanban",
-    meta: {
-      appLayout: true,
-      className: "kanban-application",
-    },
-  },
-  {
-    element: <InvoiceList />,
-    path: "/apps/invoices",
-  },
-  {
-    element: <InvoicePreview />,
-    path: "/apps/invoice/preview/:id",
-  },
-  {
-    path: "/apps/invoice/preview",
-    element: <Navigate to="/apps/invoice/preview/4987" />,
-  },
-  {
-    element: <InvoiceEdit />,
-    path: "/apps/invoice/edit/:id",
-  },
-  {
-    path: "/apps/invoice/edit",
-    element: <Navigate to="/apps/invoice/edit/4987" />,
-  },
-  {
-    element: <InvoiceAdd />,
-    path: "/apps/invoice/add",
-  },
-  {
-    path: "/apps/invoice/print/:id",
-    element: <InvoicePrint />,
-    meta: {
-      layout: "blank",
-    },
-  },
-  {
-    element: <EcommerceShop />,
-    path: "/apps/ecommerce/shop",
-    meta: {
-      className: "ecommerce-application",
-    },
-  },
-  {
-    element: <EcommerceWishlist />,
-    path: "/apps/ecommerce/wishlist",
-    meta: {
-      className: "ecommerce-application",
-    },
-  },
-  {
-    path: "/apps/ecommerce/product-detail",
-    element: (
-      <Navigate to="/apps/ecommerce/product-detail/apple-i-phone-11-64-gb-black-26" />
-    ),
-    meta: {
-      className: "ecommerce-application",
-    },
-  },
-  {
-    path: "/apps/ecommerce/product-detail/:product",
-    element: <EcommerceDetail />,
-    meta: {
-      className: "ecommerce-application",
-    },
-  },
-  {
-    path: "/apps/ecommerce/checkout",
-    element: <EcommerceCheckout />,
-    meta: {
-      className: "ecommerce-application",
-    },
-  },
-  {
     element: <UserList />,
     path: "/apps/user/list/:type",
+    meta: {
+      action: "read",
+      resource: "read-users",
+    },
   },
   {
     path: "/apps/user/view",
     element: <Navigate to="/apps/user/view/1" />,
+    meta: {
+      action: "read",
+      resource: "read-users",
+    },
   },
   {
     element: <UserView />,
     path: "/apps/user/view/:id",
+    meta: {
+      action: "read",
+      resource: "read-users",
+    },
   },
   {
     element: <Roles />,
     path: "/apps/roles",
+    meta: {
+      action: "read",
+      resource: "read-roles",
+    },
   },
   {
     element: <EditRole />,
     path: "/apps/roles/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-users",
+    },
   },
   {
     element: <Permissions />,
@@ -296,204 +180,196 @@ const AppRoutes = [
   {
     element: <Categories />,
     path: "/apps/categories/:type",
+    meta: {
+      action: "read",
+      resource: "read-categories",
+    },
   },
   {
     element: <EditCategory />,
     path: "/apps/categories/edit/:type/:id/",
+    meta: {
+      action: "update",
+      resource: "update-categories",
+    },
   },
   {
     element: <AddCategory />,
     path: "/apps/categories/add/:type/",
+    meta: {
+      action: "create",
+      resource: "create-categories",
+    },
   },
-
   {
     element: <Brands />,
     path: "/apps/brands/",
+    meta: {
+      action: "read",
+      resource: "read-brands",
+    },
   },
   {
     element: <EditBrand />,
     path: "/apps/brands/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "udpdate-brands",
+    },
   },
   {
     element: <AddBrand />,
     path: "/apps/brands/add/",
+    meta: {
+      action: "create",
+      resource: "create-brands",
+    },
   },
 
   {
     element: <Menus />,
     path: "/apps/Menus/",
+    meta: {
+      action: "read",
+      resource: "read-menus",
+    },
   },
   {
     element: <EditMenu />,
     path: "/apps/Menus/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-menus",
+    },
   },
   {
     element: <AddMenu />,
     path: "/apps/Menus/add/",
+    meta: {
+      action: "create",
+      resource: "create-menus",
+    },
   },
   {
     element: <Workshops />,
     path: "/apps/workshops",
+    meta: {
+      action: "read",
+      resource: "read-workshops",
+    },
   },
   {
     element: <EditWorkshop />,
     path: "/apps/workshops/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-workshops",
+    },
   },
   {
     element: <AddWorkshop />,
     path: "/apps/workshops/add/",
+    meta: {
+      action: "create",
+      resource: "create-workshops",
+    },
   },
-
   {
     element: <Seminars />,
     path: "/apps/seminars",
+    meta: {
+      action: "read",
+      resource: "read-seminars",
+    },
   },
   {
     element: <EditSeminar />,
     path: "/apps/seminars/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-seminars",
+    },
   },
   {
     element: <AddSeminar />,
     path: "/apps/seminars/add/",
+    meta: {
+      action: "create",
+      resource: "create-seminars",
+    },
   },
   {
     element: <Halls />,
     path: "/apps/halls",
+    meta: {
+      action: "read",
+      resource: "read-halls",
+    },
   },
   {
     element: <EditHall />,
     path: "/apps/halls/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-halls",
+    },
   },
   {
     element: <AddHall />,
     path: "/apps/halls/add/",
-  },
-  {
-    element: <Sites />,
-    path: "/apps/site",
-  },
-  {
-    element: <EditSite />,
-    path: "/apps/site/edit",
-  },
-  {
-    element: <AddSite />,
-    path: "/apps/site/add",
-  },
-  {
-    element: <NewSite />,
-    path: "/apps/site/new",
+    meta: {
+      action: "create",
+      resource: "create-halls",
+    },
   },
 
   {
-    element: <Variations />,
-    path: "/apps/variations",
-  },
-  {
-    element: <EditVariation />,
-    path: "/apps/variations/edit/:id/",
-  },
-  {
-    element: <AddVariation />,
-    path: "/apps/variations/add",
-  },
-  {
     element: <Sliders />,
     path: "/apps/sliders",
+    meta: {
+      action: "read",
+      resource: "read-sliders",
+    },
   },
   {
     element: <EditSlider />,
     path: "/apps/sliders/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-sliders",
+    },
   },
   {
     element: <AddSlider />,
     path: "/apps/sliders/add/",
+    meta: {
+      action: "create",
+      resource: "create-sliders",
+    },
   },
   {
     element: <Events />,
     path: "/apps/events",
+    meta: {
+      action: "read",
+      resource: "read-events",
+    },
   },
   {
     element: <EditEvent />,
     path: "/apps/events/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-events",
+    },
   },
   {
     element: <AddEvent />,
     path: "/apps/events/add/",
-  },
-  {
-    element: <Services />,
-    path: "/apps/services",
-  },
-  {
-    element: <EditService />,
-    path: "/apps/services/edit/:id/",
-  },
-  {
-    element: <AddService />,
-    path: "/apps/services/add/",
-  },
-  {
-    element: <Plans />,
-    path: "/apps/plans",
-  },
-  {
-    element: <EditPlans />,
-    path: "/apps/plans/edit/:id/",
-  },
-  {
-    element: <AddPlans />,
-    path: "/apps/plans/add/",
-  },
-  {
-    element: <Blogs />,
-    path: "/apps/blogs/",
-  },
-  {
-    element: <EditBlog />,
-    path: "/apps/blogs/edit/:id/",
-  },
-  {
-    element: <AddBlog />,
-    path: "/apps/blogs/add/",
-  },
-  {
-    element: <Comments />,
-    path: "/apps/comments/",
-  },
-  {
-    element: <EditComment />,
-    path: "/apps/comments/edit/:id/",
-  },
-  {
-    element: <AddComment />,
-    path: "/apps/comments/add/",
-  },
-
-  {
-    element: <Courses />,
-    path: "/apps/courses/",
-  },
-  {
-    element: <EditCourse />,
-    path: "/apps/courses/edit/:id/",
-  },
-  {
-    element: <AddCourse />,
-    path: "/apps/courses/add/",
-  },
-
-  {
-    element: <Lessons />,
-    path: "/apps/lessons/",
-  },
-  {
-    element: <EditLesson />,
-    path: "/apps/lessons/edit/:id/",
-  },
-  {
-    element: <AddLesson />,
-    path: "/apps/lessons/add/",
+    meta: {
+      action: "create",
+      resource: "create-events",
+    },
   },
 
   {
@@ -510,77 +386,37 @@ const AppRoutes = [
   },
 
   {
-    element: <Products />,
-    path: "/apps/products/",
-  },
-  {
-    element: <EditProduct />,
-    path: "/apps/products/edit/:id/",
-  },
-  {
-    element: <AddProduct />,
-    path: "/apps/products/add/",
-  },
-
-  {
-    element: <Shippings />,
-    path: "/apps/shippings/",
-  },
-  {
-    element: <EditShipping />,
-    path: "/apps/shippings/edit/:id/",
-  },
-  {
-    element: <AddShipping />,
-    path: "/apps/shippings/add/",
-  },
-
-  {
-    element: <Coupons />,
-    path: "/apps/coupons/:type",
-  },
-  {
-    element: <EditCoupon />,
-    path: "/apps/coupons/edit/:type/:id/",
-  },
-  {
-    element: <AddCoupon />,
-    path: "/apps/coupons/:type/add/",
-  },
-
-  {
     element: <Payments />,
     path: "/apps/payments",
-  },
-  {
-    element: <Orders />,
-    path: "/apps/orders",
+    meta: {
+      action: "read",
+      resource: "read-payments",
+    },
   },
 
   {
     element: <Departments />,
     path: "/apps/departments/",
+    meta: {
+      action: "read",
+      resource: "HOME",
+    },
   },
   {
     element: <EditDepartment />,
     path: "/apps/departments/edit/:id/",
+    meta: {
+      action: "read",
+      resource: "HOME",
+    },
   },
   {
     element: <AddDeparment />,
     path: "/apps/departments/add/",
-  },
-
-  {
-    element: <Questions />,
-    path: "/apps/questions/",
-  },
-  {
-    element: <EditQuestion />,
-    path: "/apps/questions/edit/:id/",
-  },
-  {
-    element: <AddQuestion />,
-    path: "/apps/questions/add/",
+    meta: {
+      action: "read",
+      resource: "HOME",
+    },
   },
 
   {
@@ -594,6 +430,14 @@ const AppRoutes = [
   {
     element: <EditContacts />,
     path: "/contacts/edit/:id/",
+    meta: {
+      action: "read",
+      resource: "HOME",
+    },
+  },
+  {
+    element: <EditSite />,
+    path: "/apps/site/edit",
     meta: {
       action: "read",
       resource: "HOME",

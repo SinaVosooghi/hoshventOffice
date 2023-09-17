@@ -12,6 +12,8 @@ export default [
         title: "Departments",
         icon: <Grid size={20} />,
         navLink: "/apps/departments",
+        action: "read",
+        resource: "HOME",
       },
       {
         id: "chats",
@@ -20,6 +22,8 @@ export default [
         navLink: "/apps/ticket",
         badge: "light-danger",
         badgeText: "2",
+        action: "read",
+        resource: "HOME",
       },
     ],
   },

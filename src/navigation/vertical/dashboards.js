@@ -8,5 +8,6 @@ export default [
     icon: <Home size={20} />,
     badge: "light-warning",
     navLink: "/dashboard",
+    resource: "HOME",
   },
 ];
