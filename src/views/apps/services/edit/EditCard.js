@@ -67,11 +67,8 @@ const EditCard = () => {
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
   });
 
-  const [eventsItems, setEventsItems] = useState([]);
   const [description, setDescription] = useState(EditorState.createEmpty());
-  const [seoDescription, setSeoDescription] = useState(
-    EditorState.createEmpty()
-  );
+
   const [data, setData] = useState(null);
   const [images, setImages] = useState(null);
   const history = useNavigate();
@@ -121,19 +118,6 @@ const EditCard = () => {
           );
         }
 
-        if (service.events.length) {
-          service.events.map((event) => {
-            setEventsItems((oldArray) => [
-              ...oldArray,
-              {
-                value: event.id,
-                label: event.title,
-                image: event.image,
-              },
-            ]);
-          });
-        }
-
         reset({
           ...service,
           status: service.status
@@ -180,7 +164,6 @@ const EditCard = () => {
         ? parseFloat(data.price?.replaceAll(",", ""))
         : data.price;
 
-    const eventsFiltered = eventsItems.map((m) => m.value);
     delete data.image;
 
     const quantity =
@@ -208,7 +191,6 @@ const EditCard = () => {
           price,
           quantity,
           perperson,
-          events: eventsFiltered,
           ...(typeof image !== "string" && { image }),
         },
       },
@@ -281,17 +263,6 @@ const EditCard = () => {
                     </div>
 
                     <Row className="mt-1 mb-1">
-                      <Col md={12} xs={12}>
-                        <Label className="form-label" for="events">
-                          {t("Events")}
-                        </Label>
-
-                        <EventsMultiSelect
-                          items={eventsItems}
-                          setItems={setEventsItems}
-                        />
-                      </Col>
-
                       <Row className="mt-1 mb-1">
                         <Col md={3} xs={12} className="mb-1">
                           <Label className="form-label" for="body">

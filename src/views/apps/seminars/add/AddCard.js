@@ -48,6 +48,7 @@ import { DateTimePicker } from "react-advance-jalaali-datepicker";
 
 import { UserSelect } from "./UsersSelects";
 import moment from "moment";
+import { ServicesSelect } from "../../workshops/add/ServiceSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -63,6 +64,8 @@ const AddCard = () => {
 
   const [data, setData] = useState(null);
   const [lecturers, setLecturers] = useState([]);
+  const [services, setServices] = useState([]);
+
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [seoDescription, setSeoDescription] = useState(
     EditorState.createEmpty()
@@ -133,6 +136,7 @@ const AddCard = () => {
         : data.price;
 
     const lecturersItems = lecturers.map((m) => m.value);
+    const servicesItems = services.map((m) => m.value);
 
     create({
       variables: {
@@ -148,6 +152,7 @@ const AddCard = () => {
           hall: typeof data.hall === "object" ? data.hall?.value : null,
           state: typeof data.state === "object" ? data.state?.value : null,
           lecturers: lecturersItems,
+          services: servicesItems,
           start_date: moment(startDate).toISOString(),
           end_date: moment(endDate).toISOString(),
         },
@@ -301,7 +306,7 @@ const AddCard = () => {
                   </div>
 
                   <Row className="mt-1 mb-1">
-                    <Col md={8} xs={12}>
+                    <Col md={6} xs={12}>
                       <Label className="form-label" for="lecturers">
                         {t("Lecturers")}
                       </Label>
@@ -310,6 +315,17 @@ const AddCard = () => {
                         usertype={"lecturer"}
                         users={lecturers}
                         setUsers={setLecturers}
+                      />
+                    </Col>
+
+                    <Col md={6} xs={12}>
+                      <Label className="form-label" for="services">
+                        {t("Services")}
+                      </Label>
+
+                      <ServicesSelect
+                        services={services}
+                        setServices={setServices}
                       />
                     </Col>
 

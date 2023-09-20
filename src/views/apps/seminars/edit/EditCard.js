@@ -56,6 +56,7 @@ import CardAction from "@components/card-actions";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
 import { UserSelect } from "../add/UsersSelects";
 import Attendees from "../../../extensions/import-export/Attendees";
+import { ServicesSelect } from "../../workshops/add/ServiceSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -70,6 +71,8 @@ const EditCard = () => {
   });
 
   const [lecturers, setLecturers] = useState([]);
+  const [services, setServices] = useState([]);
+
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [seoDescription, setSeoDescription] = useState(
     EditorState.createEmpty()
@@ -167,6 +170,19 @@ const EditCard = () => {
           });
         }
 
+        if (seminar.services?.length) {
+          seminar.services.map((service) => {
+            setServices((oldArray) => [
+              ...oldArray,
+              {
+                value: service.id,
+                label: service.title,
+                avatar: `${import.meta.env.VITE_BASE_API}/${service.image}`,
+              },
+            ]);
+          });
+        }
+
         reset({
           ...seminar,
           hall: {
@@ -231,6 +247,8 @@ const EditCard = () => {
         : data.price;
 
     const lecturersItems = lecturers.map((m) => m.value);
+    const servicesItems = services.map((m) => m.value);
+
     delete data.image;
 
     update({
@@ -253,6 +271,7 @@ const EditCard = () => {
           hall: typeof data.hall === "object" ? data.hall?.value : null,
           state: typeof data.state === "object" ? data.state?.value : null,
           lecturers: lecturersItems,
+          services: servicesItems,
           start_date: moment(startDate).toISOString(),
           end_date: moment(endDate).toISOString(),
         },
@@ -407,7 +426,7 @@ const EditCard = () => {
                     </div>
 
                     <Row className="mt-1 mb-1">
-                      <Col md={8} xs={12}>
+                      <Col md={6} xs={12}>
                         <Label className="form-label" for="lecturers">
                           {t("Lecturers")}
                         </Label>
@@ -416,6 +435,16 @@ const EditCard = () => {
                           usertype={"lecturer"}
                           users={lecturers}
                           setUsers={setLecturers}
+                        />
+                      </Col>
+                      <Col md={6} xs={12}>
+                        <Label className="form-label" for="services">
+                          {t("Services")}
+                        </Label>
+
+                        <ServicesSelect
+                          services={services}
+                          setServices={setServices}
                         />
                       </Col>
 

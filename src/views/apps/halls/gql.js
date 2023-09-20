@@ -39,12 +39,6 @@ export const GET_ITEMS_QUERY = gql`
       halls {
         id
         title
-        event {
-          title
-          site {
-            title
-          }
-        }
         status
         created
         updated
@@ -65,13 +59,6 @@ export const GET_ITEM_QUERY = gql`
       image
       created
       updated
-      event {
-        id
-        title
-        site {
-          title
-        }
-      }
     }
   }
 `;

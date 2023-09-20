@@ -41,7 +41,6 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
-import { GET_ITEMS_QUERY as GET_EVENTS_ITEMS } from "../../event/gql";
 import CardAction from "@components/card-actions";
 
 const statusOptions = [
@@ -59,8 +58,6 @@ const AddCard = () => {
 
   const history = useNavigate();
 
-  const [eventsOptions, setEventsOptions] = useState([]);
-
   // ** Hooks
   const {
     reset,
@@ -68,24 +65,6 @@ const AddCard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
-
-  useQuery(GET_EVENTS_ITEMS, {
-    fetchPolicy: "network-only",
-    variables: {
-      input: {
-        skip: 0,
-        status: true,
-      },
-    },
-    onCompleted: ({ events }) => {
-      events?.events?.map((event) =>
-        setEventsOptions((prev) => [
-          ...prev,
-          { value: event.id, label: event.title },
-        ])
-      );
-    },
-  });
 
   const [create] = useMutation(CREATE_ITEM_MUTATION, {
     context: {
@@ -117,7 +96,6 @@ const AddCard = () => {
           body: markup,
           status: data.status?.value,
           featured: data.featured?.value,
-          event: typeof data.event === "object" ? data.event?.value : null,
         },
       },
     });
@@ -158,35 +136,6 @@ const AddCard = () => {
                       />
                       {errors.title && (
                         <FormFeedback>{errors.title.message}</FormFeedback>
-                      )}
-                    </Col>
-
-                    <Col md={4}>
-                      <Label className="form-label" for="event">
-                        {t("Event")} <span className="text-danger">*</span>
-                      </Label>
-                      <Controller
-                        name="event"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            isClearable={false}
-                            classNamePrefix="select"
-                            options={eventsOptions}
-                            theme={selectThemeColors}
-                            placeholder={t("Select...")}
-                            className={classnames("react-select", {
-                              "is-invalid":
-                                data !== null && data.event === null,
-                            })}
-                            {...field}
-                          />
-                        )}
-                      />
-                      {errors.site && (
-                        <FormFeedback style={{ display: "block" }}>
-                          {errors.site.message}
-                        </FormFeedback>
                       )}
                     </Col>
 

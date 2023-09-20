@@ -60,7 +60,6 @@ const AddCard = () => {
   });
 
   const [data, setData] = useState(null);
-  const [eventsItems, setEventsItems] = useState([]);
   const [description, setDescription] = useState(EditorState.createEmpty());
 
   const [startDate, setStartDate] = useState(null);
@@ -113,8 +112,6 @@ const AddCard = () => {
         ? parseFloat(data.perperson?.replaceAll(",", ""))
         : data.perperson;
 
-    const eventsFiltered = eventsItems.map((m) => m.value);
-
     create({
       variables: {
         input: {
@@ -125,7 +122,6 @@ const AddCard = () => {
           price,
           quantity,
           perperson,
-          events: eventsFiltered,
           start_date: moment(startDate).toISOString(),
           end_date: moment(endDate).toISOString(),
         },
@@ -202,17 +198,6 @@ const AddCard = () => {
                   </div>
 
                   <Row className="mt-1 mb-1">
-                    <Col md={12} xs={12}>
-                      <Label className="form-label" for="events">
-                        {t("Events")}
-                      </Label>
-
-                      <EventsMultiSelect
-                        items={eventsItems}
-                        setItems={setEventsItems}
-                      />
-                    </Col>
-
                     <Row className="mt-1 mb-1">
                       <Col md={3} xs={12} className="mb-1">
                         <Label className="form-label" for="body">

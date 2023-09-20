@@ -44,14 +44,6 @@ export default [
         resource: "read-categories",
       },
       {
-        id: "events",
-        title: "Events",
-        icon: <Calendar size={20} />,
-        navLink: "/apps/events",
-        action: "read",
-        resource: "read-events",
-      },
-      {
         id: "services",
         title: "Services",
         icon: <Box size={20} />,

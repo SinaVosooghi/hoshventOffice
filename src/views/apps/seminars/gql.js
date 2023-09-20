@@ -41,7 +41,7 @@ export const GET_ITEMS_QUERY = gql`
         title
         hall {
           title
-          event {
+          site {
             title
           }
         }
@@ -76,13 +76,18 @@ export const GET_ITEM_QUERY = gql`
         lastName
         avatar
       }
+      services {
+        id
+        title
+        image
+      }
       state
       start_date
       end_date
       hall {
         id
         title
-        event {
+        site {
           id
           title
         }

@@ -161,7 +161,7 @@ const Attendees = ({ seminar, type }) => {
           input: {
             skip: 0,
             searchTerm: value,
-            event: parseInt(seminar?.hall?.event.id),
+            site: parseInt(seminar?.hall?.site?.id),
           },
         },
       });
@@ -286,7 +286,7 @@ const Attendees = ({ seminar, type }) => {
         <td>
           <ReactQrCode
             value={`${import.meta.env.VITE_BASE_API}/scan&u=${col.user?.id}&e=${
-              seminar?.hall?.event.id
+              seminar?.hall?.site?.id
             }`}
             size={80}
             viewBox={`0 0 80 80`}

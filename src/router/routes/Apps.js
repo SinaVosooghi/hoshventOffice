@@ -44,41 +44,11 @@ const Departments = lazy(() => import("../../views/apps/department/list"));
 const EditDepartment = lazy(() => import("../../views/apps/department/edit"));
 const AddDeparment = lazy(() => import("../../views/apps/department/add"));
 
-const Blogs = lazy(() => import("../../views/apps/blog/list"));
-const EditBlog = lazy(() => import("../../views/apps/blog/edit"));
-const AddBlog = lazy(() => import("../../views/apps/blog/add"));
-
-const Comments = lazy(() => import("../../views/apps/comment/list"));
-const EditComment = lazy(() => import("../../views/apps/comment/edit"));
-const AddComment = lazy(() => import("../../views/apps/comment/add"));
-
-const Lessons = lazy(() => import("../../views/apps/lesson/list"));
-const EditLesson = lazy(() => import("../../views/apps/lesson/edit"));
-const AddLesson = lazy(() => import("../../views/apps/lesson/add"));
-
-const Courses = lazy(() => import("../../views/apps/course/list"));
-const EditCourse = lazy(() => import("../../views/apps/course/edit"));
-const AddCourse = lazy(() => import("../../views/apps/course/add"));
-
 const Certificates = lazy(() => import("../../views/apps/certificate/list"));
 const EditCertificate = lazy(() => import("../../views/apps/certificate/edit"));
 const AddCertificate = lazy(() => import("../../views/apps/certificate/add"));
 
-const Products = lazy(() => import("../../views/apps/product/list"));
-const EditProduct = lazy(() => import("../../views/apps/product/edit"));
-const AddProduct = lazy(() => import("../../views/apps/product/add"));
-
-const Shippings = lazy(() => import("../../views/apps/shipping/list"));
-const EditShipping = lazy(() => import("../../views/apps/shipping/edit"));
-const AddShipping = lazy(() => import("../../views/apps/shipping/add"));
-
-const Coupons = lazy(() => import("../../views/apps/coupon/list"));
-const EditCoupon = lazy(() => import("../../views/apps/coupon/edit"));
-const AddCoupon = lazy(() => import("../../views/apps/coupon/add"));
-
 const Payments = lazy(() => import("../../views/apps/payment/list"));
-const Orders = lazy(() => import("../../views/apps/order/list"));
-const Setting = lazy(() => import("../../views/apps/setting"));
 
 const Contacts = lazy(() => import("../../views/apps/contact/list"));
 const EditContacts = lazy(() => import("../../views/apps/contact/edit"));
@@ -89,6 +59,10 @@ const Events = lazy(() => import("../../views/apps/event/list"));
 const EditEvent = lazy(() => import("../../views/apps/event/edit"));
 const AddEvent = lazy(() => import("../../views/apps/event/add"));
 const Email = lazy(() => import("../../views/apps/ticket"));
+
+const Services = lazy(() => import("../../views/apps/services/list"));
+const EditService = lazy(() => import("../../views/apps/services/edit"));
+const AddService = lazy(() => import("../../views/apps/services/add"));
 
 const AppRoutes = [
   {
@@ -272,6 +246,30 @@ const AppRoutes = [
     meta: {
       action: "create",
       resource: "create-workshops",
+    },
+  },
+  {
+    element: <Services />,
+    path: "/apps/services",
+    meta: {
+      action: "read",
+      resource: "read-services",
+    },
+  },
+  {
+    element: <EditService />,
+    path: "/apps/services/edit/:id/",
+    meta: {
+      action: "update",
+      resource: "update-services",
+    },
+  },
+  {
+    element: <AddService />,
+    path: "/apps/services/add/",
+    meta: {
+      action: "create",
+      resource: "create-services",
     },
   },
   {

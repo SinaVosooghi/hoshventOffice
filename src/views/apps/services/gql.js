@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { t } from "i18next";
 
 export const ITEM_NAME = "services";
 export const ITEM_NAME_SINGULAR = "Service";
@@ -40,12 +39,6 @@ export const GET_ITEMS_QUERY = gql`
         title
         price
         image
-        events {
-          title
-          site {
-            title
-          }
-        }
         status
         created
         updated
@@ -70,11 +63,6 @@ export const GET_ITEM_QUERY = gql`
       start_date
       end_date
       perperson
-      events {
-        id
-        title
-        image
-      }
     }
   }
 `;
