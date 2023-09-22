@@ -141,7 +141,6 @@ export const validateURL = (link) => {
 };
 
 export const showImage = (image) => {
-  console.log(image);
   if (image) {
     return image && validateURL(image)
       ? image

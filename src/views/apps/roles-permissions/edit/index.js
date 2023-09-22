@@ -100,7 +100,6 @@ const Edit = () => {
 
         if (role.permissions.delete) {
           for (const [key, value] of Object.entries(role.permissions.delete)) {
-            console.log(value);
             deleteItems[value.key] = value.value;
           }
         }

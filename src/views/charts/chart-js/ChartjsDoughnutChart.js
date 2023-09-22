@@ -20,7 +20,6 @@ const ChartjsRadarChart = ({ tooltipShadow, successColorShade, warningLightColor
       tooltips: {
         callbacks: {
           label(context) {
-            console.log(context)
             let label = context.label || ''
             if (label) {
               label += 'Ronak: '

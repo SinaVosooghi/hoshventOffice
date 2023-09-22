@@ -53,6 +53,7 @@ export const GET_ITEMS_QUERY = gql`
         created
         status
         avatar
+        gender
         category {
           id
           title

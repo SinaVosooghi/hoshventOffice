@@ -9,7 +9,6 @@ import { GET_ITEMS_QUERY } from "../../user/gql";
 import { selectThemeColors } from "@utils";
 
 const GuestsComponent = ({ data, ...props }) => {
-  console.log(data);
   return (
     <components.Option {...props}>
       <div className="d-flex flex-wrap align-items-center">

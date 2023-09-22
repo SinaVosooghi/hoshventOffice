@@ -1,6 +1,6 @@
 // ** Third Party Components
 import classnames from "classnames";
-import { TrendingUp, User, Box, DollarSign } from "react-feather";
+import { TrendingUp, User, Box, DollarSign, Codesandbox } from "react-feather";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -24,6 +24,7 @@ const StatsCard = ({
   smsCount,
   usersCount,
   attendeesCount,
+  scanCount
 }) => {
   const data = [
     {
@@ -49,6 +50,12 @@ const StatsCard = ({
       subtitle: t("Invoices"),
       color: "light-success",
       icon: <DollarSign size={24} />,
+    },
+    {
+      title: scanCount,
+      subtitle: t("Scans"),
+      color: "light-success",
+      icon: <Codesandbox size={24} />,
     },
   ];
 

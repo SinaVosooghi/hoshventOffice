@@ -1,80 +1,120 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 // ** Third Party Components
-import axios from 'axios'
-import { CreditCard } from 'react-feather'
+import axios from "axios";
+import { Code, Monitor } from "react-feather";
 
 // ** Custom Components
-import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
+import StatsWithAreaChart from "@components/widgets/stats/StatsWithAreaChart";
+import { useGetScans } from "../../../../utility/gqlHelpers/useGetScans";
+import { useMemo } from "react";
+import { t } from "i18next";
+import { groupByDate } from "../../../../utility/Utils";
 
 const RevenueGenerated = ({ kFormatter, success }) => {
-  // ** State
-  const [data, setData] = useState(null)
+  const { scans, count } = useGetScans();
+  const [data, setData] = useState(null);
 
   const options = {
     chart: {
-      id: 'revenue',
+      id: "revenue",
       toolbar: {
-        show: false
+        show: false,
       },
       sparkline: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     grid: {
-      show: false
+      show: false,
     },
-    colors: [success],
+    colors: ['#46A637'],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
-      curve: 'smooth',
-      width: 2.5
+      curve: "smooth",
+      width: 2.5,
     },
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         shadeIntensity: 0.9,
         opacityFrom: 0.7,
         opacityTo: 0.5,
-        stops: [0, 80, 100]
-      }
+        stops: [0, 80, 100],
+      },
     },
 
     xaxis: {
       labels: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
-      }
+        show: false,
+      },
     },
     yaxis: {
       labels: {
-        show: false
-      }
+        show: false,
+      },
     },
     tooltip: {
-      x: { show: false }
-    }
-  }
+      theme: "dark",
+      // @ts-ignore
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        return `<div class="custom-pricing">
+                      <strong>${t("Count")}:</strong> ${
+          w.globals.stackedSeriesTotals[dataPointIndex]
+        }
+                      <br />
+                      ${moment(w.globals.categoryLabels[dataPointIndex]).format(
+                        "YYYY/MM/DD"
+                      )}
+                    </div>`;
+      },
+    },
+  };
 
   useEffect(() => {
-    axios.get('/card/card-statistics/revenue').then(res => setData(res.data))
-  }, [])
+    if (scans) {
+      const enter = scans.filter((s) => s.type === "checkin");
+      const dates = groupByDate(enter);
+      setData(dates);
+    }
+  }, [scans]);
+
+  const chartData = useMemo(() => {
+    return data?.map(({ count, date }) => {
+      return {
+        x: date,
+        y: count,
+      };
+    });
+  }, [data]);
+
+  const series = useMemo(
+    () => [
+      {
+        data: chartData,
+        name: "Users",
+      },
+    ],
+
+    [chartData]
+  );
 
   return data !== null ? (
     <StatsWithAreaChart
-      icon={<CreditCard size={21} />}
-      color='success'
-      stats={kFormatter(data.analyticsData.revenue)}
-      statTitle='Revenue Generated'
+      icon={<Code size={21} />}
+      color="success"
+      stats={kFormatter(scans.filter((s) => s.type === "checkin").length)}
+      statTitle="تعداد ورود"
       options={options}
-      series={data.series}
-      type='area'
+      series={series}
+      type="area"
     />
-  ) : null
-}
-export default RevenueGenerated
+  ) : null;
+};
+export default RevenueGenerated;
