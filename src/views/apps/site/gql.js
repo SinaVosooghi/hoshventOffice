@@ -58,6 +58,7 @@ export const GET_ITEM_QUERY = gql`
       title
       email
       company
+      cardlayout
       phonenumber
       address
       city

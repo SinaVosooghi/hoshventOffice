@@ -13,21 +13,16 @@ import {
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Container } from "./Container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_ITEM_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
 import { useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 
-const PrintCard = ({}) => {
+const PrintCard = ({ prevBoxes }) => {
   const { user, error } = useGetUser();
 
-  const [boxes, setBoxes] = useState({
-    a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
-    b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
-    c: { top: 150, left: 190, title: "QRCODE", type: "qr" },
-    d: { top: 250, left: 390, title: "لوگو رویداد", type: "logo" },
-  });
+  const [boxes, setBoxes] = useState();
 
   const [update] = useMutation(UPDATE_ITEM_MUTATION, {
     refetchQueries: [GET_ITEM_QUERY],
@@ -50,6 +45,19 @@ const PrintCard = ({}) => {
     });
   };
 
+  useEffect(() => {
+    if (prevBoxes) {
+      setBoxes(JSON.parse(prevBoxes));
+    } else {
+      setBoxes({
+        a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
+        b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
+        c: { top: 150, left: 190, title: "QRCODE", type: "qr" },
+        d: { top: 250, left: 390, title: "لوگو رویداد", type: "logo" },
+      });
+    }
+  }, [prevBoxes]);
+
   return (
     <Row>
       <Col md={8}>
@@ -64,7 +72,7 @@ const PrintCard = ({}) => {
           </CardHeader>
           <CardBody className="my-1 py-25">
             <DndProvider backend={HTML5Backend}>
-              <Container boxes={boxes} setBoxes={setBoxes} />
+              {boxes && <Container boxes={boxes} setBoxes={setBoxes} />}
             </DndProvider>
           </CardBody>
         </Card>
