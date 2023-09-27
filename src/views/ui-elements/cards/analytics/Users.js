@@ -45,13 +45,11 @@ const Earnings = () => {
             },
             value: {
               offsetY: -15,
-           
             },
             total: {
               show: true,
               offsetY: 15,
               label: t("Users"),
-             
             },
           },
         },
@@ -94,7 +92,7 @@ const Earnings = () => {
   };
 
   const isWhatPercentOf = (x, y) => {
-    return (x / y) * 100;
+    return Math.round((x / y) * 100);
   };
 
   useEffect(() => {

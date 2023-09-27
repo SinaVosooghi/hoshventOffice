@@ -78,6 +78,7 @@ const CustomHeader = ({
   });
 
   const [upload] = useMutation(UPLOAD_CSV_USERS, {
+    refetchQueries: [GET_USERS_ITEMS],
     context: {
       headers: {
         "apollo-require-preflight": true,
@@ -98,7 +99,6 @@ const CustomHeader = ({
     getPdfFile({
       variables: {
         input: {
-          limit: 5,
           skip: 0,
         },
       },
