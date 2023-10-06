@@ -353,51 +353,6 @@ const AccountTabs = ({
                 )}
               />
             </Col>
-            <Col sm="2" className="mb-1">
-              <Label className="form-label" for="country">
-                {t("Country")}
-              </Label>
-              <Controller
-                name="country"
-                control={control}
-                defaultValue={countryOptions[0]}
-                render={({ field }) => (
-                  <Select
-                    id="country"
-                    isClearable={false}
-                    classNamePrefix="select"
-                    options={countryOptions}
-                    theme={selectThemeColors}
-                    defaultValue={countryOptions[0]}
-                    className={classnames("react-select")}
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
-
-            <Col sm="3" className="mb-1">
-              <Label className="form-label" for="language">
-                {t("Language")}
-              </Label>
-              <Controller
-                name="language"
-                control={control}
-                defaultValue={languageOptions[0]}
-                render={({ field }) => (
-                  <Select
-                    id="language"
-                    isClearable={false}
-                    className="react-select"
-                    classNamePrefix="select"
-                    options={languageOptions}
-                    theme={selectThemeColors}
-                    defaultValue={languageOptions[0]}
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
 
             <Col md={12} xs={12}>
               <Label className="form-label" for="body">

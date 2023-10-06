@@ -20,8 +20,19 @@
   overflow: hidden;
   border-radius: 16px;
   margin: 10px 5px;
+
   &.menu-light {
     @include menu-theme($body-color, $white);
+
+    li {
+      a {
+        &.active {
+          color: #fff !important;
+        }
+
+        color: #00cfe8 !important
+      }
+    }
   }
 
   &.menu-dark {
@@ -35,6 +46,7 @@
   &.menu-static {
     height: 100%;
     padding-bottom: calc(100% - 20rem);
+
     .main-menu-content {
       height: unset !important;
     }
@@ -74,14 +86,17 @@
     padding: 0.35rem 1rem 0.3rem 1.64rem;
     transition: 300ms ease all, background 0s;
     background-color: $primary;
+
     .navbar-brand {
       display: flex;
       align-items: center;
       margin-top: 1.35rem;
       font-size: inherit;
+
       .brand-logo img {
         max-width: 90px;
       }
+
       .brand-text {
         color: #fff;
         padding-left: 1rem;
@@ -92,6 +107,7 @@
         animation: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
       }
     }
+
     .modern-nav-toggle {
       animation: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
     }
@@ -104,6 +120,7 @@
   .main-menu-content {
     height: calc(100% - #{$navbar-height}) !important;
     position: relative;
+
     .ps__rail-y {
       z-index: 3;
     }
@@ -117,7 +134,8 @@
     &.navigation-main {
       overflow-x: hidden;
       padding-bottom: 0.75rem;
-      > li:first-child {
+
+      >li:first-child {
         margin-top: 0.5rem;
       }
     }
@@ -158,6 +176,7 @@
       display: block;
       text-overflow: ellipsis;
       overflow: hidden;
+
       i,
       svg {
         height: 11px;
@@ -184,6 +203,7 @@
 // Media queries for small screen devices
 // =========================================
 @include media-breakpoint-down(md) {
+
   // menu hide/open animation
   .menu-hide .main-menu,
   .menu-open .main-menu {

@@ -175,6 +175,7 @@ const EditCard = () => {
         input: {
           ...data,
           ...(typeof image !== "string" && { image }),
+          ...(images === null && typeof image === "string" && { image: null }),
           body: markup,
           status: data.status?.value,
           featured: data.featured?.value,

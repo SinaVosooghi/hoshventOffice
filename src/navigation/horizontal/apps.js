@@ -60,14 +60,6 @@ export default [
         resource: "read-halls",
       },
       {
-        id: "lecturers",
-        title: "Lecturer",
-        icon: <Users size={20} />,
-        navLink: "/apps/user/list/lecturer",
-        action: "read",
-        resource: "read-users",
-      },
-      {
         id: "workshops",
         title: "Workshops",
         icon: <BookOpen size={20} />,
