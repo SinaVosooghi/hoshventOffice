@@ -187,8 +187,8 @@ const AppRoutes = [
     element: <EditBrand />,
     path: "/apps/brands/edit/:id/",
     meta: {
-      action: "update",
-      resource: "udpdate-brands",
+      action: "read",
+      resource: "read-brands",
     },
   },
   {

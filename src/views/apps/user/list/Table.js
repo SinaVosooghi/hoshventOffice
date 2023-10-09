@@ -60,6 +60,10 @@ const CustomHeader = ({
   rowsPerPage,
   handleFilter,
   searchTerm,
+  currentRole,
+  currentStatus,
+  currentUsertype,
+  currentCategory,
 }) => {
   const [csvFile, setCsvFile] = useState();
   const history = useNavigate();
@@ -100,6 +104,10 @@ const CustomHeader = ({
       variables: {
         input: {
           skip: 0,
+          role: currentRole.value ?? null,
+          status: currentStatus.value ?? null,
+          usertype: currentUsertype.value,
+          category: currentCategory.value ?? null,
         },
       },
     });
@@ -493,6 +501,10 @@ const UsersList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
+                currentRole={currentRole}
+                currentStatus={currentStatus}
+                currentUsertype={currentUsertype}
+                currentCategory={currentCategory}
               />
             }
           />

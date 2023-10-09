@@ -245,6 +245,27 @@ const EditCard = () => {
                         )}
                       />
                     </Col>
+                    <Col md={12} xs={12} className="mb-1">
+                      <Label className="form-label" for="link">
+                        {t("Link")}
+                      </Label>
+                      <Controller
+                        id="link"
+                        name="link"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Link")}
+                            invalid={errors.link && true}
+                          />
+                        )}
+                      />
+                      {errors.link && (
+                        <FormFeedback>{errors.link.message}</FormFeedback>
+                      )}
+                    </Col>
                   </Row>
 
                   <Col md={12} xs={12}>

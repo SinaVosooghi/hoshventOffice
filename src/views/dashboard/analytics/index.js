@@ -34,16 +34,6 @@ import OrdersBarChart from "@src/views/ui-elements/cards/statistics/OrdersBarCha
 import SiteTraffic from "@src/views/ui-elements/cards/statistics/SiteTraffic";
 import RevenueGenerated from "@src/views/ui-elements/cards/statistics/RevenueGenerated";
 
-// ** Images
-import jsonImg from "@src/assets/images/icons/json.png";
-
-// ** Avatar Imports
-import avatar6 from "@src/assets/images/portrait/small/avatar-s-6.jpg";
-import avatar7 from "@src/assets/images/portrait/small/avatar-s-7.jpg";
-import avatar8 from "@src/assets/images/portrait/small/avatar-s-8.jpg";
-import avatar9 from "@src/assets/images/portrait/small/avatar-s-9.jpg";
-import avatar20 from "@src/assets/images/portrait/small/avatar-s-20.jpg";
-
 // ** Styles
 import "@styles/react/libs/charts/apex-charts.scss";
 import StatsCard from "@src/views/ui-elements/cards/statistics/StatsCard";

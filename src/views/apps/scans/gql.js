@@ -53,6 +53,14 @@ export const GET_ITEMS_QUERY = gql`
           title
         }
         updated
+        senmiarstimeline {
+          id
+          type
+        }
+        workshopstimeline {
+          id
+          type
+        }
       }
       count
     }

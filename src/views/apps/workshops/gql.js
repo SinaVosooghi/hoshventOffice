@@ -11,6 +11,12 @@ export const WORKSHOP_STATES = [
   { value: "canceled", label: t("Canceled") },
 ];
 
+export const GET_WORKSHOP_PDF = gql`
+  query workshopsPdf($input: GetWorkshopsArgs!) {
+    workshopsPdf(input: $input)
+  }
+`;
+
 export const CREATE_ITEM_MUTATION = gql`
   mutation CreateWorkshop($input: CreateWorkshopInput!) {
     createWorkshop(input: $input) {
@@ -40,11 +46,16 @@ export const GET_ITEMS_QUERY = gql`
         id
         title
         image
+        capacity
         hall {
           title
           site {
             title
           }
+        }
+        scans {
+          id
+          type
         }
         price
         status

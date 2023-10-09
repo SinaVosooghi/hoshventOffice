@@ -34,9 +34,10 @@ export const GET_ITEMS_QUERY = gql`
         title
         image
         status
-        featured
         created
         updated
+        link
+        featured
       }
       count
     }
@@ -52,6 +53,7 @@ export const GET_ITEM_QUERY = gql`
       status
       featured
       image
+      link
       created
       updated
     }
