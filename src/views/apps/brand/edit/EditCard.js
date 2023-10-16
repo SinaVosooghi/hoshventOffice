@@ -169,7 +169,7 @@ const EditCard = () => {
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">
-                    {t("Edit")} {t("Category")} {data?.title ?? ""}
+                    {t("Edit")} {t("Brand")} {data?.title ?? ""}
                     {type && <Badge className="ms-1">{t(type)}</Badge>}
                   </CardTitle>
                 </CardHeader>
