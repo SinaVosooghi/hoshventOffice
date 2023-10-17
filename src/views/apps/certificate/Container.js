@@ -52,6 +52,7 @@ export const CertificateContainer = ({
         ...(preview && {
           backgroundImage: `url('${preview}')`,
           backgroundSize: "100%",
+          backgroundSize: "cover",
         }),
       }}
     >
