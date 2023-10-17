@@ -229,7 +229,7 @@ const AccountSettings = () => {
               </TabPane>
               <TabPane tabId="4">
                 <PrintCard
-                prevBoxes={data?.cardlayout}
+                  prevBoxes={data?.cardlayout}
                   control={control}
                   errors={errors}
                   handleSubmit={handleSubmit}

@@ -37,18 +37,31 @@ import { CREATE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { CertificateContainer } from "../Container";
+
 const statusOptions = [
   { value: true, label: t("Active") },
   { value: false, label: t("Deactive") },
 ];
 
+const typeOptions = [
+  { value: "seminar", label: t("Seminar") },
+  { value: "workshop", label: t("Workshop") },
+];
+
 const AddCard = () => {
   const SignupSchema = yup.object().shape({
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
+    type: yup.object().required(`${t("Type")} ${t("field is required")}`),
   });
 
   const [data, setData] = useState(null);
-  const [images, setImages] = useState(null);
+  const [boxes, setBoxes] = useState();
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+  const history = useNavigate();
 
   // ** Hooks
   const {
@@ -57,13 +70,17 @@ const AddCard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
-  const { type } = useParams();
 
   const [create] = useMutation(CREATE_ITEM_MUTATION, {
+    context: {
+      headers: {
+        "apollo-require-preflight": true,
+      },
+    },
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
-      // history(`/apps/certificates/${type}`);
+      history(`/apps/certificates`);
     },
     onError: (error) => {
       toast.error(t(error.message));
@@ -77,6 +94,9 @@ const AddCard = () => {
         input: {
           ...data,
           status: data.status?.value,
+          image: data.image,
+          itemLayout: JSON.stringify(boxes),
+          type: data.type?.value,
         },
       },
     });
@@ -86,6 +106,35 @@ const AddCard = () => {
       title: "",
       body: "",
     });
+  };
+
+  useEffect(() => {
+    setBoxes({
+      a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
+      b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
+      c: { top: 150, left: 190, title: "تاریخ", type: "date" },
+      d: { top: 250, left: 390, title: "لوگو رویداد", type: "logo" },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
   };
 
   return (
@@ -146,7 +195,45 @@ const AddCard = () => {
                         )}
                       />
                     </Col>
+                    <Col md={2} xs={12}>
+                      <Label className="form-label" for="type">
+                        {t("Type")}: <span className="text-danger">*</span>
+                      </Label>
+                      <Controller
+                        name="type"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            isClearable={false}
+                            classNamePrefix="select"
+                            options={typeOptions}
+                            theme={selectThemeColors}
+                            placeholder={t("Select...")}
+                            className={classnames("react-select", {
+                              "is-invalid": data !== null && data.type === null,
+                            })}
+                            {...field}
+                          />
+                        )}
+                      />
+                      {errors.type && (
+                        <FormFeedback style={{ display: "block" }}>
+                          {errors.type.message}
+                        </FormFeedback>
+                      )}
+                    </Col>
                   </Row>
+                </CardBody>
+                <CardBody className="my-1 py-25">
+                  <DndProvider backend={HTML5Backend}>
+                    {boxes && (
+                      <CertificateContainer
+                        boxes={boxes}
+                        setBoxes={setBoxes}
+                        preview={preview}
+                      />
+                    )}
+                  </DndProvider>
                 </CardBody>
               </Card>
             </Fragment>
@@ -171,11 +258,31 @@ const AddCard = () => {
                 </Card>
               </Col>
               <Col md={12} xs={12}>
-                <FileUploaderSingle
-                  title={t("Upload image")}
-                  setImages={setImages}
-                  isMultiple={false}
-                />
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    <Label className="form-label" for="image">
+                      {t("Image")} سایز 1076 در 763
+                    </Label>
+                    <Controller
+                      control={control}
+                      name={"image"}
+                      render={({ field: { value, onChange, ...field } }) => {
+                        return (
+                          <Input
+                            {...field}
+                            value={value?.fileName}
+                            onChange={(event) => {
+                              onChange(event.target.files[0]);
+                              onSelectFile(event);
+                            }}
+                            type="file"
+                            id="image"
+                          />
+                        );
+                      }}
+                    />
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
           </Col>

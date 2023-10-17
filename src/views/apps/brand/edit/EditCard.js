@@ -106,7 +106,7 @@ const EditCard = () => {
               }
             : {
                 label: t("Deactive"),
-                value: brand.status,
+                value: brand.featured,
               },
         });
       }

@@ -99,7 +99,7 @@ const ItemList = () => {
   const [statusValue, setStatusValue] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [getItems, { data: categories }] = useLazyQuery(GET_ITEMS_QUERY, {
+  const [getItems, { data: certificates }] = useLazyQuery(GET_ITEMS_QUERY, {
     fetchPolicy: "network-only",
   });
 
@@ -188,7 +188,7 @@ const ItemList = () => {
 
   const CustomPagination = () => {
     const count = Number(
-      Math.ceil(categories?.categories?.count / rowsPerPage)
+      Math.ceil(certificates?.certificates?.count / rowsPerPage)
     );
 
     return (
@@ -222,12 +222,12 @@ const ItemList = () => {
       return filters[k].length > 0;
     });
 
-    if (categories > 0) {
-      return categories;
-    } else if (categories === 0 && isFiltered) {
+    if (certificates > 0) {
+      return certificates;
+    } else if (certificates === 0 && isFiltered) {
       return [];
     } else {
-      return categories?.categories?.categories?.slice(0, rowsPerPage);
+      return certificates?.certificates?.certificates?.slice(0, rowsPerPage);
     }
   };
 
