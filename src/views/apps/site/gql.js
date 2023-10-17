@@ -58,6 +58,8 @@ export const GET_ITEM_QUERY = gql`
       title
       email
       company
+      banner
+      isNationalCode
       cardlayout
       phonenumber
       address

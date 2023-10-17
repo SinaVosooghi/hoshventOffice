@@ -41,6 +41,11 @@ import { useQuery } from "@apollo/client";
 import { countryOptions, languageOptions, timeZoneOptions } from "../gql";
 import { GET_ITEMS_QUERY as GET_PLANS_ITEMS } from "../../plans/gql";
 
+const statusOptions = [
+  { value: "ncode", label: t("National Code") },
+  { value: "mobile", label: t("Mobile") },
+];
+
 const AccountTabs = ({
   control,
   errors,
@@ -48,6 +53,7 @@ const AccountTabs = ({
   logo,
   setLogo,
   setDescription,
+  banner,
 }) => {
   // ** States
   const [avatar, setAvatar] = useState("");
@@ -56,11 +62,6 @@ const AccountTabs = ({
   const [categoriesOptions, setCategoriesOptions] = useState([
     { value: "", label: `${t("Select")} ${t("Category")}` },
   ]);
-
-  const typeOptions = [
-    { value: "internal", label: t("Internal") },
-    { value: "external", label: t("External") },
-  ];
 
   useQuery(GET_CATEGORY_ITEMS, {
     fetchPolicy: "network-only",
@@ -104,38 +105,6 @@ const AccountTabs = ({
     },
   });
 
-  const onChange = (e) => {
-    if (e === null) {
-      update({
-        refetchQueries: [GET_ITEM_QUERY],
-        variables: { input: { [type]: null } },
-      });
-    } else {
-      const reader = new FileReader(),
-        files = e.target.files;
-      reader.onload = function () {
-        setAvatar(reader.result);
-      };
-      reader.readAsDataURL(files[0]);
-
-      const formData = new FormData();
-
-      formData.append("image", files[0]);
-
-      axios
-        .post(import.meta.env.VITE_UPLOAD_MULTIPLE_API, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(({ data }) => setLogo(data[0].filename));
-    }
-  };
-
-  const handleImgReset = () => {
-    setLogo(null);
-  };
-
   // ** render user img
   const renderUserImg = (type) => {
     if (logo !== null) {
@@ -145,6 +114,49 @@ const AccountTabs = ({
           width="110"
           alt="user-avatar"
           src={showImage(logo)}
+          className="img-fluid rounded mt-3 mb-2"
+        />
+      );
+    } else {
+      const stateNum = Math.floor(Math.random() * 6),
+        states = [
+          "light-success",
+          "light-danger",
+          "light-warning",
+          "light-info",
+          "light-primary",
+          "light-secondary",
+        ],
+        color = states[stateNum];
+      return (
+        <Avatar
+          initials
+          color={color}
+          className="rounded mt-3 mb-2"
+          content="TG"
+          contentStyles={{
+            borderRadius: 0,
+            fontSize: "calc(48px)",
+            width: "100%",
+            height: "100%",
+          }}
+          style={{
+            height: "110px",
+            width: "110px",
+          }}
+        />
+      );
+    }
+  };
+
+  const renderBannerImg = (type) => {
+    if (banner !== null) {
+      return (
+        <img
+          height="110"
+          width="110"
+          alt="user-avatar"
+          src={showImage(banner)}
           className="img-fluid rounded mt-3 mb-2"
         />
       );
@@ -207,6 +219,36 @@ const AccountTabs = ({
                         }}
                         type="file"
                         id="logo"
+                      />
+                    );
+                  }}
+                />
+                <p className="mb-0 mt-2">
+                  {t("Allowed JPG, GIF or PNG. Max size of 800kB")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex">
+            <div className="me-25">{renderBannerImg("banner")}</div>
+            <div className="d-flex align-items-center mt-75 ms-1">
+              <div>
+                <Label className="form-label" for="banner">
+                  {t("Kiosk Banner")}
+                </Label>
+                <Controller
+                  control={control}
+                  name={"banner"}
+                  render={({ field: { value, onChange, ...field } }) => {
+                    return (
+                      <Input
+                        {...field}
+                        value={value?.fileName}
+                        onChange={(event) => {
+                          onChange(event.target.files[0]);
+                        }}
+                        type="file"
+                        id="banner"
                       />
                     );
                   }}
@@ -348,6 +390,26 @@ const AccountTabs = ({
                     placeholder="123456"
                     maxLength="10"
                     invalid={errors.zipcode && true}
+                    {...field}
+                  />
+                )}
+              />
+            </Col>
+
+            <Col md={2} xs={12}>
+              <Label className="form-label" for="isNationalCode">
+                {t("Get card mode")}:
+              </Label>
+              <Controller
+                name="isNationalCode"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    isClearable={false}
+                    classNamePrefix="select"
+                    options={statusOptions}
+                    theme={selectThemeColors}
+                    placeholder={t("Select...")}
                     {...field}
                   />
                 )}
