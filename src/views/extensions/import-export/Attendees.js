@@ -161,7 +161,10 @@ const Attendees = ({ seminar, type }) => {
           input: {
             skip: 0,
             searchTerm: value,
-            site: parseInt(seminar?.hall?.site?.id),
+            siteid: parseInt(seminar?.hall?.site?.id),
+            ...(type === "seminar"
+              ? { s: parseInt(seminar.id) }
+              : { w: parseInt(seminar.id) }),
           },
         },
       });

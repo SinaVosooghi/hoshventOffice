@@ -74,7 +74,7 @@ const CustomHeader = ({
           xl="9"
           className="d-flex align-items-sm-center justify-content-xl-start justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
         >
-          <Button tag={Link} to={`/apps/workshops/add`} color="primary">
+          <Button tag={Link} to={`/apps/seminars/add`} color="primary">
             {t("Add Record")}
           </Button>
           <div className="d-flex align-items-center mb-sm-0 mb-1 mx-1">
