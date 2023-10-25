@@ -47,6 +47,7 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
+import { ServicesMultiSelect } from "../../user/list/ServiceMultiSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -59,6 +60,7 @@ const EditCard = () => {
     slug: yup.string().required(`${t("Slug")} ${t("field is required")}`),
   });
 
+  const [serviceItems, setServiceItems] = useState([]);
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [data, setData] = useState(null);
   const [images, setImages] = useState(null);
@@ -169,6 +171,9 @@ const EditCard = () => {
 
     delete data.image;
 
+    console.log(serviceItems);
+    const servicesFiltered = serviceItems.map((m) => m.value);
+
     update({
       variables: {
         refetchQueries: [GET_ITEM_QUERY],
@@ -181,6 +186,7 @@ const EditCard = () => {
           featured: data.featured?.value,
           category: data.category ? data.category?.value : null,
           type,
+          services: servicesFiltered,
         },
       },
     });
@@ -207,7 +213,7 @@ const EditCard = () => {
                 </CardHeader>
                 <CardBody>
                   <Row>
-                    <Col md={8} xs={12} className="mb-1">
+                    <Col md={6} xs={12} className="mb-1">
                       <Label className="form-label" for="title">
                         {t("Title")} <span className="text-danger">*</span>
                       </Label>
@@ -229,7 +235,29 @@ const EditCard = () => {
                       )}
                     </Col>
 
-                    <Col md={4}>
+                    <Col md={6} xs={12} className="mb-1">
+                      <Label className="form-label" for="titleen">
+                        {t("Title")} {t("English")}
+                      </Label>
+                      <Controller
+                        id="titleen"
+                        name="titleen"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Title")}
+                            invalid={errors.titleen && true}
+                          />
+                        )}
+                      />
+                      {errors.titleen && (
+                        <FormFeedback>{errors.titleen.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    <Col md={2}>
                       <Label className="form-label" for="category">
                         {t("Parent category")}
                       </Label>
@@ -248,29 +276,6 @@ const EditCard = () => {
                         )}
                       />
                     </Col>
-
-                    <Col md={8} xs={12} className="mb-1">
-                      <Label className="form-label" for="slug">
-                        {t("Slug")} <span className="text-danger">*</span>
-                      </Label>
-                      <Controller
-                        id="slug"
-                        name="slug"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            placeholder={t("Slug")}
-                            invalid={errors.slug && true}
-                          />
-                        )}
-                      />
-                      {errors.slug && (
-                        <FormFeedback>{errors.slug.message}</FormFeedback>
-                      )}
-                    </Col>
-
                     <Col md={2} xs={12}>
                       <Label className="form-label" for="status">
                         {t("Status")}:
@@ -319,6 +324,47 @@ const EditCard = () => {
                         )}
                       />
                     </Col>
+
+                    <Col md={4} xs={12} className="mb-1">
+                      <Label className="form-label" for="slug">
+                        {t("Slug")} <span className="text-danger">*</span>
+                      </Label>
+                      <Controller
+                        id="slug"
+                        name="slug"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Slug")}
+                            invalid={errors.slug && true}
+                          />
+                        )}
+                      />
+                      {errors.slug && (
+                        <FormFeedback>{errors.slug.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    {type === "user" && (
+                      <Col md={8} xs={12}>
+                        <Label className="form-label" for="services">
+                          {t("Services")}:
+                        </Label>
+                        <Controller
+                          name="services"
+                          control={control}
+                          render={({ field }) => (
+                            <ServicesMultiSelect
+                              items={serviceItems}
+                              setItems={setServiceItems}
+                              field={field}
+                            />
+                          )}
+                        />
+                      </Col>
+                    )}
                   </Row>
 
                   <Col md={12} xs={12}>

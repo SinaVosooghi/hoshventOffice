@@ -45,6 +45,7 @@ import InputPasswordToggle from "@components/input-password-toggle";
 import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
 import { WorkshopMultiSelect } from "../list/WorkshopMultiSelect";
 import { SeminarMultiSelect } from "../list/SeminarMultiSelect";
+import { ServicesMultiSelect } from "../list/ServiceMultiSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -75,6 +76,7 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const [seminarItems, setSeminarItems] = useState([]);
   const [workshopItems, setWorkshopItems] = useState([]);
+  const [servicesItems, setServices] = useState([]);
 
   const [data, setData] = useState(null);
   useQuery(GET_ITEMS_QUERY, {
@@ -123,6 +125,20 @@ const UserInfoCard = ({ selectedUser }) => {
           setSeminarItems([]);
           user.seminars.map((event) => {
             setSeminarItems((oldArray) => [
+              ...oldArray,
+              {
+                value: event.id,
+                label: event.title,
+                image: event.image,
+              },
+            ]);
+          });
+        }
+
+        if (user.services.length) {
+          setServices([]);
+          user.services.map((event) => {
+            setServices((oldArray) => [
               ...oldArray,
               {
                 value: event.id,
@@ -242,31 +258,25 @@ const UserInfoCard = ({ selectedUser }) => {
 
     const workshopFiltered = workshopItems.map((m) => m.value);
     const seminarFiltered = seminarItems.map((m) => m.value);
+    const servicesFiltered = servicesItems.map((m) => m.value);
 
     update({
       variables: {
         input: {
           ...data,
           ...(typeof avatar !== "string" && { avatar }),
-          role: parseInt(data.role.value),
-          category: parseInt(data.category.value),
+          ...(data.role && { role: parseInt(data.role.value) }),
+          ...(data.category && { category: parseInt(data.category.value) }),
           status: data.usertype.status,
           usertype: data.usertype.value,
           mobilenumber: parseInt(data.mobilenumber),
           phonenumber: parseInt(data.phonenumber),
           seminars: seminarFiltered,
           workshops: workshopFiltered,
+          services: servicesFiltered,
         },
       },
     });
-  };
-
-  const handleReset = () => {
-    // reset({
-    //   username: selectedUser?.username,
-    //   lastName: selectedUser?.firstName?.split(' ')[1],
-    //   firstName: selectedUser?.firstName?.split(' ')[0]
-    // })
   };
 
   const handleSuspendedClick = () => {
@@ -704,6 +714,16 @@ const UserInfoCard = ({ selectedUser }) => {
                 />
               </Col>
               <Col md={6} xs={12}>
+                <Label className="form-label" for="seminars">
+                  {t("Services")}:
+                </Label>
+
+                <ServicesMultiSelect
+                  items={servicesItems}
+                  setItems={setServices}
+                />
+              </Col>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="status">
                   {t("Status")}:
                 </Label>
@@ -749,7 +769,7 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col md={6} xs={12}>
                 <Label className="form-label" for="role">
-                  {t("User")} {t("Role")} <span className="text-danger">*</span>
+                  {t("User")} {t("Role")}
                 </Label>
                 <Controller
                   name="role"

@@ -54,7 +54,9 @@ export const columns = [
     sortField: "client.name",
     // selector: row => row.client.name,
     cell: (row) => {
-      const name = row?.workshop?.title ?? row?.seminar?.title;
+      console.log(row);
+      const name =
+        row?.workshop?.title ?? row?.seminar?.title ?? row?.service?.title;
       const slug = row.slug;
       return (
         <Link to={`/apps/plans/edit/${row.id}`}>

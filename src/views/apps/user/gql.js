@@ -101,6 +101,10 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
             }
           }
         }
+        service {
+          id
+          title
+        }
         checkin
         checkout
         created
@@ -151,6 +155,10 @@ export const GET_ITEM_QUERY = gql`
         title
       }
       workshops {
+        id
+        title
+      }
+      services {
         id
         title
       }

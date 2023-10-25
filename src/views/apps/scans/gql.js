@@ -52,6 +52,9 @@ export const GET_ITEMS_QUERY = gql`
         seminar {
           title
         }
+        service {
+          title
+        }
         updated
         senmiarstimeline {
           id

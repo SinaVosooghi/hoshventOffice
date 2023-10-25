@@ -67,6 +67,42 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
               {title}
             </Box>
           );
+        } else if (type === "nameen") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "categoryen") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "category") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
         } else if (type === "title") {
           return (
             <Box
