@@ -12,7 +12,6 @@ import {
   Server,
   Percent,
   FileText,
-  Circle,
   Grid,
   PhoneCall,
   Globe,

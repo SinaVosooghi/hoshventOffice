@@ -2,12 +2,9 @@
 import {
   Users,
   Server,
-  PhoneCall,
   Globe,
   BookOpen,
-  Calendar,
   Box,
-  CheckCircle,
   Home,
   Shield,
   List,
