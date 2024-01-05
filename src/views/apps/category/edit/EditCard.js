@@ -178,7 +178,7 @@ const EditCard = () => {
 
     const workshopFiltered = workshopItems.map((m) => m.value);
     const seminarFiltered = seminarItems.map((m) => m.value);
-    const servicesFiltered = servicesItems.map((m) => m.value);
+    const servicesFiltered = serviceItems.map((m) => m.value);
 
     update({
       variables: {
