@@ -48,6 +48,8 @@ import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
 import { ServicesMultiSelect } from "../../user/list/ServiceMultiSelect";
+import { WorkshopMultiSelect } from "../../user/list/WorkshopMultiSelect";
+import { SeminarMultiSelect } from "../../user/list/SeminarMultiSelect";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -61,6 +63,9 @@ const EditCard = () => {
   });
 
   const [serviceItems, setServiceItems] = useState([]);
+  const [seminarItems, setSeminarItems] = useState([]);
+  const [workshopItems, setWorkshopItems] = useState([]);
+
   const [description, setDescription] = useState(EditorState.createEmpty());
   const [data, setData] = useState(null);
   const [images, setImages] = useState(null);
@@ -171,8 +176,9 @@ const EditCard = () => {
 
     delete data.image;
 
-    console.log(serviceItems);
-    const servicesFiltered = serviceItems.map((m) => m.value);
+    const workshopFiltered = workshopItems.map((m) => m.value);
+    const seminarFiltered = seminarItems.map((m) => m.value);
+    const servicesFiltered = servicesItems.map((m) => m.value);
 
     update({
       variables: {
@@ -187,6 +193,8 @@ const EditCard = () => {
           category: data.category ? data.category?.value : null,
           type,
           services: servicesFiltered,
+          seminars: seminarFiltered,
+          workshops: workshopFiltered,
         },
       },
     });
@@ -348,22 +356,56 @@ const EditCard = () => {
                     </Col>
 
                     {type === "user" && (
-                      <Col md={8} xs={12}>
-                        <Label className="form-label" for="services">
-                          {t("Services")}:
-                        </Label>
-                        <Controller
-                          name="services"
-                          control={control}
-                          render={({ field }) => (
-                            <ServicesMultiSelect
-                              items={serviceItems}
-                              setItems={setServiceItems}
-                              field={field}
-                            />
-                          )}
-                        />
-                      </Col>
+                      <>
+                        <Col md={8} xs={12}>
+                          <Label className="form-label" for="services">
+                            {t("Services")}:
+                          </Label>
+                          <Controller
+                            name="services"
+                            control={control}
+                            render={({ field }) => (
+                              <ServicesMultiSelect
+                                items={serviceItems}
+                                setItems={setServiceItems}
+                                field={field}
+                              />
+                            )}
+                          />
+                        </Col>
+                        <Col md={8} xs={12}>
+                          <Label className="form-label" for="workshops">
+                            {t("Workshops")}:
+                          </Label>
+                          <Controller
+                            name="workshops"
+                            control={control}
+                            render={({ field }) => (
+                              <WorkshopMultiSelect
+                                items={workshopItems}
+                                setItems={setWorkshopItems}
+                                field={field}
+                              />
+                            )}
+                          />
+                        </Col>
+                        <Col md={8} xs={12}>
+                          <Label className="form-label" for="seminars">
+                            {t("Seminars")}:
+                          </Label>
+                          <Controller
+                            name="seminars"
+                            control={control}
+                            render={({ field }) => (
+                              <SeminarMultiSelect
+                                items={seminarItems}
+                                setItems={setSeminarItems}
+                                field={field}
+                              />
+                            )}
+                          />
+                        </Col>
+                      </>
                     )}
                   </Row>
 
