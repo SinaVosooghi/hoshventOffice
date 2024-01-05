@@ -51,7 +51,6 @@ const QuestionsContent = ({ data }) => {
     },
     onCompleted: ({ questions }) => {
       questions?.questions?.map((question) => {
-        console.log(question);
         if (question.type === "course") {
           setCourseQuestionOptions((prev) => [
             ...prev,

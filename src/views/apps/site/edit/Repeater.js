@@ -20,7 +20,6 @@ export default ({ nestIndex, control, register }) => {
   return (
     <div>
       {fields.map((item, k) => {
-        console.log(item,k)
         return (
           <Row key={item.id} style={{ marginLeft: 20 }} className="mt-1 mb-1">
             <Col md={1}>

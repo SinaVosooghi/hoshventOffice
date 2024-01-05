@@ -323,7 +323,7 @@
   "Seminar details": "جزییات رویداد جانبی",
   "Service details": "جزییات خدمت",
   "Add new service": "افزودن خدمت جدید",
-  "Add new brand": "افزودن مشتری جدید",
+  "Add new brand": "افزودن حامی جدید",
   "Add new hall": "افزودن سالن جدید",
   "Hall details": "جزییات سالن",
   "Add new menu": "افزودن منو جدید",
@@ -627,7 +627,8 @@
   "Seminars": "رویداد های جانبی",
   "user": "کاربر",
   "Logout": "خروج",
-  "Brands": "مشتریان",
+  "Brands": "حامیان",
+  "Brand": "حامی",
   "Currency": "نوع ارز",
   "Subtitle": "زیر عنوان",
   "Logo": "لوگو",
@@ -651,5 +652,13 @@
   "ٔNumber": "عدد",
   "Field": "فیلد",
   "Card setting": "تنظیمات کارت",
-  "Menues":"منو ها"
+  "Menues": "منو ها",
+  "Male": "آقا",
+  "Female": "خانم",
+  "By": "توسط",
+  "workshop": "ورکشاپ",
+  "seminar": "رویداد جانبی",
+  "Kiosk Banner": "بنر کیوسک",
+  "Get card mode": "نحوه گرفتن کارت",
+  "National Code": "کد ملی"
 }

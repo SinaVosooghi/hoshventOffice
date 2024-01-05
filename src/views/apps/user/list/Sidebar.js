@@ -24,6 +24,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { CREATE_ITEM_MUTATION, GET_ITEMS_QUERY, USER_TYPES } from "../gql";
 import { GET_ITEMS_QUERY as GET_ROLE_ITEMS } from "../../roles-permissions/gql";
 import { GET_ITEMS_QUERY as GET_CATEGORY_ITEMS } from "../../category/gql";
+
 import toast from "react-hot-toast";
 
 // ** Third Party Components
@@ -31,6 +32,7 @@ import Cleave from "cleave.js/react";
 import "cleave.js/dist/addons/cleave-phone.us";
 import { SeminarMultiSelect } from "./SeminarMultiSelect";
 import { WorkshopMultiSelect } from "./WorkshopMultiSelect";
+import { ServicesMultiSelect } from "./ServiceMultiSelect";
 
 const defaultValues = {
   email: "",
@@ -59,11 +61,14 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   const [roleOptions, setRoleOptions] = useState([]);
   const [seminarItems, setSeminarItems] = useState([]);
   const [workshopItems, setWorkshopItems] = useState([]);
+  const [servicesItems, setServices] = useState([]);
 
   const options = { phone: true, phoneRegionCode: "IR" };
+
   const [categoriesOptions, setCategoriesOptions] = useState([
     { value: "", label: `${t("Select")} ${t("Category")}` },
   ]);
+
   useQuery(GET_CATEGORY_ITEMS, {
     fetchPolicy: "network-only",
     variables: {
@@ -133,6 +138,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 
     const workshopFiltered = workshopItems.map((m) => m.value);
     const seminarFiltered = seminarItems.map((m) => m.value);
+    const servicesFiltered = servicesItems.map((m) => m.value);
 
     create({
       variables: {
@@ -144,6 +150,8 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           mobilenumber: parseInt(data.mobilenumber),
           seminars: seminarFiltered,
           workshops: workshopFiltered,
+          siteid: data.siteid ? data.siteid?.value : null,
+          services: servicesFiltered,
         },
       },
     });
@@ -353,6 +361,14 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             items={workshopItems}
             setItems={setWorkshopItems}
           />
+        </div>
+
+        <div className="mb-1">
+          <Label className="form-label" for="events">
+            {t("Services")}
+          </Label>
+
+          <ServicesMultiSelect items={servicesItems} setItems={setServices} />
         </div>
 
         <div className="mb-1">

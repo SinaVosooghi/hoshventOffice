@@ -26,14 +26,16 @@ export const DELETE_ITEM_MUTATION = gql`
 `;
 
 export const GET_ITEMS_QUERY = gql`
-  query certificates($input: GetCategoriesArgs!) {
+  query certificates($input: GetCertificatesArgs!) {
     certificates(input: $input) {
       certificates {
         id
         title
         status
+        image
         created
         updated
+        type
       }
       count
     }
@@ -49,6 +51,8 @@ export const GET_ITEM_QUERY = gql`
       created
       updated
       title
+      type
+      itemLayout
     }
   }
 `;

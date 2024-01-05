@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // ** Table Columns
@@ -7,78 +7,104 @@ import { columns } from "./columns";
 
 // ** Third Party Components
 import ReactPaginate from "react-paginate";
-import { ChevronDown } from "react-feather";
+import { ChevronDown, DownloadCloud } from "react-feather";
 import DataTable from "react-data-table-component";
 
 // ** Reactstrap Imports
-import { Button, Input, Row, Col, Card } from "reactstrap";
+import {
+  Button,
+  Input,
+  Row,
+  Col,
+  Card,
+  Label,
+  CardBody,
+  CardHeader,
+  CardTitle,
+} from "reactstrap";
+import Select from "react-select";
+import { selectThemeColors } from "@utils";
 
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 import { t } from "i18next";
-import { GET_ITEMS_QUERY } from "../gql";
-import { useLazyQuery } from "@apollo/client";
+import { GET_ITEMS_QUERY, GET_WORKSHOP_PDF } from "../gql";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { noDataToDisplay } from "../../../../utility/Utils";
+import { GET_ITEMS_QUERY as GET_HALLS_ITEMS } from "../../halls/gql";
 
 const CustomHeader = ({
-  handleFilter,
-  value,
-  handleStatusValue,
-  statusValue,
   handlePerPage,
   rowsPerPage,
+  handleFilter,
+  currentHall,
+  searchTerm,
 }) => {
-  const { type } = useParams();
+  const [getPdfFile] = useLazyQuery(GET_WORKSHOP_PDF, {
+    fetchPolicy: "network-only",
+
+    onCompleted: ({ workshopsPdf }) => {
+      var link = document.createElement("a");
+      link.download = name;
+      link.href = import.meta.env.VITE_BASE_API + workshopsPdf;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+  });
+
+  // ** Downloads CSV
+  function downloadCSV(e) {
+    e.preventDefault();
+    getPdfFile({
+      variables: {
+        input: {
+          skip: 0,
+          hall: currentHall.value ?? null,
+        },
+      },
+    });
+  }
 
   return (
-    <div className="invoice-list-table-header w-100 py-2">
+    <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
         <Col
-          lg="6"
-          className="actions-right d-flex align-items-center flex-lg-nowrap flex-wrap mt-lg-0 mt-1 ps-lg-1 p-0"
+          xl="9"
+          className="d-flex align-items-sm-center justify-content-xl-start justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
         >
-          <div className="d-flex align-items-center justify-content-start">
-            <label htmlFor="search-invoice">{t("Search")}</label>
-            <Input
-              id="search-invoice"
-              className="ms-50 me-2 w-100"
-              type="text"
-              value={value}
-              onChange={(e) => handleFilter(e.target.value)}
-              placeholder={t("Search")}
-            />
-          </div>
-          <Input
-            className="w-auto mx-1"
-            type="select"
-            value={statusValue}
-            onChange={handleStatusValue}
-          >
-            <option value="">
-              {t("Select")} {t("Status")}
-            </option>
-            <option value="">{t("All")}</option>
-            <option value={true}>{t("Active")}</option>
-            <option value={false}>{t("Deactive")}</option>
-          </Input>
-
           <Button tag={Link} to={`/apps/workshops/add`} color="primary">
             {t("Add Record")}
           </Button>
+          <div className="d-flex align-items-center mb-sm-0 mb-1 mx-1">
+            <label className="mb-0" htmlFor="search-invoice">
+              {t("Search")}:
+            </label>
+            <Input
+              id="search-invoice"
+              className="ms-50 w-100"
+              type="text"
+              value={searchTerm}
+              onChange={(e) => handleFilter(e.target.value)}
+            />
+          </div>
+          <Button outline onClick={downloadCSV} className="me-1">
+            <DownloadCloud className="font-small-4 me-50" />
+            <span>{t("Download CSV")}</span>
+          </Button>
         </Col>
-        <Col
-          lg="6"
-          className="d-flex align-items-center px-0 px-lg-1 justify-content-end"
-        >
-          <div className="d-flex align-items-center ms-2">
+
+        <Col xl="3" className="d-flex align-items-center p-0 ">
+          <div className="d-flex align-items-center w-100 justify-content-end">
             <label htmlFor="rows-per-page">{t("Show")}</label>
             <Input
+              className="mx-50"
               type="select"
               id="rows-per-page"
               value={rowsPerPage}
               onChange={handlePerPage}
-              className="form-control mx-50 pe-3"
+              style={{ width: "5rem" }}
             >
               <option value="10">10</option>
               <option value="25">25</option>
@@ -95,8 +121,6 @@ const CustomHeader = ({
 const ItemList = () => {
   // ** States
   const [value, setValue] = useState("");
-  const [sort, setSort] = useState("desc");
-  const [sortColumn, setSortColumn] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
   const [statusValue, setStatusValue] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -104,6 +128,36 @@ const ItemList = () => {
 
   const [getItems, { data: workshops }] = useLazyQuery(GET_ITEMS_QUERY, {
     fetchPolicy: "network-only",
+  });
+
+  const [currentHall, setCurrentHall] = useState({
+    value: null,
+    label: `${t("All")} ${t("Hall")}`,
+  });
+
+  const [hallOptions, setHallsOptions] = useState([
+    { value: null, label: `${t("All")} ${t("Halls")}` },
+  ]);
+
+  useQuery(GET_HALLS_ITEMS, {
+    fetchPolicy: "network-only",
+    variables: {
+      input: {
+        limit: 5,
+        skip: 0,
+      },
+    },
+    onCompleted: ({ halls }) => {
+      halls?.halls?.map((hall) =>
+        setHallsOptions((prev) => [
+          ...prev,
+          { value: hall.id, label: hall.title },
+        ])
+      );
+    },
+    onError: (err) => {
+      console.log(err);
+    },
   });
 
   // ** Get data on mount
@@ -116,10 +170,11 @@ const ItemList = () => {
           searchTerm: value,
           status: statusValue ?? null,
           type,
+          hall: currentHall.value ?? null,
         },
       },
     });
-  }, [sort, sortColumn, currentPage, value]);
+  }, [currentPage, value, currentHall]);
 
   const handleFilter = (val) => {
     setValue(val);
@@ -130,6 +185,7 @@ const ItemList = () => {
           skip: (currentPage - 1) * rowsPerPage,
           searchTerm: value,
           status: statusValue ?? null,
+          hall: currentHall.value ?? null,
           type,
         },
       },
@@ -142,6 +198,7 @@ const ItemList = () => {
         input: {
           limit: parseInt(e.target.value),
           skip: (currentPage - 1) * rowsPerPage,
+          hall: currentHall.value ?? null,
           searchTerm: value,
           status: statusValue ?? null,
           type,
@@ -173,6 +230,7 @@ const ItemList = () => {
           skip: (currentPage - 1) * rowsPerPage,
           searchTerm: value,
           status: statusState,
+          hall: currentHall.value ?? null,
           type,
         },
       },
@@ -187,6 +245,7 @@ const ItemList = () => {
           skip: (currentPage - 1) * rowsPerPage,
           searchTerm: value,
           status: statusValue ?? null,
+          hall: currentHall.value ?? null,
           type,
         },
       },
@@ -195,9 +254,7 @@ const ItemList = () => {
   };
 
   const CustomPagination = () => {
-    const count = Number(
-      Math.ceil(workshops?.workshops?.count / rowsPerPage)
-    );
+    const count = Number(Math.ceil(workshops?.workshops?.count / rowsPerPage));
 
     return (
       <ReactPaginate
@@ -239,43 +296,61 @@ const ItemList = () => {
     }
   };
 
-  const handleSort = (column, sortDirection) => {
-    setSort(sortDirection);
-    setSortColumn(column.sortField);
-  };
-
   return (
     <div className="invoice-list-wrapper">
       <Card>
-        <div className="invoice-list-dataTable react-dataTable">
-          <DataTable
-            noHeader
-            pagination
-            sortServer
-            paginationServer
-            subHeader={true}
-            columns={columns}
-            responsive={true}
-            onSort={handleSort}
-            data={dataToRender()}
-            sortIcon={<ChevronDown />}
-            className="react-dataTable"
-            defaultSortField="invoiceId"
-            paginationDefaultPage={currentPage}
-            paginationComponent={CustomPagination}
-            noDataComponent={noDataToDisplay()}
-            subHeaderComponent={
-              <CustomHeader
-                value={value}
-                statusValue={statusValue}
-                rowsPerPage={rowsPerPage}
-                handleFilter={handleFilter}
-                handlePerPage={handlePerPage}
-                handleStatusValue={handleStatusValue}
+        <CardBody>
+          <CardHeader>
+            <CardTitle tag="h4">{t("Filters")}</CardTitle>
+          </CardHeader>
+          <Row>
+            <Col md="3">
+              <Label for="role-select">{t("Hall")}</Label>
+              <Select
+                isClearable={false}
+                value={currentHall}
+                options={hallOptions}
+                className="react-select"
+                classNamePrefix="select"
+                theme={selectThemeColors}
+                onChange={(data) => {
+                  setCurrentHall(data);
+                }}
               />
-            }
-          />
-        </div>
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+      <Card>
+        <CardBody>
+          <div className="invoice-list-dataTable react-dataTable">
+            <DataTable
+              noHeader
+              pagination
+              paginationServer
+              subHeader={true}
+              columns={columns}
+              responsive={true}
+              data={dataToRender()}
+              className="react-dataTable"
+              defaultSortField="invoiceId"
+              paginationDefaultPage={currentPage}
+              paginationComponent={CustomPagination}
+              noDataComponent={noDataToDisplay()}
+              subHeaderComponent={
+                <CustomHeader
+                  value={value}
+                  statusValue={statusValue}
+                  rowsPerPage={rowsPerPage}
+                  handleFilter={handleFilter}
+                  handlePerPage={handlePerPage}
+                  handleStatusValue={handleStatusValue}
+                  currentHall={currentHall}
+                />
+              }
+            />
+          </div>
+        </CardBody>
       </Card>
     </div>
   );

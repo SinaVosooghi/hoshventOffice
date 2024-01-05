@@ -28,11 +28,18 @@ const renderClient = (row) => {
     ],
     color = states[stateNum];
 
-  return (
+  return row.image ? (
     <Avatar
       color={color}
       className="me-50"
-      content={row.client ? row.client.name : "John Doe"}
+      content={row.title ?? "John Doe"}
+      img={`${import.meta.env.VITE_BASE_API}/${row.image}`}
+    />
+  ) : (
+    <Avatar
+      color={color}
+      className="me-50"
+      content={row.title ?? "John Doe"}
       initials
     />
   );
@@ -50,7 +57,7 @@ export const columns = [
       const name = row.title ? row.title : t("Title");
       const type = row.type ?? "Type";
       return (
-        <Link to={`/apps/categories/edit/${row.id}`}>
+        <Link to={`/apps/certificates/edit/${row.id}`}>
           <div className="d-flex justify-content-left align-items-center">
             {renderClient(row)}
             <div className="d-flex flex-column">
@@ -61,13 +68,6 @@ export const columns = [
         </Link>
       );
     },
-  },
-  {
-    name: t("Parent category"),
-    sortable: true,
-    minWidth: "150px",
-    sortField: "total",
-    cell: (row) => <span>{row.category?.title ?? "-"}</span>,
   },
   {
     name: t("Updated"),
@@ -109,24 +109,7 @@ export const columns = [
       </span>
     ),
   },
-  {
-    name: t("Featured"),
-    sortable: true,
-    minWidth: "138px",
-    sortField: "featured",
-    selector: (row) => row.featured,
-    cell: (row) => (
-      <span className="text-capitalize">
-        <Badge
-          className="text-capitalize"
-          color={!row.featured ? "light-danger" : "light-success"}
-          pill
-        >
-          {row.featured ? t("Active") : t("Deactive")}
-        </Badge>
-      </span>
-    ),
-  },
+
   {
     name: t("Actions"),
     width: "150px",

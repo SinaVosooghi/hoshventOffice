@@ -19,6 +19,12 @@ export const CREATE_ITEM_MUTATION = gql`
   }
 `;
 
+export const GET_SEMINAR_PDF = gql`
+  query seminarsPdf($input: GetSeminarsArgs!) {
+    seminarsPdf(input: $input)
+  }
+`;
+
 export const UPDATE_ITEM_MUTATION = gql`
   mutation updateSeminar($input: UpdateSeminarInput!) {
     updateSeminar(input: $input) {
@@ -39,11 +45,16 @@ export const GET_ITEMS_QUERY = gql`
       seminars {
         id
         title
+        capacity
         hall {
           title
           site {
             title
           }
+        }
+        scans {
+          id
+          type
         }
         image
         status

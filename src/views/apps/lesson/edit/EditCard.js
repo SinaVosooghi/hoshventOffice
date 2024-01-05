@@ -511,7 +511,6 @@ const EditCard = () => {
                       />
                     )}
 
-                    {console.log("first: ", selectedDates)}
                     {type === "conference" && (
                       <ConferenceOptions
                         control={control}

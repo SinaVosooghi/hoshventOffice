@@ -26,8 +26,8 @@ import Avatar from "@components/avatar";
 
 // ** Reactstrap Imports
 import {
-  Row,
-  Col,
+  Card,
+  CardBody,
   Form,
   Input,
   Label,
@@ -210,126 +210,98 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-wrapper auth-cover">
-      <Row className="auth-inner m-0">
-        <Col
-          className="d-none d-lg-flex align-items-center p-5 login-intro-wrapper"
-          lg="7"
-          sm="12"
-        >
-          <div className="w-100 d-lg-flex align-items-center justify-content-center px-5 login-intro">
-            <img
-              className="img-fluid login-image"
-              src={source}
-              alt="Login Cover"
-            />
-          </div>
-        </Col>
-        <Col
-          className="d-flex align-items-center auth-bg px-2 p-lg-5"
-          lg="5"
-          sm="12"
-        >
-          <Col className="mx-auto p-lg-5" sm="8" md="6" lg="12">
-            {setting?.logo && (
-              <Link
-                className={`brand-logo d-flex align-items-center`}
-                style={{ right: `${i18n.language === "ir" ? 0 : ""}` }}
-                to="/"
-                onClick={(e) => e.preventDefault()}
+    <>
+      <div className="auth-wrapper auth-basic px-2">
+        <div className="auth-inner my-2">
+          <Card className="mb-0">
+            <CardBody>
+              <CardTitle
+                tag="h4"
+                className="mb-1"
+                style={{ textAlign: "center", direction: "rtl" }}
               >
-                {setting?.logo && renderUserImg(setting, "logo")}
-                {/* <h2 className="brand-text text-primary ms-1">
-                  {setting?.title ?? t("Dashboard")}
-                </h2> */}
-              </Link>
-            )}
-
-            <CardTitle
-              tag="h2"
-              className={`fw-bold mb-1 `}
-              style={{ textAlign: i18n.language === "ir" ? "right" : "left" }}
-            >
-              {t("Welcome to")} {setting?.title ?? t("Dashboard")}!
-            </CardTitle>
-            <CardText
-              className="mb-2"
-              style={{ textAlign: i18n.language === "ir" ? "right" : "left" }}
-            >
-              {t("Please sign-in to your account and start the adventure")}
-            </CardText>
-            <Form
-              className="auth-login-form mt-2"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="mb-1">
-                <Label
-                  className="form-label"
-                  for="email"
-                  style={{ float: i18n.language === "ir" ? "right" : "left" }}
-                >
-                  {t("Email")}
-                </Label>
-                <Controller
-                  id="email"
-                  name="email"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      autoFocus
-                      type="email"
-                      placeholder="john@example.com"
-                      invalid={errors.email && true}
-                      {...field}
-                    />
+                {t("Welcome to")} {setting?.title ?? t("Dashboard")}!
+              </CardTitle>
+              <CardText
+                className="mb-2"
+                style={{ textAlign: "center", direction: "rtl" }}
+              >
+                {t("Please sign-in to your account and start the adventure")}{" "}
+              </CardText>
+              <Form
+                className="auth-login-form mt-2"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <div className="mb-1">
+                  <Label
+                    className="form-label"
+                    for="email"
+                    style={{ float: i18n.language === "ir" ? "right" : "left" }}
+                  >
+                    {t("Email")}
+                  </Label>
+                  <Controller
+                    id="email"
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        autoFocus
+                        type="email"
+                        placeholder="john@example.com"
+                        invalid={errors.email && true}
+                        {...field}
+                      />
+                    )}
+                  />
+                  {errors.email && (
+                    <FormFeedback>{errors.email.message}</FormFeedback>
                   )}
-                />
-                {errors.email && (
-                  <FormFeedback>{errors.email.message}</FormFeedback>
-                )}
-              </div>
-              <div className="mb-1">
-                <div
-                  className="d-flex justify-content-between"
-                  style={{
-                    flexDirection:
-                      i18n.language === "ir" ? "row-reverse" : "row",
-                  }}
-                >
-                  <Label className="form-label" for="login-password">
-                    {t("Password")}
+                </div>
+                <div className="mb-1">
+                  <div className="d-flex justify-content-between">
+                    <Link to="/forgot-password">
+                      <small>{t("Forgot Password?")}</small>
+                    </Link>
+                    <Label
+                      className="form-label"
+                      for="login-password"
+                      style={{ dir: i18n.language === "ir" ? "rtl" : "ltr " }}
+                    >
+                      {t("Password")}
+                    </Label>
+                  </div>
+                  <Controller
+                    id="password"
+                    name="password"
+                    control={control}
+                    render={({ field }) => (
+                      <InputPasswordToggle
+                        className="input-group-merge"
+                        invalid={errors.password && true}
+                        {...field}
+                      />
+                    )}
+                  />
+                  {errors.password && (
+                    <FormFeedback>{errors.password.message}</FormFeedback>
+                  )}
+                </div>
+                <div className="form-check mb-1">
+                  <Input type="checkbox" id="remember-me" />
+                  <Label className="form-check-label" for="remember-me">
+                    {t("Remember Me")}
                   </Label>
                 </div>
-                <Controller
-                  id="password"
-                  name="password"
-                  control={control}
-                  render={({ field }) => (
-                    <InputPasswordToggle
-                      className="input-group-merge"
-                      invalid={errors.password && true}
-                      {...field}
-                    />
-                  )}
-                />
-                {errors.password && (
-                  <FormFeedback>{errors.password.message}</FormFeedback>
-                )}
-              </div>
-              <div className="form-check mb-1">
-                <Input type="checkbox" id="remember-me" />
-                <Label className="form-check-label" for="remember-me">
-                  {t("Remember Me")}
-                </Label>
-              </div>
-              <Button type="submit" color="primary" block>
-                {t("Sign in")}
-              </Button>
-            </Form>
-          </Col>
-        </Col>
-      </Row>
-    </div>
+                <Button type="submit" color="primary" block>
+                  {t("Sign in")}
+                </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+    </>
   );
 };
 

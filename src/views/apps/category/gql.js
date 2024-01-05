@@ -51,6 +51,7 @@ export const GET_ITEM_QUERY = gql`
     category(id: $id) {
       id
       title
+      titleen
       body
       status
       featured

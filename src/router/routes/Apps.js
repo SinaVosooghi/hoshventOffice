@@ -187,8 +187,8 @@ const AppRoutes = [
     element: <EditBrand />,
     path: "/apps/brands/edit/:id/",
     meta: {
-      action: "update",
-      resource: "udpdate-brands",
+      action: "read",
+      resource: "read-brands",
     },
   },
   {
@@ -373,14 +373,26 @@ const AppRoutes = [
   {
     element: <Certificates />,
     path: "/apps/certificates/",
+    meta: {
+      action: "read",
+      resource: "read-events",
+    },
   },
   {
     element: <EditCertificate />,
     path: "/apps/certificates/edit/:id/",
+    meta: {
+      action: "read",
+      resource: "read-events",
+    },
   },
   {
     element: <AddCertificate />,
     path: "/apps/certificates/add/",
+    meta: {
+      action: "read",
+      resource: "read-events",
+    },
   },
 
   {

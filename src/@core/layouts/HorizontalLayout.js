@@ -64,7 +64,6 @@ const HorizontalLayout = (props) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    console.log(user);
     if (isUserLoggedIn() !== null) {
       if (error === "Unauthorized") {
         dispatch(handleLogout());

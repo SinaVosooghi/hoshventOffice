@@ -262,6 +262,7 @@ const EditCard = () => {
         input: {
           ...data,
           ...(typeof image !== "string" && { image }),
+          ...(images === null && typeof image === "string" && { image: null }),
           body: markup,
           seobody: markupSeo,
           status: data.status?.value,

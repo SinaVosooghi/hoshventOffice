@@ -150,7 +150,7 @@ const AddCard = () => {
                 </CardHeader>
                 <CardBody>
                   <Row>
-                    <Col md={8} xs={12} className="mb-1">
+                    <Col md={6} xs={12} className="mb-1">
                       <Label className="form-label" for="title">
                         {t("Title")} <span className="text-danger">*</span>
                       </Label>
@@ -169,6 +169,28 @@ const AddCard = () => {
                       />
                       {errors.title && (
                         <FormFeedback>{errors.title.message}</FormFeedback>
+                      )}
+                    </Col>
+
+                    <Col md={6} xs={12} className="mb-1">
+                      <Label className="form-label" for="titleen">
+                        {t("Title")} {t("English")}
+                      </Label>
+                      <Controller
+                        id="titleen"
+                        name="titleen"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder={t("Title")}
+                            invalid={errors.titleen && true}
+                          />
+                        )}
+                      />
+                      {errors.titleen && (
+                        <FormFeedback>{errors.titleen.message}</FormFeedback>
                       )}
                     </Col>
 
@@ -196,7 +218,7 @@ const AddCard = () => {
                       />
                     </Col>
 
-                    <Col md={8} xs={12} className="mb-1">
+                    <Col md={4} xs={12} className="mb-1">
                       <Label className="form-label" for="slug">
                         {t("Slug")} <span className="text-danger">*</span>
                       </Label>

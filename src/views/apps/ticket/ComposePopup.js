@@ -446,49 +446,6 @@ const ComposePopup = (props) => {
                 {t("Send")} <Send />
               </Button>
             </div>
-            <div className="footer-action d-flex align-items-center">
-              <UncontrolledDropdown className="me-50" direction="up">
-                <DropdownToggle tag="span">
-                  <MoreVertical className="cursor-pointer" size={18} />
-                </DropdownToggle>
-                <DropdownMenu end>
-                  <DropdownItem
-                    href="/"
-                    tag="a"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Add Label
-                  </DropdownItem>
-                  <DropdownItem
-                    href="/"
-                    tag="a"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Plain text mode
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem
-                    href="/"
-                    tag="a"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Print
-                  </DropdownItem>
-                  <DropdownItem
-                    href="/"
-                    tag="a"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Check Spelling
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-              <Trash
-                className="cursor-pointer"
-                size={18}
-                onClick={toggleCompose}
-              />
-            </div>
           </div>
         </Form>
       </ModalBody>

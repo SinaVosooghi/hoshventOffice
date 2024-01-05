@@ -12,10 +12,7 @@ import Tabs from "./Tabs";
 import Breadcrumbs from "@components/breadcrumbs";
 import BillingTabContent from "./BillingTabContent";
 import AccountTabContent from "./AccountTabContent";
-import SecurityTabContent from "./SecurityTabContent";
-import ConnectionsTabContent from "./ConnectionsTabContent";
-import NotificationsTabContent from "./NotificationsTabContent";
-import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
+import { convertHtmlToDraft } from "../../../../utility/Utils";
 
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss";
@@ -29,17 +26,8 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import {
-  countryOptions,
-  CREATE_ITEM_MUTATION,
-  GET_ITEM_QUERY,
-  GET_ITEMS_QUERY,
-  languageOptions,
-  timeZoneOptions,
-  UPDATE_ITEM_MUTATION,
-} from "../gql";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_ITEM_QUERY, GET_ITEMS_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 import { useEffect } from "react";
 import RegisterFields from "./RegisterFields";
@@ -57,9 +45,7 @@ const AccountSettings = () => {
   const [data, setData] = useState(null);
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(1);
-
-  const history = useNavigate();
-  const { id } = useParams();
+  const [banner, setBanner] = useState(null);
 
   const toggleTab = (tab) => {
     setActiveTab(tab);
@@ -90,7 +76,7 @@ const AccountSettings = () => {
         "apollo-require-preflight": true,
       },
     },
-    refetchQueries: [GET_ITEMS_QUERY],
+    refetchQueries: [GET_ITEMS_QUERY, GET_ITEM_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
     },
@@ -111,10 +97,21 @@ const AccountSettings = () => {
         }
 
         setLogo(site.logo);
+        setBanner(site.banner);
         setCount(site.registerFields?.length);
 
         reset({
           ...site,
+          isNationalCode:
+            site.isNationalCode === "ncode"
+              ? {
+                  label: t("National Code"),
+                  value: site.isNationalCod,
+                }
+              : {
+                  label: t("Mobile"),
+                  value: site.isNationalCod,
+                },
         });
       }
     },
@@ -139,15 +136,19 @@ const AccountSettings = () => {
     const markup = draftToHtml(rawContentState, hashConfig, true);
 
     const logo = data.logo;
+    const banner = data.banner;
 
     delete data.logo;
+    delete data.banner;
 
     update({
       variables: {
         input: {
           ...data,
           body: markup,
+          isNationalCode: data?.isNationalCode.value,
           ...(typeof logo !== "string" && { logo }),
+          ...(typeof banner !== "string" && { banner }),
         },
       },
     });
@@ -198,6 +199,7 @@ const AccountSettings = () => {
                   setDescription={setDescription}
                   setLogo={setLogo}
                   logo={logo}
+                  banner={banner}
                 />
               </TabPane>
               <TabPane tabId="2">
@@ -229,6 +231,7 @@ const AccountSettings = () => {
               </TabPane>
               <TabPane tabId="4">
                 <PrintCard
+                  prevBoxes={data?.cardlayout}
                   control={control}
                   errors={errors}
                   handleSubmit={handleSubmit}

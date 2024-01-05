@@ -53,6 +53,7 @@ export const GET_ITEMS_QUERY = gql`
         created
         status
         avatar
+        gender
         category {
           id
           title
@@ -99,6 +100,10 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
               image
             }
           }
+        }
+        service {
+          id
+          title
         }
         checkin
         checkout
@@ -150,6 +155,10 @@ export const GET_ITEM_QUERY = gql`
         title
       }
       workshops {
+        id
+        title
+      }
+      services {
         id
         title
       }

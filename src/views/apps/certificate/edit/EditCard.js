@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import Select from "react-select";
 
@@ -33,29 +33,44 @@ import "@styles/base/pages/app-invoice.scss";
 import { t } from "i18next";
 import { useQuery, useMutation } from "@apollo/client";
 import FileUploaderSingle from "../../../forms/form-elements/file-uploader/FileUploaderSingle";
-import { GET_ITEMS_QUERY, GET_ITEM_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
+import {
+  CREATE_ITEM_MUTATION,
+  GET_ITEMS_QUERY,
+  GET_ITEM_QUERY,
+  UPDATE_ITEM_MUTATION,
+} from "../gql";
 import classnames from "classnames";
-import { useNavigate, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { CertificateContainer } from "../Container";
 import { sleep } from "../../../../utility/Utils";
-import moment from "moment";
 
 const statusOptions = [
   { value: true, label: t("Active") },
   { value: false, label: t("Deactive") },
 ];
 
-const EditCard = () => {
+const typeOptions = [
+  { value: "seminar", label: t("Seminar") },
+  { value: "workshop", label: t("Workshop") },
+];
+
+const AddCard = () => {
   const SignupSchema = yup.object().shape({
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
-    slug: yup.string().required(`${t("Slug")} ${t("field is required")}`),
+    type: yup.object().required(`${t("Type")} ${t("field is required")}`),
   });
 
   const [data, setData] = useState(null);
-  const [images, setImages] = useState(null);
+  const [boxes, setBoxes] = useState();
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+  const [images] = useState(null);
+
   const history = useNavigate();
-  const [categoriesOptions, setCategoriesOptions] = useState([
-    { value: "", label: `${t("Select")} ${t("Category")}` },
-  ]);
+  const { id } = useParams();
 
   // ** Hooks
   const {
@@ -65,76 +80,57 @@ const EditCard = () => {
     setValue,
     formState: { errors },
   } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
-  const { type, id } = useParams();
-
-  useQuery(GET_ITEMS_QUERY, {
-    fetchPolicy: "network-only",
-    variables: {
-      input: {
-        skip: 0,
-      },
-    },
-    onCompleted: ({ categories }) => {
-      categories?.categories?.map((category) =>
-        setCategoriesOptions((prev) => [
-          ...prev,
-          { value: category.id, label: category.title },
-        ])
-      );
-    },
-  });
 
   useQuery(GET_ITEM_QUERY, {
     variables: { id: parseInt(id) },
     fetchPolicy: "network-only",
-    onCompleted: async ({ category }) => {
-      if (category) {
-        setData(category);
-        for (const [key, value] of Object.entries(category)) {
+    onCompleted: async ({ certificate }) => {
+      if (certificate) {
+        setData(certificate);
+
+        for (const [key, value] of Object.entries(certificate)) {
           setValue(key, value);
         }
         await sleep(100);
 
-        setImages(category.image);
+        setPreview(certificate.image);
+        setBoxes(JSON.parse(certificate.itemLayout));
 
         reset({
-          ...category,
-          status: category.status
+          ...certificate,
+          status: certificate.status
             ? {
                 label: t("Active"),
-                value: category.status,
+                value: certificate.status,
               }
             : {
                 label: t("Deactive"),
-                value: category.status,
+                value: certificate.status,
               },
-          featured: category.featured
+          type: certificate.type
             ? {
-                label: t("Active"),
-                value: category.featured,
+                label: t(certificate.type),
+                value: certificate.type,
               }
             : {
-                label: t("Deactive"),
-                value: category.status,
+                label: t(certificate.type),
+                value: certificate.type,
               },
-          category: {
-            label: category.category?.title,
-            value: category.category?.id,
-          },
-          type: {
-            label: t(category?.type),
-            value: category?.type,
-          },
         });
       }
     },
   });
 
   const [update] = useMutation(UPDATE_ITEM_MUTATION, {
+    context: {
+      headers: {
+        "apollo-require-preflight": true,
+      },
+    },
     refetchQueries: [GET_ITEMS_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
-      history(`/apps/categories/blog`);
+      history(`/apps/certificates`);
     },
     onError: (error) => {
       toast.error(t(error.message));
@@ -146,17 +142,17 @@ const EditCard = () => {
     delete data.__typename;
     delete data.created;
     delete data.updated;
+    const image = data.image;
+    delete data.image;
 
     update({
       variables: {
-        refetchQueries: [GET_ITEM_QUERY],
         input: {
           ...data,
-          image: images,
           status: data.status?.value,
-          featured: data.featured?.value,
-          category: data.category ? data.category?.value : null,
-          type,
+          ...(typeof image !== "string" && { image }),
+          itemLayout: JSON.stringify(boxes),
+          type: data.type?.value,
         },
       },
     });
@@ -168,6 +164,35 @@ const EditCard = () => {
     });
   };
 
+  useEffect(() => {
+    setBoxes({
+      a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
+      b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
+      c: { top: 150, left: 190, title: "تاریخ", type: "date" },
+      d: { top: 250, left: 390, title: "لوگو رویداد", type: "logo" },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -176,9 +201,7 @@ const EditCard = () => {
             <Fragment>
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">
-                    {t("Edit")} {t("Category")} {data?.title ?? ""}
-                  </CardTitle>
+                  <CardTitle tag="h4">{t("Add new certificate")}</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Row>
@@ -201,48 +224,6 @@ const EditCard = () => {
                       />
                       {errors.title && (
                         <FormFeedback>{errors.title.message}</FormFeedback>
-                      )}
-                    </Col>
-
-                    <Col md={4}>
-                      <Label className="form-label" for="category">
-                        {t("Parent category")}
-                      </Label>
-                      <Controller
-                        name="category"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            isClearable={false}
-                            classNamePrefix="select"
-                            options={categoriesOptions}
-                            theme={selectThemeColors}
-                            placeholder={t("Select...")}
-                            {...field}
-                          />
-                        )}
-                      />
-                    </Col>
-
-                    <Col md={8} xs={12} className="mb-1">
-                      <Label className="form-label" for="slug">
-                        {t("Slug")} <span className="text-danger">*</span>
-                      </Label>
-                      <Controller
-                        id="slug"
-                        name="slug"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            placeholder={t("Slug")}
-                            invalid={errors.slug && true}
-                          />
-                        )}
-                      />
-                      {errors.slug && (
-                        <FormFeedback>{errors.slug.message}</FormFeedback>
                       )}
                     </Col>
 
@@ -271,95 +252,53 @@ const EditCard = () => {
                       />
                     </Col>
                     <Col md={2} xs={12}>
-                      <Label className="form-label" for="featured">
-                        {t("Featured")}:
+                      <Label className="form-label" for="type">
+                        {t("Type")}: <span className="text-danger">*</span>
                       </Label>
                       <Controller
-                        name="featured"
+                        name="type"
                         control={control}
-                        defaultValue={{ value: false, label: t("Deactive") }}
                         render={({ field }) => (
                           <Select
                             isClearable={false}
                             classNamePrefix="select"
-                            options={statusOptions}
+                            options={typeOptions}
                             theme={selectThemeColors}
                             placeholder={t("Select...")}
                             className={classnames("react-select", {
-                              "is-invalid":
-                                data !== null && data.status === null,
+                              "is-invalid": data !== null && data.type === null,
                             })}
                             {...field}
                           />
                         )}
                       />
+                      {errors.type && (
+                        <FormFeedback style={{ display: "block" }}>
+                          {errors.type.message}
+                        </FormFeedback>
+                      )}
                     </Col>
                   </Row>
-
-                  <Col md={12} xs={12}>
-                    <Label className="form-label" for="body">
-                      {t("Description")}
-                    </Label>
-                    <Controller
-                      name="body"
-                      control={control}
-                      render={({ field }) => (
-                        <Input
-                          type="textarea"
-                          placeholder={t("Description")}
-                          style={{ minHeight: "150px" }}
-                          invalid={errors.body && true}
-                          {...field}
-                        />
-                      )}
-                    />
-                    {errors.body && (
-                      <FormFeedback>{errors.body.message}</FormFeedback>
+                </CardBody>
+                <CardBody className="my-1 py-25">
+                  <DndProvider backend={HTML5Backend}>
+                    {boxes && (
+                      <CertificateContainer
+                        boxes={boxes}
+                        setBoxes={setBoxes}
+                        preview={`${import.meta.env.VITE_BASE_API}/${preview}`}
+                      />
                     )}
-                  </Col>
+                  </DndProvider>
                 </CardBody>
               </Card>
             </Fragment>
           </Col>
-
           <Col xl={3} md={4} sm={12}>
             <Row>
               <Col md={12} xs={12}>
                 <Card className="invoice-action-wrapper">
                   <CardBody>
-                    <div>
-                      <div className="invoice-payment-option">
-                        <p className="mb-50">{t("Information")}</p>
-                      </div>
-                      <div className="invoice-terms mt-1">
-                        <div className="d-flex justify-content-between">
-                          <label
-                            className="cursor-pointer mb-0"
-                            htmlFor="payment-terms"
-                          >
-                            {t("Created")}:
-                          </label>
-                          <div className="form-switch">
-                            {data?.created
-                              ? moment(data?.created).format("H:mm  Y/MM/DD ")
-                              : "-"}
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-between py-1">
-                          <label
-                            className="cursor-pointer mb-0"
-                            htmlFor="payment-terms"
-                          >
-                            {t("Updated")}:
-                          </label>
-                          <div className="form-switch">
-                            {data?.updated
-                              ? moment(data?.updated).format("H:mm  Y/MM/DD ")
-                              : "-"}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <Button block outline onClick={handleReset}>
                       {t("Discard")}
                     </Button>
@@ -374,48 +313,32 @@ const EditCard = () => {
                   </CardBody>
                 </Card>
               </Col>
-
-              {images && (
-                <Col md={12} xs={12}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle tag="h4">{t("Image")} </CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                      <Row>
-                        <Row>
-                          <Col md={12} className="mb-50">
-                            <img
-                              width="100%"
-                              src={`${import.meta.env.VITE_BASE_API}/${images}`}
-                            />
-                            <br />
-                          </Col>
-                          <Col>
-                            <Button
-                              color="danger"
-                              outline
-                              size="sm"
-                              onClick={() => {
-                                setImages(null);
-                              }}
-                            >
-                              {t("Remove")}
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Row>
-                    </CardBody>
-                  </Card>
-                </Col>
-              )}
-
               <Col md={12} xs={12}>
-                <FileUploaderSingle
-                  title={t("Upload image")}
-                  setImages={setImages}
-                  isMultiple={false}
-                />
+                <Card className="invoice-action-wrapper">
+                  <CardBody>
+                    <Label className="form-label" for="image">
+                      {t("Image")} سایز 1076 در 763
+                    </Label>
+                    <Controller
+                      control={control}
+                      name={"image"}
+                      render={({ field: { value, onChange, ...field } }) => {
+                        return (
+                          <Input
+                            {...field}
+                            value={value?.fileName}
+                            onChange={(event) => {
+                              onChange(event.target.files[0]);
+                              onSelectFile(event);
+                            }}
+                            type="file"
+                            id="image"
+                          />
+                        );
+                      }}
+                    />
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
           </Col>
@@ -425,4 +348,4 @@ const EditCard = () => {
   );
 };
 
-export default EditCard;
+export default AddCard;

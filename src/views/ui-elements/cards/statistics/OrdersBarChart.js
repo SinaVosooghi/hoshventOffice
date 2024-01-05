@@ -11,15 +11,25 @@ import { t } from "i18next";
 
 const OrdersBarChart = ({ warning, orders, ordersCount }) => {
   // ** State
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    title: "Orders",
+    statistics: "2,76k",
+    series: [
+      {
+        name: "2020",
+        data: [45, 85, 65, 45, 65],
+      },
+    ],
+  });
 
   const options = {
     chart: {
       stacked: true,
       toolbar: {
-        show: false,
+        show: true,
       },
     },
+    colors: ["#007bff"],
     grid: {
       show: false,
       padding: {
@@ -74,32 +84,32 @@ const OrdersBarChart = ({ warning, orders, ordersCount }) => {
     },
   };
 
-  useEffect(() => {
-    if (orders) {
-      const dates = groupByDate(orders);
-      setData(dates);
-    }
-  }, [orders]);
+  // useEffect(() => {
+  //   if (orders) {
+  //     const dates = groupByDate(orders);
+  //     setData(dates);
+  //   }
+  // }, [orders]);
 
-  const chartData = useMemo(() => {
-    return data?.map(({ count, date }) => {
-      return {
-        x: date,
-        y: count,
-      };
-    });
-  }, [data]);
+  // const chartData = useMemo(() => {
+  //   return data?.map(({ count, date }) => {
+  //     return {
+  //       x: date,
+  //       y: count,
+  //     };
+  //   });
+  // }, [data]);
 
-  const series = useMemo(
-    () => [
-      {
-        data: chartData,
-        name: "Orders",
-      },
-    ],
+  // const series = useMemo(
+  //   () => [
+  //     {
+  //       data: chartData,
+  //       name: "Orders",
+  //     },
+  //   ],
 
-    [chartData]
-  );
+  //   [chartData]
+  // );
 
   return data !== null ? (
     <TinyChartStats
@@ -107,8 +117,8 @@ const OrdersBarChart = ({ warning, orders, ordersCount }) => {
       type="bar"
       options={options}
       title={t("Orders")}
-      stats={ordersCount}
-      series={series}
+      stats={data.statistics}
+      series={data.series}
     />
   ) : null;
 };

@@ -71,6 +71,18 @@ export const columns = [
     },
   },
   {
+    name: t("Scans"),
+    sortable: true,
+    minWidth: "150px",
+    cell: (row) => {
+      return (
+        <span>
+          {row.scans?.length ?? "-"} از {row?.capacity ?? "∞"}
+        </span>
+      );
+    },
+  },
+  {
     name: t("Hall"),
     sortable: true,
     minWidth: "150px",

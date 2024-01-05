@@ -56,7 +56,8 @@ export const columns = [
     name: t("Title"),
     selector: (row) => row.title,
     cell: (row) => {
-      const title = row.workshop?.title || row.seminar?.title;
+      const title =
+        row.workshop?.title || row.seminar?.title || row.service?.title;
       const image =
         row.workshop?.hall?.event?.image || row.seminar?.hall?.event?.image;
       const event =
@@ -75,15 +76,18 @@ export const columns = [
   {
     sortable: true,
     minWidth: "300px",
-    name: t("Event"),
+    name: t("Type"),
     selector: (row) => row.title,
     cell: (row) => {
-      const event =
-        row.workshop?.hall?.event?.title || row.seminar?.hall?.event?.title;
+      let type = "Seminar";
+      if (row?.seminar) type = "Seminar";
+      if (row?.service) type = "Service";
+      if (row?.workshop) type = "Workshop";
+
       return (
         <div className="d-flex justify-content-left align-items-center">
           <div className="d-flex flex-column">
-            <span className="text-truncate fw-bolder">{event}</span>
+            <span className="text-truncate fw-bolder">{t(type)}</span>
           </div>
         </div>
       );
