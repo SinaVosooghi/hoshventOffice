@@ -60,10 +60,6 @@ const CustomHeader = ({
             <option value={true}>{t("Active")}</option>
             <option value={false}>{t("Deactive")}</option>
           </Input>
-
-          <Button tag={Link} to={`/apps/menus/add/`} color="primary">
-            {t("Add Record")}
-          </Button>
         </Col>
         <Col
           lg="6"

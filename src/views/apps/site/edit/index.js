@@ -76,7 +76,7 @@ const AccountSettings = () => {
         "apollo-require-preflight": true,
       },
     },
-    refetchQueries: [GET_ITEMS_QUERY, GET_ITEM_QUERY],
+    refetchQueries: [GET_ITEM_QUERY],
     onCompleted: () => {
       toast.success(t("Data saved successfully"));
     },

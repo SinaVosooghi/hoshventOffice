@@ -11,6 +11,11 @@ const typeOptions = [
   { value: "number", label: t("ٔNumber") },
 ];
 
+const statusOptions = [
+  { value: true, label: t("Active") },
+  { value: false, label: t("Deactive") },
+];
+
 export default ({ nestIndex, control, register }) => {
   const { fields, remove, append, onChange } = useFieldArray({
     control,
@@ -41,6 +46,32 @@ export default ({ nestIndex, control, register }) => {
                 })}
                 className="form-control"
                 defaultValue={item.title}
+              />
+            </Col>
+            <Col md={2}>
+              <Label className="form-label">{t("Required")}</Label>
+              <Controller
+                id={`registerFields[${k}].required`}
+                name={`registerFields[${k}].required`}
+                control={control}
+                render={({ field }) => {
+                  const { onChange, value, name, ref } = field;
+                  return (
+                    <Select
+                      name={name}
+                      inputRef={ref}
+                      value={statusOptions.find((c) => c.value === value)}
+                      isClearable={false}
+                      classNamePrefix="select"
+                      options={statusOptions}
+                      onChange={(v) => {
+                        onChange(v.value);
+                      }}
+                      theme={selectThemeColors}
+                      placeholder={`${t("Select")}...`}
+                    />
+                  );
+                }}
               />
             </Col>
             <Col md={2}>

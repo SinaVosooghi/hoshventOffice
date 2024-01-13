@@ -157,14 +157,6 @@ const CustomHeader = ({
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-
-            <Button
-              className="add-new-user"
-              color="primary"
-              onClick={toggleSidebar}
-            >
-              {t("Add")} {t("New")} {t(ITEM_NAME_SINGULAR)}
-            </Button>
           </div>
         </Col>
       </Row>

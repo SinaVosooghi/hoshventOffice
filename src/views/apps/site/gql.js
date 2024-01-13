@@ -81,6 +81,7 @@ export const GET_ITEM_QUERY = gql`
         order
         type
         title
+        required
       }
       plan {
         id
