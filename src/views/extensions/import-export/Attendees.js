@@ -38,6 +38,7 @@ import { Printer } from "react-feather";
 import ReactToPrint from "react-to-print";
 import { ReactQrCode } from "@devmehq/react-qr-code";
 import { getUserData } from "../../../utility/Utils";
+import PrintableCard from "../../apps/workshops/PrintableCard";
 
 const initialData = [
   {
@@ -349,31 +350,29 @@ const Attendees = ({ seminar, type }) => {
                 </div>
               </div>
             </CardBody>
-            <div ref={componentRef} style={{ padding: 20 }}>
-              <Table className="table-hover-animation mt-2" responsive>
-                <thead>
-                  <tr>
-                    <th>
-                      <div className="form-check">
-                        <Input
-                          type="checkbox"
-                          id="select-all"
-                          label=""
-                          checked={!!selectedRows.length}
-                          onChange={() => handleSelectAll()}
-                        />
-                      </div>
-                    </th>
-                    <th>{t("Name")}</th>
-                    <th>{t("Type")}</th>
-                    <th>{t("Mobile")}</th>
-                    <th>{t("Created")}</th>
-                    <th>{t("QR Code")}</th>
-                  </tr>
-                </thead>
-                <tbody>{renderTableData}</tbody>
-              </Table>
-            </div>
+            <Table className="table-hover-animation mt-2" responsive>
+              <thead>
+                <tr>
+                  <th>
+                    <div className="form-check">
+                      <Input
+                        type="checkbox"
+                        id="select-all"
+                        label=""
+                        checked={!!selectedRows.length}
+                        onChange={() => handleSelectAll()}
+                      />
+                    </div>
+                  </th>
+                  <th>{t("Name")}</th>
+                  <th>{t("Type")}</th>
+                  <th>{t("Mobile")}</th>
+                  <th>{t("Created")}</th>
+                  <th>{t("QR Code")}</th>
+                </tr>
+              </thead>
+              <tbody>{renderTableData}</tbody>
+            </Table>
           </Card>
         </Col>
       </Row>
@@ -418,6 +417,24 @@ const Attendees = ({ seminar, type }) => {
           </Button>
         </ModalFooter>
       </Modal>
+      <div style={{ display: "none" }}>
+        <div
+          ref={componentRef}
+          style={{
+            width: "8.27in",
+            backgroundClip: "white",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {data?.map((user) => {
+            return (
+              <PrintableCard itemUser={user} event={seminar?.data?.title} />
+            );
+          })}
+        </div>
+      </div>
     </Fragment>
   );
 };

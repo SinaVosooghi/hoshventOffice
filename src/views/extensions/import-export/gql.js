@@ -11,9 +11,15 @@ export const GET_ATTENDEES_ITEMS = gql`
           email
           firstName
           lastName
+          firstNameen
+          lastNameen
           usertype
           updated
           mobilenumber
+          category {
+            title
+            titleen
+          }
           created
           status
         }

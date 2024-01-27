@@ -279,6 +279,7 @@ const EditCard = () => {
       },
     });
   };
+
   const handleReset = () => {
     reset({
       title: "",
