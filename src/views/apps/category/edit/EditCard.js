@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 
 import Select from "react-select";
 
@@ -31,10 +31,12 @@ import "react-slidedown/lib/slidedown.css";
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/flatpickr/flatpickr.scss";
 import "@styles/base/pages/app-invoice.scss";
-import { t } from "i18next";
+import { t, use } from "i18next";
 import { useQuery, useMutation } from "@apollo/client";
 import FileUploaderSingle from "../../../forms/form-elements/file-uploader/FileUploaderSingle";
 import { GET_ITEMS_QUERY, GET_ITEM_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
+import { GET_ITEMS_QUERY as GET_USER_ITEMS } from "../../user/gql";
+
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
@@ -50,6 +52,9 @@ import { hashConfig } from "../../../../utility/Utils";
 import { ServicesMultiSelect } from "../../user/list/ServiceMultiSelect";
 import { WorkshopMultiSelect } from "../../user/list/WorkshopMultiSelect";
 import { SeminarMultiSelect } from "../../user/list/SeminarMultiSelect";
+import { Printer } from "react-feather";
+import PrintableCard from "../../workshops/PrintableCard";
+import ReactToPrint from "react-to-print";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -61,6 +66,16 @@ const EditCard = () => {
     title: yup.string().required(`${t("Title")} ${t("field is required")}`),
     slug: yup.string().required(`${t("Slug")} ${t("field is required")}`),
   });
+  // ** Hooks
+  const {
+    reset,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
+  const { type, id } = useParams();
+  const componentRef = useRef();
 
   const [serviceItems, setServiceItems] = useState([]);
   const [seminarItems, setSeminarItems] = useState([]);
@@ -74,15 +89,21 @@ const EditCard = () => {
     { value: "", label: `${t("Select")} ${t("Category")}` },
   ]);
 
-  // ** Hooks
-  const {
-    reset,
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({ mode: "onChange", resolver: yupResolver(SignupSchema) });
-  const { type, id } = useParams();
+  const [users, setUsers] = useState([]);
+
+  const { data: usersData, loading } = useQuery(GET_USER_ITEMS, {
+    fetchPolicy: "network-only",
+    onCompleted: ({ users }) => {
+      setUsers([]);
+      setUsers(users?.users);
+    },
+    variables: {
+      input: {
+        skip: 0,
+        category: parseInt(id),
+      },
+    },
+  });
 
   useQuery(GET_ITEMS_QUERY, {
     fetchPolicy: "network-only",
@@ -520,17 +541,38 @@ const EditCard = () => {
                   </CardBody>
                 </Card>
               </Col>
+
               <Col md={12} xs={12}>
-                <Card className="invoice-action-wrapper">
+                <Card>
                   <CardBody>
                     <Row>
+                      {type === "user" && (
+                        <Col md={12} className="mb-2">
+                          <ReactToPrint
+                            trigger={() => (
+                              <Button color="success" outline block>
+                                <Printer className="mx-1" />
+                                {t("Print cards")}
+                              </Button>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </Col>
+                      )}
                       <Col>
                         <Button color="success" type="submit" block>
                           {t("Update")}
                         </Button>
                       </Col>
-                      <Col md={5}>
-                        <Button outline onClick={handleReset} block>
+                      <Col>
+                        <Button
+                          color="danger"
+                          outline
+                          onClick={() => {
+                            history(`/apps/categories/${type}`);
+                          }}
+                          block
+                        >
                           {t("Discard")}
                         </Button>
                       </Col>
@@ -541,6 +583,24 @@ const EditCard = () => {
             </Row>
           </Col>
         </Row>
+
+        <div style={{ display: "none" }}>
+          <div
+            ref={componentRef}
+            style={{
+              width: "8.27in",
+              backgroundClip: "white",
+              margin: "0 auto",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {users?.map((user) => {
+              const itemUser = { user: user };
+              return <PrintableCard itemUser={itemUser} event={""} />;
+            })}
+          </div>
+        </div>
       </Form>
     </>
   );

@@ -126,13 +126,16 @@ const Attendees = ({ seminar, type }) => {
   const componentRef = useRef();
   const user = getUserData();
 
-  const [getItems] = useLazyQuery(GET_ATTENDEES_ITEMS, {
-    fetchPolicy: "network-only",
-    onCompleted: ({ attendees }) => {
-      setData([]);
-      setData(attendees?.attends);
-    },
-  });
+  const [getItems, { data: attendees, loading }] = useLazyQuery(
+    GET_ATTENDEES_ITEMS,
+    {
+      fetchPolicy: "network-only",
+      onCompleted: ({ attendees }) => {
+        setData([]);
+        setData(attendees?.attends);
+      },
+    }
+  );
 
   const [checkin] = useMutation(GET_BULK_CHECKIN, {
     refetchQueries: [GET_TIMELINE_ITEMS_QUERY],
@@ -254,8 +257,10 @@ const Attendees = ({ seminar, type }) => {
     });
   };
 
-  const array = value ? filteredData : data;
-  const renderTableData = array.map((col) => {
+  const array = value ? filteredData : attendees?.attendees?.attends;
+  const renderTableData = array?.map((col) => {
+    if (loading) <></>;
+
     return (
       <tr
         key={col.id}
@@ -286,7 +291,11 @@ const Attendees = ({ seminar, type }) => {
           {col?.user?.usertype === "guest" && "میهمان"}
         </td>
         <td>{col?.user?.mobilenumber}</td>
-        <td>{col.created ? moment(col?.created).format("YYYY/MM/D") : "-"}</td>
+        <td>
+          {col.created
+            ? moment(col?.created).locale("fa").format("YYYY/MM/D")
+            : "-"}
+        </td>
         <td>
           <ReactQrCode
             value={`${import.meta.env.VITE_BASE_API}/scan&u=${col.user?.id}&e=${

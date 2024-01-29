@@ -3,11 +3,9 @@ import { Logo } from "./Logo";
 import { Name } from "./Name";
 import { QrCode } from "./QRCode";
 import { Title } from "./Title";
-import ReactToPrint from "react-to-print";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_ITEM_QUERY } from "../site/gql";
 import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
-import { Button, Card } from "reactstrap";
 import { useLazyQuery } from "@apollo/client";
 
 const styles = {
@@ -89,7 +87,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
             } else if (type === "title") {
               return (
                 <Title key={key} id={key} left={left} top={top}>
-                  {event}
+                  {event ?? site.title}
                 </Title>
               );
             } else if (type === "nameen") {
