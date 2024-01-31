@@ -124,7 +124,6 @@ const Attendees = ({ seminar, type }) => {
   const [fileFormat, setFileFormat] = useState("xlsx");
   const [selectedRows, setSelectedRows] = useState([]);
   const componentRef = useRef();
-  const user = getUserData();
 
   const [getItems, { data: attendees, loading }] = useLazyQuery(
     GET_ATTENDEES_ITEMS,
@@ -192,7 +191,11 @@ const Attendees = ({ seminar, type }) => {
           نوع: item.user.usertype === "user" ? "کاربر" : "میهمان",
         });
       } else {
-        return null;
+        return exportArr.push({
+          نام: item.user.firstName + " " + item.user.lastName,
+          موبایل: item.user.mobilenumber,
+          نوع: item.user.usertype === "user" ? "کاربر" : "میهمان",
+        });
       }
     });
     setDataToExport([...exportArr]);

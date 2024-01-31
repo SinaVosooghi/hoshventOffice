@@ -9,12 +9,9 @@ import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
 import { useLazyQuery } from "@apollo/client";
 
 const styles = {
-  width: 1004,
-  height: 531,
-  position: "absolute",
-  transform: "scale(0.5)",
-  top: "-130px",
-  right: "-253px",
+  width: 531,
+  height: "297mm",
+  transform: "rotate(45ddeg)",
 };
 
 const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
@@ -48,7 +45,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
   }, [site]);
 
   return (
-    <div style={{ width: 502, height: 265.5, position: "relative" }}>
+    <div style={{ position: "relative", transform: "rotate(90deg)" }}>
       <div style={styles}>
         {elements &&
           Object.keys(elements).map((key) => {

@@ -47,6 +47,8 @@ export const GET_ITEMS_QUERY = gql`
         email
         firstName
         lastName
+        firstNameen
+        lastNameen
         usertype
         updated
         mobilenumber
@@ -57,6 +59,7 @@ export const GET_ITEMS_QUERY = gql`
         category {
           id
           title
+          titleen
         }
         role {
           id
