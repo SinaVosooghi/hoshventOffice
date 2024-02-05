@@ -1,0 +1,16 @@
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .print-container {
+    display: flex;
+    flex-direction: column;
+    page-break-before: always;
+  }
+
+  .print-page {
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+}

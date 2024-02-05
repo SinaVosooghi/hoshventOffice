@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 import { GET_ITEM_QUERY } from "../site/gql";
 import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
 import { useLazyQuery } from "@apollo/client";
+import "./print.css"; // Import your CSS file
 
 const styles = {
-  width: 531,
+  width: "297mm",
   height: "297mm",
   transform: "rotate(45ddeg)",
 };
@@ -46,7 +47,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
 
   return (
     <div style={{ position: "relative", transform: "rotate(90deg)" }}>
-      <div style={styles}>
+      <div style={styles} className="print-page">
         {elements &&
           Object.keys(elements).map((key) => {
             const { left, top, title, type } = elements[key];

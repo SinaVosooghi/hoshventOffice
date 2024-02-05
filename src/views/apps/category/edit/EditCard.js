@@ -55,6 +55,7 @@ import { SeminarMultiSelect } from "../../user/list/SeminarMultiSelect";
 import { Printer } from "react-feather";
 import PrintableCard from "../../workshops/PrintableCard";
 import ReactToPrint from "react-to-print";
+import "./print.css"; // Import your CSS file
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -584,7 +585,7 @@ const EditCard = () => {
           </Col>
         </Row>
 
-        <div style={{ display: "none" }}>
+        <div style={{ display: "block" }}>
           <div
             ref={componentRef}
             style={{
