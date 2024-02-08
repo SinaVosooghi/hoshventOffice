@@ -42,6 +42,46 @@ export const GET_ITEMS_QUERY = gql`
   }
 `;
 
+export const GET_SITE_ITEM = gql`
+  query site($id: Int!) {
+    site(id: $id) {
+      id
+      title
+      email
+      company
+      banner
+      isNationalCode
+      cardlayout
+      phonenumber
+      address
+      city
+      country
+      language
+      timezone
+      zipcode
+      cardnumber
+      sheba
+      slug
+      seobody
+      seotitle
+      body
+      logo
+      created
+      updated
+      registerFields {
+        order
+        type
+        title
+        required
+      }
+      plan {
+        id
+        title
+      }
+    }
+  }
+`;
+
 export const GET_ITEM_QUERY = gql`
   query certificate($id: Int!) {
     certificate(id: $id) {

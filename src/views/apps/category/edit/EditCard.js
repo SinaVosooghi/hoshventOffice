@@ -92,7 +92,7 @@ const EditCard = () => {
 
   const [users, setUsers] = useState([]);
 
-  const { data: usersData, loading } = useQuery(GET_USER_ITEMS, {
+  useQuery(GET_USER_ITEMS, {
     fetchPolicy: "network-only",
     onCompleted: ({ users }) => {
       setUsers([]);

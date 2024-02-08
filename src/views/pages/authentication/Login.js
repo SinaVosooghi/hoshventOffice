@@ -100,8 +100,6 @@ const Login = () => {
     formState: { errors },
   } = useForm({ defaultValues, resolver: yupResolver(FormSchema) });
 
-  const source = skin === "dark" ? illustrationsDark : illustrationsLight;
-
   const onSubmit = (data) => {
     const { email, password } = data;
     if (isObjEmpty(errors)) {

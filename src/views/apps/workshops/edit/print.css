@@ -1,8 +1,6 @@
 @media print {
   body {
     margin: 0;
-    width: 21cm;
-    height: 29.7cm;
   }
 
   .print-container {
@@ -15,9 +13,4 @@
     page-break-before: always;
     page-break-inside: avoid;
   }
-}
-
-@page {
-  size: A4;
-  margin: 0;
 }

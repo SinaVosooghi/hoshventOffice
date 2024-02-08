@@ -39,6 +39,19 @@ export const DELETE_ITEM_MUTATION = gql`
   }
 `;
 
+export const GET_CERTIFICATE = gql`
+  query getCertificate($type: String!) {
+    getCertificate(type: $type) {
+      id
+      image
+      created
+      title
+      type
+      itemLayout
+    }
+  }
+`;
+
 export const GET_ITEMS_QUERY = gql`
   query workshops($input: GetWorkshopsArgs!) {
     workshops(input: $input) {

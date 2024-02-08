@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import Select from "react-select";
 import Cleave from "cleave.js/react";
@@ -30,7 +30,7 @@ import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/flatpickr/flatpickr.scss";
 import "@styles/base/pages/app-invoice.scss";
 import { t, use } from "i18next";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   GET_ITEMS_QUERY,
   GET_ITEM_QUERY,
@@ -57,6 +57,10 @@ import { DateTimePicker } from "react-advance-jalaali-datepicker";
 import { UserSelect } from "../add/UsersSelects";
 import Attendees from "../../../extensions/import-export/Attendees";
 import { ServicesSelect } from "../../workshops/add/ServiceSelect";
+import PrintableCertificate from "../../workshops/PrintableCertificate";
+import ReactToPrint from "react-to-print";
+import { Printer } from "react-feather";
+import { GET_ATTENDEES_ITEMS } from "../../../extensions/import-export/gql";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -72,8 +76,11 @@ const EditCard = () => {
 
   const [lecturers, setLecturers] = useState([]);
   const [services, setServices] = useState([]);
+  const componentRef = useRef();
 
   const [description, setDescription] = useState(EditorState.createEmpty());
+  const [getItems, { data: attendees }] = useLazyQuery(GET_ATTENDEES_ITEMS);
+
   const [seoDescription, setSeoDescription] = useState(
     EditorState.createEmpty()
   );
@@ -215,6 +222,20 @@ const EditCard = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      getItems({
+        variables: {
+          input: {
+            skip: 0,
+            siteid: parseInt(data?.hall?.site?.id),
+            s: parseInt(data.id),
+          },
+        },
+      });
+    }
+  }, [data]);
 
   const [update] = useMutation(UPDATE_ITEM_MUTATION, {
     refetchQueries: [GET_ITEMS_QUERY],
@@ -698,22 +719,71 @@ const EditCard = () => {
                 </Card>
               </Col>
               <Col md={12} xs={12}>
-                <Card className="invoice-action-wrapper">
-                  <CardBody>
-                    <Button outline onClick={handleReset}>
-                      {t("Discard")}
-                    </Button>
-                    <Button color="success" className="mx-50" type="submit">
-                      {t("Update")}
-                    </Button>
-                  </CardBody>
-                </Card>
+                <Col md={12} xs={12}>
+                  <Card>
+                    <CardBody>
+                      <Row>
+                        <Col md={12} className="mb-2">
+                          <ReactToPrint
+                            trigger={() => (
+                              <Button color="success" outline block>
+                                <Printer className="mx-1" />
+                                {t("Print Certificate")}
+                              </Button>
+                            )}
+                            content={() => componentRef.current}
+                          />
+                        </Col>
+                        <Col>
+                          <Button color="success" type="submit" block>
+                            {t("Update")}
+                          </Button>
+                        </Col>
+                        <Col>
+                          <Button
+                            color="danger"
+                            outline
+                            onClick={() => {
+                              history(`/apps/categories/${type}`);
+                            }}
+                            block
+                          >
+                            {t("Discard")}
+                          </Button>
+                        </Col>
+                      </Row>
+                    </CardBody>
+                  </Card>
+                </Col>
               </Col>
             </Row>
           </Col>
         </Row>
       </Form>
       <Attendees seminar={data} type="seminar" />
+
+      <div style={{ display: "none" }}>
+        <div
+          ref={componentRef}
+          style={{
+            backgroundClip: "white",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {attendees?.attendees?.attends?.map((user) => {
+            const itemUser = { user: user };
+            return (
+              <PrintableCertificate
+                itemUser={itemUser?.user}
+                event={data?.title}
+                type="seminar"
+              />
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 };

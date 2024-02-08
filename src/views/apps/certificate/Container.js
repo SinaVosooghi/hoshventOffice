@@ -1,14 +1,11 @@
 import update from "immutability-helper";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { CertificateBox } from "./Box.js";
 import { ItemTypes } from "./ItemTypes.js";
-import { QrCode } from "./QRCode.js";
 import { Logo } from "./Logo.js";
-import { Button, Col } from "reactstrap";
-import { t } from "i18next";
 const styles = {
-  width: 1076,
+  width: 1177,
   height: 832,
   border: "1px solid black",
   position: "relative",

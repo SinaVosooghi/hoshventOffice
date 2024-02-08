@@ -141,6 +141,7 @@ const GoalOverview = (props) => {
             {scans.filter((s) => s.type === "checkin").length}
           </h3>
         </Col>
+        {console.log(scans)}
         <Col xs="6" className="py-1">
           <CardText className="text-muted mb-0">خروج</CardText>
           <h3 className="fw-bolder mb-0">
