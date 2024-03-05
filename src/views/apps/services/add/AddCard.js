@@ -46,7 +46,7 @@ import CardAction from "@components/card-actions";
 import { EventsMultiSelect } from "./EventsMultiSelect";
 
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
-import moment from "moment";
+import moment from "jalali-moment";
 
 const statusOptions = [
   { value: true, label: t("Active") },

@@ -17,7 +17,7 @@
   "Product Categories": "دسته بندی محصولات",
   "Shop Sliders": "اسلایدر فروشگاه",
   "Blog Categories": "دسته بندی وبلاگ",
-  "Certificates": "مدارک",
+  "Certificates": "گواهینامه ",
   "Chats": "تیکت ها",
   "Alt text": "متن عکس",
   "Setting": "تنظیمات",
@@ -663,5 +663,9 @@
   "National Code": "کد ملی",
   "Required": "الزامی",
   "Print cards": "پرینت کارت ها",
-  "Print Certificate": "پرینت مدارک"
+  "Print Certificate": "پرینت مدارک",
+  "Bulk exit": "خروج دسته جمعی",
+  "Bulk enter": "ورود دسته جمعی",
+  "Amount": "مبلغ",
+  "Failed": "ناموفق"
 }

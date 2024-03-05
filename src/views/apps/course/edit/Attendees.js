@@ -19,7 +19,7 @@ import { getUsersSelect } from "../../../../utility/gqlHelpers/getUsers";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { Trash, Edit2 } from "react-feather";
-import moment from "moment";
+import moment from "jalali-moment";
 import Avatar from "@components/avatar";
 
 // ** renders client column
@@ -81,7 +81,7 @@ export const columns = (removeHandler) => {
       selector: (row) => row.updated,
       cell: (row) => (
         <span className="text-capitalize">
-          {row.updated ? moment(row?.updated).format("YYYY/MM/D") : "-"}
+          {row.updated ? moment(row?.updated).locale("fa").format("YYYY/MM/D") : "-"}
         </span>
       ),
     },
@@ -92,7 +92,7 @@ export const columns = (removeHandler) => {
       selector: (row) => row.created,
       cell: (row) => (
         <span className="text-capitalize">
-          {row.created ? moment(row?.created).format("YYYY/MM/D") : "-"}
+          {row.created ? moment(row?.created).locale("fa").format("YYYY/MM/D") : "-"}
         </span>
       ),
     },

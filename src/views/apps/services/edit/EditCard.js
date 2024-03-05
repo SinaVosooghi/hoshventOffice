@@ -40,7 +40,7 @@ import {
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
-import moment from "moment";
+import moment from "jalali-moment";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
 import momentJalali from "moment-jalaali";
 
@@ -192,6 +192,8 @@ const EditCard = () => {
           quantity,
           perperson,
           ...(typeof image !== "string" && { image }),
+          start_date: moment(startDate).toISOString(),
+          end_date: moment(endDate).toISOString(),
         },
       },
     });

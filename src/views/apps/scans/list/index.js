@@ -7,11 +7,12 @@ import { columns } from "./columns";
 
 // ** Third Party Components
 import ReactPaginate from "react-paginate";
-import { ChevronDown } from "react-feather";
+import { ChevronDown, Codesandbox } from "react-feather";
 import DataTable from "react-data-table-component";
 
 // ** Reactstrap Imports
-import { Button, Input, Row, Col, Card } from "reactstrap";
+import { Button, Input, Row, Col, Card, CardText } from "reactstrap";
+import Avatar from "@components/avatar";
 
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
@@ -21,16 +22,7 @@ import { GET_ITEMS_QUERY } from "../gql";
 import { useLazyQuery } from "@apollo/client";
 import { noDataToDisplay } from "../../../../utility/Utils";
 
-const CustomHeader = ({
-  handleFilter,
-  value,
-  handleStatusValue,
-  statusValue,
-  handlePerPage,
-  rowsPerPage,
-}) => {
-  const { type } = useParams();
-
+const CustomHeader = () => {
   return (
     <div className="invoice-list-table-header w-100 py-2">
       <Row>
@@ -47,7 +39,7 @@ const CustomHeader = ({
   );
 };
 
-const ScansList = () => {
+const ScansList = ({ service, workshop, seminar }) => {
   // ** States
   const [value, setValue] = useState("");
   const [sort, setSort] = useState("desc");
@@ -68,6 +60,10 @@ const ScansList = () => {
         input: {
           limit: rowsPerPage,
           skip: (currentPage - 1) * rowsPerPage,
+          ...(service && { service: parseInt(service) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
+
         },
       },
     });
@@ -80,6 +76,9 @@ const ScansList = () => {
         input: {
           limit: rowsPerPage,
           skip: (currentPage - 1) * rowsPerPage,
+          ...(service && { service: parseInt(service) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
         },
       },
     });
@@ -91,6 +90,9 @@ const ScansList = () => {
         input: {
           limit: parseInt(e.target.value),
           skip: (currentPage - 1) * rowsPerPage,
+          ...(service && { service: parseInt(service) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
         },
       },
     });
@@ -118,6 +120,9 @@ const ScansList = () => {
           limit: rowsPerPage,
           skip: (currentPage - 1) * rowsPerPage,
           status: statusState,
+          ...(service && { service: parseInt(service) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
         },
       },
     });
@@ -129,6 +134,9 @@ const ScansList = () => {
         input: {
           limit: rowsPerPage,
           skip: (currentPage - 1) * rowsPerPage,
+          ...(service && { service: parseInt(service) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
         },
       },
     });
@@ -186,6 +194,19 @@ const ScansList = () => {
   return (
     <div className="invoice-list-wrapper">
       <Card>
+        <Col className="mt-2 ms-2">
+          <div className="d-flex align-items-center">
+            <Avatar
+              color={"light-success"}
+              icon={<Codesandbox />}
+              className="me-2"
+            />
+            <div className="my-auto">
+              <h4 className="fw-bolder mb-0">{scans?.scans?.count}</h4>
+              <CardText className="font-small-3 mb-0">{t("Scans")}</CardText>
+            </div>
+          </div>
+        </Col>
         <div className="invoice-list-dataTable react-dataTable">
           <DataTable
             noHeader

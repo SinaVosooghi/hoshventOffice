@@ -51,7 +51,7 @@ import { hashConfig } from "../../../../utility/Utils";
 import { getUsersSelect } from "../../../../utility/gqlHelpers/getUsers";
 import VideoOptions from "../Video";
 import ConferenceOptions from "../Conference";
-import moment from "moment";
+import moment from "jalali-moment";
 
 export const statusOptions = [
   { value: true, label: t("Active") },
@@ -171,10 +171,7 @@ const AddCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (

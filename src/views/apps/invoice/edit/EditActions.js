@@ -10,7 +10,7 @@ import { getShippingsSelect } from "../../../../utility/gqlHelpers/getShippings"
 import classnames from "classnames";
 import Select from "react-select";
 import { selectThemeColors } from "@utils";
-import moment from "moment";
+import moment from "jalali-moment";
 import MultiLingualDatePicker from "../../../../utility/helpers/datepicker/MultiLingualDatePicker";
 
 const EditActions = ({

@@ -47,7 +47,7 @@ import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
 import CardAction from "@components/card-actions";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
-import moment from "moment";
+import moment from "jalali-moment";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -156,10 +156,7 @@ const AddCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (

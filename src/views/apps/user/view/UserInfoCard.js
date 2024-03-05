@@ -36,7 +36,7 @@ import { selectThemeColors } from "@utils";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import { t } from "i18next";
-import moment from "moment";
+import moment from "jalali-moment";
 import { GET_ITEM_QUERY, UPDATE_ITEM_MUTATION, USER_TYPES } from "../gql";
 import { GET_ITEMS_QUERY } from "../../roles-permissions/gql";
 import { sleep } from "../../../../utility/Utils";
@@ -285,7 +285,7 @@ const UserInfoCard = ({ selectedUser }) => {
       icon: "warning",
       cancelButtonText: t("Cancel"),
       showCancelButton: true,
-      confirmButtonText: selectedUser
+      confirmButtonText: !selectedUser?.status
         ? t("Yes, Activate user!")
         : t("Yes, Suspend user!"),
       customClass: {
@@ -296,6 +296,7 @@ const UserInfoCard = ({ selectedUser }) => {
     }).then(function (result) {
       if (result.value) {
         delete selectedUser?.__typename;
+        delete selectedUser?.site;
 
         update({
           variables: {
@@ -303,6 +304,7 @@ const UserInfoCard = ({ selectedUser }) => {
               ...selectedUser,
               status: !selectedUser?.status,
               role: parseInt(selectedUser?.role.id),
+              category: parseInt(selectedUser?.category?.value),
             },
           },
         });
@@ -863,7 +865,6 @@ const UserInfoCard = ({ selectedUser }) => {
                   color="secondary"
                   outline
                   onClick={() => {
-                    handleReset();
                     setShow(false);
                   }}
                 >

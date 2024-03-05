@@ -182,10 +182,7 @@ const AddCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   const deleteItem = (i) => {

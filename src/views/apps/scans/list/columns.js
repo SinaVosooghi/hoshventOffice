@@ -10,7 +10,7 @@ import { Badge, Button } from "reactstrap";
 // ** Third Party Components
 import { Trash, Edit2 } from "react-feather";
 import { t } from "i18next";
-import moment from "moment";
+import moment from "jalali-moment";
 import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
 import { fallbackHandler } from "../../../../utility/helpers/fallbackhandler";
 import { useMutation } from "@apollo/client";
@@ -54,20 +54,17 @@ export const columns = [
     sortField: "client.name",
     // selector: row => row.client.name,
     cell: (row) => {
-      console.log(row);
       const name =
         row?.workshop?.title ?? row?.seminar?.title ?? row?.service?.title;
       const slug = row.slug;
       return (
-        <Link to={`/apps/plans/edit/${row.id}`}>
-          <div className="d-flex justify-content-left align-items-center">
-            {renderClient(row)}
-            <div className="d-flex flex-column">
-              <h6 className="user-name text-truncate mb-0">{name}</h6>
-              <small className="text-truncate text-muted mb-0">{slug}</small>
-            </div>
+        <div className="d-flex justify-content-left align-items-center">
+          {renderClient(row)}
+          <div className="d-flex flex-column">
+            <h6 className="user-name text-truncate mb-0">{name}</h6>
+            <small className="text-truncate text-muted mb-0">{slug}</small>
           </div>
-        </Link>
+        </div>
       );
     },
   },
@@ -115,7 +112,9 @@ export const columns = [
     selector: (row) => row.updated,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.updated ? moment(row?.updated).format("YYYY/MM/D") : "-"}
+        {row.updated
+          ? moment(row?.updated).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
@@ -127,7 +126,9 @@ export const columns = [
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.created ? moment(row?.created).format("YYYY/MM/D") : "-"}
+        {row.created
+          ? moment(row?.created).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },

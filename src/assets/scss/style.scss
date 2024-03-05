@@ -305,15 +305,15 @@ body {
 	}
 }
 
-[dir="rtl"] .rdw-right-aligned-block {
-	direction: rtl !important;
-	text-align: right !important;
-}
+// [dir="rtl"] .rdw-right-aligned-block {
+// 	direction: rtl !important;
+// 	text-align: right !important;
+// }
 
-.rdw-left-aligned-block {
-	direction: ltr !important;
-	text-align: left !important;
-}
+// .rdw-left-aligned-block {
+// 	direction: ltr !important;
+// 	text-align: left !important;
+// }
 
 [dir="rtl"] .rdw-editor-wrapper.toolbar-bottom .rdw-editor-toolbar,
 [dir="rtl"] .rdw-editor-wrapper .rdw-editor-toolbar {

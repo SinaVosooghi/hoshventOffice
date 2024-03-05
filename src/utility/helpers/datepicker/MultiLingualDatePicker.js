@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { DatePicker } from "react-advance-jalaali-datepicker";
 
 import momentJalali from "moment-jalaali";
-import moment from "moment";
+import moment from "jalali-moment";
 
 const MultiLingualDatePicker = ({ date, withTime }) => {
   const { i18n } = useTranslation();

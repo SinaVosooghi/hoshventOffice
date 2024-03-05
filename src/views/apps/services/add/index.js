@@ -12,7 +12,7 @@ import "@styles/base/pages/app-invoice.scss";
 const InvoiceAdd = () => {
   return (
     <div className="invoice-add-wrapper">
-      <Row className="invoice-add">
+      <Row className="invoice-add" style={{ paddingBottom: 150 }}>
         <Col xl={12} md={12} sm={12}>
           <Row>
             <AddCard />

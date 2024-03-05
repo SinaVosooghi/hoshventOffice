@@ -143,20 +143,6 @@ const Mails = (props) => {
         </div>
         <div className="app-action">
           <div className="action-left form-check">
-            <Input
-              type="checkbox"
-              id="select-all"
-              onChange={handleSelectAll}
-              checked={
-                selectedMails.length && selectedMails.length === mails.length
-              }
-            />
-            <Label
-              className="form-check-label fw-bolder ps-25 mb-0"
-              for="select-all"
-            >
-              {t("Select All")}
-            </Label>
           </div>
           {selectedMails.length ? (
             <div className="action-right">

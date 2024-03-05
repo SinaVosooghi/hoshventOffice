@@ -40,6 +40,7 @@ export const GET_ITEMS_QUERY = gql`
         id
         title
         status
+        featured
         created
         updated
       }

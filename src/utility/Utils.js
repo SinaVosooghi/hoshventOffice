@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { DefaultRoute } from "../router/routes";
 import momentJalali from "moment-jalaali";
-import moment from "moment";
+import moment from "jalali-moment";
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = (obj) => Object.keys(obj).length === 0;
 

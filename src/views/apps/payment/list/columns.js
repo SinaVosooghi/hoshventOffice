@@ -15,7 +15,7 @@ import { Slack, User, Settings, Database, Edit2, Trash } from "react-feather";
 // ** Reactstrap Imports
 import { Badge } from "reactstrap";
 import { t } from "i18next";
-import moment from "moment";
+import moment from "jalali-moment";
 import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
 import { fallbackHandler } from "../../../../utility/helpers/fallbackhandler";
 import { capitalizeFirstLetter } from "../../../../utility/Utils";
@@ -95,7 +95,7 @@ export const columns = [
     },
   },
   {
-    name: t("Total"),
+    name: t("Amount"),
     sortable: true,
     width: "162px",
     selector: (row) => row.amount,
@@ -104,7 +104,7 @@ export const columns = [
     ),
   },
   {
-    name: t("Status Code"),
+    name: t("Code"),
     sortable: true,
     width: "90px",
     sortField: "statusCode",
@@ -144,7 +144,7 @@ export const columns = [
           color={!row.status ? "light-danger" : "light-success"}
           pill
         >
-          {row.status ? t("Active") : t("Deactive")}
+          {row.status ? t("Active") : t("Failed")}
         </Badge>
       </span>
     ),

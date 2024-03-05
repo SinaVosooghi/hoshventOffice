@@ -13,7 +13,7 @@ import { Badge, Button } from "reactstrap";
 import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
 import { fallbackHandler } from "../../../../utility/helpers/fallbackhandler";
 import { useMutation } from "@apollo/client";
-import moment from "moment";
+import moment from "jalali-moment";
 
 export const columns = [
   {

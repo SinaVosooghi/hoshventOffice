@@ -39,7 +39,7 @@ import { GET_ITEMS_QUERY as GET_CATEGORIES_ITEMS } from "../../category/gql";
 import classnames from "classnames";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
-import moment from "moment";
+import moment from "jalali-moment";
 import momentJalali from "moment-jalaali";
 
 // ** Editor
@@ -232,10 +232,7 @@ const EditCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (

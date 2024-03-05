@@ -8,7 +8,7 @@ import { Badge, Button } from "reactstrap";
 import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
 import { useMutation } from "@apollo/client";
 import { fallbackHandler } from "../helpers";
-import moment from "moment";
+import moment from "jalali-moment";
 import { t } from "i18next";
 
 export const columns = [
@@ -75,7 +75,7 @@ export const columns = [
         <>
           <Link to={`/contacts/edit/${row.id}`}>
             <Button color="primary" outline size="sm">
-              {t("Edit")}
+              {t("View")}
             </Button>{" "}
           </Link>
           <Link

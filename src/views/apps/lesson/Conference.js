@@ -17,7 +17,7 @@ import Flatpickr from "react-flatpickr";
 import { MultiDatePicker } from "../../../utility/helpers/datepicker/MultipleDatepicker";
 import { statusOptions } from "./add/AddCard";
 import classNames from "classnames";
-import moment from "moment";
+import moment from "jalali-moment";
 
 const ConferenceOptions = ({
   control,

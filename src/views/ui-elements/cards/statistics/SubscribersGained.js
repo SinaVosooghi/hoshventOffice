@@ -10,7 +10,7 @@ import StatsWithAreaChart from "@components/widgets/stats/StatsWithAreaChart";
 import { t } from "i18next";
 import { useGetUsers } from "../../../../utility/gqlHelpers/useGetUsers";
 import { groupByDate } from "../../../../utility/Utils";
-import moment from "moment";
+import moment from "jalali-moment";
 
 const SubscribersGained = ({ kFormatter, color }) => {
   // ** State

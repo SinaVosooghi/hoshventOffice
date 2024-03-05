@@ -52,34 +52,6 @@ const UsersList = () => {
   return (
     <div className="app-user-list">
       <Row>
-        {type !== "teacher" && (
-          <>
-            <Col lg="3" sm="6">
-              <StatsHorizontal
-                color="primary"
-                statTitle={`${t("Total")} ${t("Payments")}`}
-                icon={<User size={20} />}
-                renderStats={<h3 className="fw-bolder mb-75">{total}</h3>}
-              />
-            </Col>
-            <Col lg="3" sm="6">
-              <StatsHorizontal
-                color="success"
-                statTitle={`${t("Total")} ${t("Attendees")}`}
-                icon={<UserCheck size={20} />}
-                renderStats={<h3 className="fw-bolder mb-75">{students}</h3>}
-              />
-            </Col>
-            <Col lg="3" sm="6">
-              <StatsHorizontal
-                color="warning"
-                statTitle={`${t("Total")} ${t("Admins")}`}
-                icon={<UserX size={20} />}
-                renderStats={<h3 className="fw-bolder mb-75">{admins}</h3>}
-              />
-            </Col>
-          </>
-        )}
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="danger"

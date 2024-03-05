@@ -104,10 +104,7 @@ const AddCard = () => {
   };
 
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (
@@ -175,7 +172,7 @@ const AddCard = () => {
                       <Controller
                         name="featured"
                         control={control}
-                        defaultValue={{ value: false, label: t("Deactive") }}
+                        defaultValue={{ value: true, label: t("Active") }}
                         render={({ field }) => (
                           <Select
                             isClearable={false}

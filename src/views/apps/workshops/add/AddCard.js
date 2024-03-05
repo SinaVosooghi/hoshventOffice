@@ -47,7 +47,7 @@ import CardAction from "@components/card-actions";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
 
 import { UserSelect } from "./UsersSelects";
-import moment from "moment";
+import moment from "jalali-moment";
 import { ServicesSelect } from "./ServiceSelect";
 
 const statusOptions = [
@@ -160,10 +160,7 @@ const AddCard = () => {
   };
 
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   const handleStartDateChange = (dateValue) => {

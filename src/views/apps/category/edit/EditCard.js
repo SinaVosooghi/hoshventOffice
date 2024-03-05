@@ -40,7 +40,7 @@ import { GET_ITEMS_QUERY as GET_USER_ITEMS } from "../../user/gql";
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
-import moment from "moment";
+import moment from "jalali-moment";
 
 // ** Editor
 import { convertToRaw, EditorState } from "draft-js";
@@ -138,6 +138,7 @@ const EditCard = () => {
 
         setImages(category.image);
 
+        console.log(category)
         reset({
           ...category,
           status: category.status
@@ -222,10 +223,7 @@ const EditCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (

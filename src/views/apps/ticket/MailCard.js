@@ -22,6 +22,7 @@ import { htmlToString } from "@utils";
 import { Badge, Input, Label } from "reactstrap";
 import { t } from "i18next";
 import { Link } from "react-router-dom";
+import moment from "jalali-moment";
 
 const ticketPriorities = {
   high: { color: "light-danger", title: "High", icon: <ChevronUp /> },
@@ -103,54 +104,6 @@ const MailCard = (props) => {
             chat?.from?.firstName + " " + chat?.from?.lastName || "John Doe"
           }
         />
-        <div className="user-action">
-          {/* <Input
-            label=''
-            type='checkbox'
-            checked={selectedMails.includes(chat.id)}
-            id={`${chat.from.name}-${chat.id}`}
-            onChange={e => e.stopPropagation()}
-            onClick={e => {
-              dispatch(selectMail(chat.id))
-              e.stopPropagation()
-            }}
-          /> */}
-          <div className="form-check">
-            <Input
-              type="checkbox"
-              id={`${chat.from}-${chat.id}`}
-              onChange={(e) => e.stopPropagation()}
-              checked={selectedMails.includes(chat.id)}
-              onClick={(e) => {
-                dispatch(selectMail(chat.id));
-                e.stopPropagation();
-              }}
-            />
-            <Label
-              onClick={(e) => e.stopPropagation()}
-              for={`${chat.from}-${chat.id}`}
-            ></Label>
-          </div>
-          <div
-            className="email-favorite"
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(
-                updateMails({
-                  emailIds: [chat.id],
-                  dataToUpdate: { isStarred: !chat.isStarred },
-                })
-              );
-            }}
-          >
-            <Star
-              size={14}
-              className={classnames({
-                favorite: chat.isStarred,
-              })}
-            />
-          </div>
-        </div>
       </div>
       <div className="mail-body">
         <div className="mail-details">
@@ -197,7 +150,7 @@ const MailCard = (props) => {
             ) : null}
             {renderLabels(chat.labels)}
             <span className="mail-date">
-              {formatToDynamicLocation(chat.created)}
+              {moment(chat.created).locale("fa").format("YYYY/MM/D h:mm")}
             </span>
           </div>
         </div>

@@ -21,7 +21,7 @@ import {
   Table,
 } from "reactstrap";
 // ** Store & Actions/ReactDropzoneUploader";
-import moment from "moment";
+import moment from "jalali-moment";
 import { useQuery } from "@apollo/client";
 
 import { GET_ITEM_QUERY } from "../gql.js";

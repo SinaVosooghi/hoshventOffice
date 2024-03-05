@@ -3285,14 +3285,6 @@ babel-preset-react-app@^10.0.1:
     babel-plugin-macros "^3.1.0"
     babel-plugin-transform-react-remove-prop-types "^0.4.24"
 
-babel-runtime@^6.26.0:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
-  integrity sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==
-  dependencies:
-    core-js "^2.4.0"
-    regenerator-runtime "^0.11.0"
-
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
@@ -3931,11 +3923,6 @@ core-js-pure@^3.23.3, core-js-pure@^3.25.1:
   version "3.26.1"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.26.1.tgz#653f4d7130c427820dcecd3168b594e8bb095a33"
   integrity sha512-VVXcDpp/xJ21KdULRq/lXdLzQAtX7+37LzpyfFM973il0tWSsDEoyzG38G14AjTpK9VTfiNM9jnFauq/CpaWGQ==
-
-core-js@^2.4.0:
-  version "2.6.12"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
-  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-js@^3.19.2, core-js@^3.6.4:
   version "3.26.1"
@@ -7504,6 +7491,16 @@ mkdirp@^0.5.1, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
+moment-jalaali@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/moment-jalaali/-/moment-jalaali-0.10.0.tgz#4e5de7605bc9597e01f7c62c3cc70268ae4ddf8d"
+  integrity sha512-XICH1+UHd3zyaE1bXWQBlhoXBqbzEyFfT0TrifNobHxLALRuTSwXn376bX8FmkYg9mZimevwwdd6EB57s5wuFA==
+  dependencies:
+    jalaali-js "^1.1.0"
+    moment "^2.22.2"
+    moment-timezone "^0.5.21"
+    rimraf "^3.0.2"
+
 moment-jalaali@^0.9.6:
   version "0.9.6"
   resolved "https://registry.yarnpkg.com/moment-jalaali/-/moment-jalaali-0.9.6.tgz#6c460aedee08a1e45d3f658c7cffd66cd4dca24c"
@@ -8848,13 +8845,12 @@ rc-util@^5.23.0:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
 
-react-advance-jalaali-datepicker@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-advance-jalaali-datepicker/-/react-advance-jalaali-datepicker-1.4.0.tgz#13a823acaea64e2a6d6e8dabfc0c6b946718495f"
-  integrity sha512-z3i5+JMtCjaag/EbNCX3bGJJ/Go31vgL9VmQk/FJqBL0Ci79eCPYXeeM0h+4JzwpavWXgjb9/TBDHIsKVfXQpw==
+react-advance-jalaali-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-advance-jalaali-datepicker/-/react-advance-jalaali-datepicker-1.6.0.tgz#1263746d8124028a8b50d369d96106a69bf692a7"
+  integrity sha512-A1NIBlQz6/pnG//vQF7hh1bWt9nd7C4vcwnFkcIJ4rESS1FslYwIJWzTslbxMVLtbc/BIFgIwrxietNnogU2pA==
   dependencies:
-    babel-runtime "^6.26.0"
-    moment-jalaali "^0.9.6"
+    moment-jalaali "^0.10.0"
 
 react-apexcharts@^1.4.0:
   version "1.4.0"
@@ -9375,11 +9371,6 @@ regenerate@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.2.tgz#b9346d8827e8f5a32f7ba29637d398b69014848a"
   integrity sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==
-
-regenerator-runtime@^0.11.0:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
-  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
 regenerator-runtime@^0.13.10, regenerator-runtime@^0.13.11, regenerator-runtime@^0.13.9:
   version "0.13.11"

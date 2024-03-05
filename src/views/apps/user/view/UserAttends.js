@@ -17,7 +17,7 @@ import { noDataToDisplay } from "../../../../utility/Utils";
 import ReactPaginate from "react-paginate";
 import { t } from "i18next";
 import momentJalali from "jalali-moment";
-import moment from "moment";
+import moment from "jalali-moment";
 import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
 
 const renderClient = (image, title) => {

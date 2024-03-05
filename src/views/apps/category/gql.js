@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { t } from "i18next";
 
 export const ITEM_NAME = "categories";
 export const ITEM_NAME_SINGULAR = "Category";
@@ -38,6 +37,7 @@ export const GET_ITEMS_QUERY = gql`
           title
         }
         status
+        featured
         created
         updated
       }

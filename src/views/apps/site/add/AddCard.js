@@ -126,10 +126,7 @@ const AddCard = () => {
   };
 
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (

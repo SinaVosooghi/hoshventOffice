@@ -339,13 +339,13 @@ const Attendees = ({ seminar, type }) => {
                     color="primary"
                     onClick={() => onBulkCheckinHandler()}
                   >
-                    {t("Enter")}
+                    {t("Bulk enter")}
                   </Button>
                   <Button
                     color="primary"
                     onClick={() => onBulkCheckoutHandler()}
                   >
-                    {t("Exit")}
+                    {t("Bulk exit")}
                   </Button>
                   <ReactToPrint
                     trigger={() => (
@@ -354,7 +354,7 @@ const Attendees = ({ seminar, type }) => {
                         onClick={() => onBulkCheckoutHandler()}
                       >
                         <Printer size={14} className="me-50" />
-                        {t("Exit")}
+                        {t("Print")}
                       </Button>
                     )}
                     content={() => componentRef.current}

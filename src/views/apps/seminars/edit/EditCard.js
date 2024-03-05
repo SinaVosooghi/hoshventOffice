@@ -40,7 +40,7 @@ import {
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
-import moment from "moment";
+import moment from "jalali-moment";
 
 // ** Editor
 import { convertToRaw, EditorState } from "draft-js";
@@ -61,6 +61,7 @@ import PrintableCertificate from "../../workshops/PrintableCertificate";
 import ReactToPrint from "react-to-print";
 import { Printer } from "react-feather";
 import { GET_ATTENDEES_ITEMS } from "../../../extensions/import-export/gql";
+import ScansList from "../../scans/list";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -301,10 +302,7 @@ const EditCard = () => {
     });
   };
   const handleReset = () => {
-    reset({
-      title: "",
-      body: "",
-    });
+    window.history.back();
   };
 
   return (
@@ -761,6 +759,8 @@ const EditCard = () => {
         </Row>
       </Form>
       <Attendees seminar={data} type="seminar" />
+
+      <ScansList seminar={id}/>
 
       <div style={{ display: "none" }}>
         <div

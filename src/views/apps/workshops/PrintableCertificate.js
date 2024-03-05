@@ -9,7 +9,7 @@ import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import "./print.css"; // Import your CSS file
 import { GET_CERTIFICATE } from "./gql";
-import moment from "moment";
+import moment from "jalali-moment";
 import "./print.css"; // Import your CSS file
 
 const styles = {

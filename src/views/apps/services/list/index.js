@@ -20,6 +20,7 @@ import { t } from "i18next";
 import { GET_ITEMS_QUERY } from "../gql";
 import { useLazyQuery } from "@apollo/client";
 import { noDataToDisplay } from "../../../../utility/Utils";
+import ScansList from "../../scans/list";
 
 const CustomHeader = ({
   handleFilter,

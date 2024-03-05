@@ -36,7 +36,7 @@ import { selectThemeColors } from "@utils";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import { t } from "i18next";
-import moment from "moment";
+import moment from "jalali-moment";
 import { GET_ITEM_QUERY, UPDATE_ITEM_MUTATION, USER_TYPES } from "../gql";
 import { GET_ITEMS_QUERY } from "../../roles-permissions/gql";
 import { sleep } from "../../../../utility/Utils";
