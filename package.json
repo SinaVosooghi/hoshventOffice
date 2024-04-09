@@ -48,7 +48,7 @@
     "jsonwebtoken": "8.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
-    "moment-jalaali": "^0.9.6",
+    "moment-jalaali": "^0.10.0",
     "nouislider": "^15.5.0",
     "nouislider-react": "^3.4.1",
     "postcss": "7.0.33",

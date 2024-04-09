@@ -48,6 +48,18 @@ const renderClient = (row) => {
 // ** Table columns
 export const columns = [
   {
+    name: t("User"),
+    sortable: true,
+    width: "150px",
+    cell: (row) => {
+      return (
+        <p className="text-capitalize mx-50" color={"light-primary"}>
+          {row?.user?.firstName + " " + row?.user?.lastName}
+        </p>
+      );
+    },
+  },
+  {
     name: t("Title"),
     sortable: true,
     maxWidth: "300px",
@@ -65,18 +77,6 @@ export const columns = [
             <small className="text-truncate text-muted mb-0">{slug}</small>
           </div>
         </div>
-      );
-    },
-  },
-  {
-    name: t("User"),
-    sortable: true,
-    width: "150px",
-    cell: (row) => {
-      return (
-        <p className="text-capitalize mx-50" color={"light-primary"}>
-          {row?.user?.firstName + " " + row?.user?.lastName}
-        </p>
       );
     },
   },
@@ -103,20 +103,6 @@ export const columns = [
         </div>
       );
     },
-  },
-  {
-    name: t("Updated"),
-    sortable: true,
-    sortField: "updated",
-    width: "130px",
-    selector: (row) => row.updated,
-    cell: (row) => (
-      <span className="text-capitalize">
-        {row.updated
-          ? moment(row?.updated).locale("fa").format("YYYY/MM/D")
-          : "-"}
-      </span>
-    ),
   },
   {
     name: t("Created"),

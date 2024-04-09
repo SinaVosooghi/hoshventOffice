@@ -669,7 +669,7 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.created
-                              ? moment(data?.created).format("H:mm  Y/MM/DD ")
+                              ? moment(data?.created).locale("fa").format("H:mm  Y/MM/DD ")
                               : "-"}
                           </div>
                         </div>
@@ -682,7 +682,7 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.updated
-                              ? moment(data?.updated).format("H:mm  Y/MM/DD ")
+                              ? moment(data?.updated).locale("fa").format("H:mm  Y/MM/DD ")
                               : "-"}
                           </div>
                         </div>
