@@ -156,7 +156,7 @@ const EditCard = () => {
           );
         }
 
-        setStartDate(seminar.end_date);
+        setEndDate(seminar.end_date);
         if (seminar.end_date) {
           setPreSelectedEndDate(
             momentJalali(seminar.end_date).format("jYYYY/jMM/jDD H:mm")
@@ -742,7 +742,7 @@ const EditCard = () => {
                             color="danger"
                             outline
                             onClick={() => {
-                              history(`/apps/categories/${type}`);
+                              history(`/apps/seminars`);
                             }}
                             block
                           >

@@ -13,6 +13,7 @@ import "../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg
 import "../../../../@core/scss/react/libs/editor/editor.scss";
 import Avatar from "@components/avatar";
 import { showImage } from "@utils";
+import { useNavigate } from "react-router-dom";
 
 // ** Reactstrap Imports
 import {
@@ -191,6 +192,7 @@ const AccountTabs = ({
       );
     }
   };
+  const history = useNavigate();
 
   return (
     <Fragment>
@@ -434,7 +436,7 @@ const AccountTabs = ({
               <Button color="success" className="me-1" type="submit">
                 {t("Update")}
               </Button>
-              <Button color="secondary" outline>
+              <Button color="secondary" outline onClick={() => history(`/dashboard`)}>
                 {t("Discard")}
               </Button>
             </Col>

@@ -36,17 +36,6 @@ const CustomHeader = ({
           lg="6"
           className="actions-right d-flex align-items-center flex-lg-nowrap flex-wrap mt-lg-0 mt-1 ps-lg-1 p-0"
         >
-          <div className="d-flex align-items-center justify-content-start">
-            <label htmlFor="search-invoice">{t("Search")}</label>
-            <Input
-              id="search-invoice"
-              className="ms-50 me-2 w-100"
-              type="text"
-              value={value}
-              onChange={(e) => handleFilter(e.target.value)}
-              placeholder={t("Search")}
-            />
-          </div>
           <Input
             className="w-auto mx-1"
             type="select"

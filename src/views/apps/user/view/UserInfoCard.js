@@ -405,7 +405,9 @@ const UserInfoCard = ({ selectedUser }) => {
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">
-                  {moment(selectedUser?.created).format("YYYY/MM/D")}
+                  {moment(selectedUser?.created)
+                    .locale("fa")
+                    .format("YYYY/MM/D")}
                 </h4>
                 <small>{t("Created")}</small>
               </div>

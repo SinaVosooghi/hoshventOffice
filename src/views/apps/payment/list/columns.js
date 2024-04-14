@@ -127,7 +127,9 @@ export const columns = [
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.created ? moment(row.created).format("YYYY/MM/D") : "-"}
+        {row.created
+          ? moment(row.created).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },

@@ -19,6 +19,7 @@ import {
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import { selectThemeColors } from "@utils";
+import { useNavigate } from 'react-router-dom'
 
 // ** Demo Components
 import { t } from "i18next";
@@ -38,6 +39,8 @@ const statusOptions = [
 ];
 
 const SecurityTabContent = ({ handleSubmit, errors, control }) => {
+  const history = useNavigate();
+
   const [usersOptions, setUsersOptions] = useState([
     { value: "", label: `${t("Select")} ${t("User")}` },
   ]);
@@ -116,7 +119,7 @@ const SecurityTabContent = ({ handleSubmit, errors, control }) => {
               <Button color="success" className="me-1" type="submit">
                 {t("Update")}
               </Button>
-              <Button color="secondary" outline>
+              <Button color="secondary" outline onClick={() => history(`/dashboard`)}>
                 {t("Discard")}
               </Button>
             </Col>

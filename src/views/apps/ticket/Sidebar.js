@@ -105,6 +105,16 @@ const Sidebar = (props) => {
               options={{ wheelPropagation: false }}
             >
               <ListGroup tag="div" className="list-group-messages">
+                <ListGroupItem tag={Link} action>
+                  <Badge
+                    className="float-end"
+                    color="light-primary"
+                    pill
+                    style={{ width: "100%", padding: "8px 0" }}
+                  >
+                    مجموع {chats?.chats?.count} پیام
+                  </Badge>
+                </ListGroupItem>
                 <ListGroupItem
                   tag={Link}
                   to="/apps/ticket"
@@ -116,9 +126,7 @@ const Sidebar = (props) => {
                 >
                   <Mail size={18} className="me-75" />
                   <span className="align-middle">{t("Inbox")}</span>
-                  <Badge className="float-end" color="light-primary" pill>
-                    {chats?.chats?.count}
-                  </Badge>
+                  
                   {/* ) : null} */}
                 </ListGroupItem>
                 <ListGroupItem
@@ -128,13 +136,6 @@ const Sidebar = (props) => {
                 >
                   <ChevronDown size={18} className="me-75" />
                   <span className="align-middle">{t("Low priority")}</span>{" "}
-                  <Badge className="float-end" color="light-success" pill>
-                    {
-                      chats?.chats?.chats?.filter(
-                        (chat) => chat.priority === "low"
-                      ).length
-                    }
-                  </Badge>
                 </ListGroupItem>
                 <ListGroupItem
                   className="cursor-pointer"
@@ -143,13 +144,6 @@ const Sidebar = (props) => {
                 >
                   <Minus size={18} className="me-75" />
                   <span className="align-middle">{t("Medium priority")}</span>
-                  <Badge className="float-end" color="light-warning" pill>
-                    {
-                      chats?.chats?.chats?.filter(
-                        (chat) => chat.priority === "medium"
-                      ).length
-                    }
-                  </Badge>
                 </ListGroupItem>
                 <ListGroupItem
                   className="cursor-pointer"
@@ -158,13 +152,6 @@ const Sidebar = (props) => {
                 >
                   <ChevronUp size={18} className="me-75" />
                   <span className="align-middle">{t("High priority")}</span>
-                  <Badge className="float-end" color="light-danger" pill>
-                    {
-                      chats?.chats?.chats?.filter(
-                        (chat) => chat.priority === "high"
-                      ).length
-                    }
-                  </Badge>
                 </ListGroupItem>
               </ListGroup>
               <h6 className="section-label mt-3 mb-1 px-2">

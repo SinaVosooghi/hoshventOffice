@@ -13,6 +13,7 @@ import {
   CardTitle,
   CardHeader,
 } from "reactstrap";
+import { useNavigate } from 'react-router-dom'
 
 // ** Third Party Components
 import classnames from "classnames";
@@ -22,6 +23,8 @@ import { Controller } from "react-hook-form";
 import { t } from "i18next";
 
 const PaymentMethods = ({ errors, control }) => {
+  const history = useNavigate();
+
   return (
     <Fragment>
       <Card>
@@ -81,7 +84,7 @@ const PaymentMethods = ({ errors, control }) => {
                     <Button color="success" className="me-1" type="submit">
                       {t("Update")}
                     </Button>
-                    <Button color="secondary" outline>
+                    <Button color="secondary" outline onClick={() => history(`/dashboard`)}>
                       {t("Discard")}
                     </Button>
                   </Col>

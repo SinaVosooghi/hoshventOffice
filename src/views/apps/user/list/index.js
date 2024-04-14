@@ -35,21 +35,37 @@ const UsersList = () => {
     },
     onCompleted: ({ users }) => {
       setTotal(users.count);
-      let a = 0; // Stands for admins count
-      let t = 0; // Stands for Teachers count
-      let s = 0; // Stands for Students count
-
-      users?.users?.map((user) => {
-        if (user.usertype === "instructor") a += 1;
-        if (user.usertype === "lecturer") t += 1;
-        if (user.usertype === "merchant") s += 1;
-        if (user.usertype === "user") s += 1;
-      });
-
-      setLecturers(t);
-      setJudges(a);
-      setMerchants(s);
     },
+  });
+
+  useQuery(GET_ITEMS_QUERY, {
+    variables: {
+      input: {
+        skip: 0,
+        usertype: "tenant",
+      },
+    },
+    onCompleted: ({ users }) => setMerchants(users.count),
+  });
+
+  useQuery(GET_ITEMS_QUERY, {
+    variables: {
+      input: {
+        skip: 0,
+        usertype: "lecturer",
+      },
+    },
+    onCompleted: ({ users }) => setLecturers(users.count),
+  });
+
+  useQuery(GET_ITEMS_QUERY, {
+    variables: {
+      input: {
+        skip: 0,
+        usertype: "instructor",
+      },
+    },
+    onCompleted: ({ users }) => setJudges(users.count),
   });
 
   return (
