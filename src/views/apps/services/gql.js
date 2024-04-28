@@ -39,6 +39,9 @@ export const GET_ITEMS_QUERY = gql`
         title
         price
         image
+        timelines {
+          id
+        }
         attendees {
           id
         }
