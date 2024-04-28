@@ -255,6 +255,8 @@ const UserInfoCard = ({ selectedUser }) => {
     const avatar = data.avatar;
     delete data.avatar;
     delete data.site;
+    delete data.updated;
+    delete data.created;
 
     const workshopFiltered = workshopItems.map((m) => m.value);
     const seminarFiltered = seminarItems.map((m) => m.value);
