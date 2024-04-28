@@ -53,6 +53,7 @@ export const GET_ITEMS_QUERY = gql`
         updated
         mobilenumber
         created
+        updated
         status
         avatar
         gender
@@ -152,6 +153,8 @@ export const GET_ITEM_QUERY = gql`
       status
       about
       avatar
+      updated
+      created
       registerFields
       seminars {
         id

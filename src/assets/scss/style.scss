@@ -316,6 +316,22 @@ body {
   }
 }
 
+#message-editor {
+  .rdw-left-aligned-block {
+    direction: rtl !important;
+    text-align: right !important;
+  }
+
+  .public-DraftStyleDefault-rtl {
+    direction: inherit !important;
+    text-align: inherit !important;
+  }
+
+  .rdw-right-aligned-block {
+    direction: ltr !important;
+    text-align: left !important;
+  }
+}
 // [dir="rtl"] .rdw-right-aligned-block {
 // 	direction: rtl !important;
 // 	text-align: right !important;

@@ -105,15 +105,29 @@ export const columns = [
     },
   },
   {
+    name: "تحویل شده",
+    sortable: true,
+    sortField: "delivered",
+    width: "160px",
+    selector: (row) => row.updated,
+    cell: (row) => (
+      <span className="text-capitalize">
+        {row.updated
+          ? moment(row?.updated).locale("fa").format("YYYY/MM/D HH:mm")
+          : "-"}
+      </span>
+    ),
+  },
+  {
     name: t("Created"),
     sortable: true,
     sortField: "created",
-    width: "130px",
+    width: "160px",
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
         {row.created
-          ? moment(row?.created).locale("fa").format("YYYY/MM/D")
+          ? moment(row?.created).locale("fa").format("YYYY/MM/D HH:mm")
           : "-"}
       </span>
     ),

@@ -673,7 +673,7 @@ const EditCard = () => {
                             {data?.created
                               ? moment(data?.created)
                                   .locale("fa")
-                                  .format("H:mm  Y/MM/DD ")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>
@@ -688,7 +688,7 @@ const EditCard = () => {
                             {data?.updated
                               ? moment(data?.updated)
                                   .locale("fa")
-                                  .format("H:mm  Y/MM/DD ")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>

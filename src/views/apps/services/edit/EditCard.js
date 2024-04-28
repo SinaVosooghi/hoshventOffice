@@ -42,7 +42,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { convertHtmlToDraft, sleep } from "../../../../utility/Utils";
 import moment from "jalali-moment";
 import { DateTimePicker } from "react-advance-jalaali-datepicker";
-import momentJalali from "moment-jalaali";
 
 // ** Editor
 import { convertToRaw, EditorState } from "draft-js";
@@ -53,7 +52,6 @@ import draftToHtml from "draftjs-to-html";
 import { hashConfig } from "../../../../utility/Utils";
 
 import CardAction from "@components/card-actions";
-import { EventsMultiSelect } from "../add/EventsMultiSelect";
 import { fallbackHandler } from "../../contact/helpers";
 
 const statusOptions = [
@@ -427,9 +425,9 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.created
-                              ? moment(data?.created)
+                              ? moment(data.created)
                                   .locale("fa")
-                                  .format("H:mm  Y/MM/DD ")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>
@@ -442,9 +440,9 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.updated
-                              ? moment(data?.updated).locale("fa")
+                              ? moment(data.updated)
                                   .locale("fa")
-                                  .format("Y/MM/DD ")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>
