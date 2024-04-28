@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -8,7 +8,6 @@ import Avatar from "@components/avatar";
 import { Badge, Button } from "reactstrap";
 
 // ** Third Party Components
-import { Trash, Edit2 } from "react-feather";
 import { t } from "i18next";
 import moment from "jalali-moment";
 import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
@@ -70,6 +69,14 @@ export const columns = [
     },
   },
   {
+    name: "تعداد دریافت",
+    sortable: true,
+    minWidth: "150px",
+    cell: (row) => {
+      return row.attendees?.length;
+    },
+  },
+  {
     name: t("Events"),
     sortable: true,
     minWidth: "150px",
@@ -89,7 +96,9 @@ export const columns = [
     selector: (row) => row.updated,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.updated ? moment(row?.updated).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.updated
+          ? moment(row?.updated).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
@@ -101,7 +110,9 @@ export const columns = [
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.created ? moment(row?.created).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.created
+          ? moment(row?.created).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
