@@ -78,9 +78,9 @@ const EmailApp = () => {
     });
   }, [query, params.folder, params.label, priority, department]);
 
-  useEffect(() => {
-    console.log(priority);
-  }, [priority]);
+  // useEffect(() => {
+  //   console.log(priority);
+  // }, [priority]);
 
   return (
     <Fragment>

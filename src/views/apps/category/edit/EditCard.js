@@ -138,7 +138,6 @@ const EditCard = () => {
 
         setImages(category.image);
 
-        console.log(category)
         reset({
           ...category,
           status: category.status

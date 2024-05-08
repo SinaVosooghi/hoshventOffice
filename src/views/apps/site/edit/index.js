@@ -118,10 +118,10 @@ const AccountSettings = () => {
   });
 
   useEffect(() => {
-    if (user?.site) {
+    if (user?.site || user?.siteid) {
       getWebsite({
         variables: {
-          id: user?.site[0].id,
+          id: user?.site[0]?.id || user?.siteid?.id,
         },
       });
     }

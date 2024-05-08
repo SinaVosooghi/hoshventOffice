@@ -149,7 +149,6 @@ const MailDetails = (props) => {
 
   // ** Renders Messages
   const renderMessage = (obj, chat) => {
-    console.log(chat);
     return (
       <Card>
         <CardHeader className="email-detail-head">

@@ -255,6 +255,7 @@ const UserInfoCard = ({ selectedUser }) => {
     const avatar = data.avatar;
     delete data.avatar;
     delete data.site;
+    delete data.siteid;
     delete data.updated;
     delete data.created;
 

@@ -172,6 +172,16 @@ export const GET_ITEM_QUERY = gql`
         id
         title
       }
+      siteid {
+        id
+        title
+        logo
+        plan {
+          id
+          title
+          sms
+        }
+      }
       site {
         id
         title
