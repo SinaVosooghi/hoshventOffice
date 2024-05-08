@@ -17,7 +17,10 @@ export const useGetUser = () => {
       },
       onCompleted: ({ user }) => {
         if (user && user.usertype === "tenant") {
-          setUser({ ...user, site: [user.siteid] });
+          setUser({
+            ...user,
+            site: user.site.length ? user.site : [user.siteid],
+          });
         }
       },
       onError: (err) => {
