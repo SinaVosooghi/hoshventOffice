@@ -99,6 +99,12 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
                   {itemUser?.user?.category?.titleen}
                 </Title>
               );
+            } else if (type === "usertitle") {
+              return (
+                <Title key={key} id={key} left={left} top={top}>
+                  {itemUser?.user?.title ?? user?.title}
+                </Title>
+              );
             } else if (type === "category") {
               return (
                 <Title key={key} id={key} left={left} top={top}>

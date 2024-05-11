@@ -53,15 +53,16 @@ const PrintCard = ({ prevBoxes }) => {
         a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
         b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
         c: { top: 150, left: 190, title: "QRCODE", type: "qr" },
-        d: { top: 250, left: 390, title: "لوگو رویداد", type: "logo" },
+        d: { top: 350, left: 190, title: "لوگو رویداد", type: "logo" },
         e: {
           top: 320,
           left: 40,
           title: "نام و نام خانوادگی EN",
           type: "nameen",
         },
-        f: { top: 380, left: 590, title: "دسته بندی EN", type: "categoryen" },
+        f: { top: 120, left: 90, title: "دسته بندی EN", type: "categoryen" },
         g: { top: 80, left: 490, title: "دسته بندی", type: "category" },
+        h: { top: 70, left: 80, title: "عنوان شخص", type: "usertitle" },
       });
     }
   }, [prevBoxes]);

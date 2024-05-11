@@ -8,8 +8,8 @@ import { Logo } from "./Logo.js";
 import { Button, Col } from "reactstrap";
 import { t } from "i18next";
 const styles = {
-  width: 1004,
-  height: 531,
+  width: 531,
+  height: 1004,
   border: "1px solid black",
   position: "relative",
 };
@@ -80,6 +80,18 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
             </Box>
           );
         } else if (type === "categoryen") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "usertitle") {
           return (
             <Box
               key={key}
