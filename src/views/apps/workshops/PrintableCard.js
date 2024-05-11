@@ -12,7 +12,6 @@ import "./print.css"; // Import your CSS file
 const styles = {
   width: "297mm",
   height: "297mm",
-  transform: "rotate(45ddeg)",
 };
 
 const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
@@ -46,7 +45,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
   }, [site]);
 
   return (
-    <div style={{ position: "relative", transform: "rotate(90deg)" }}>
+    <div style={{ position: "relative" }}>
       <div style={styles} className="print-page">
         {elements &&
           Object.keys(elements).map((key) => {
