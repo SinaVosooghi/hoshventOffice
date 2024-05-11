@@ -147,6 +147,8 @@ export const GET_ITEM_QUERY = gql`
       username
       firstName
       lastName
+      firstNameen
+      lastNameen
       mobilenumber
       phonenumber
       usertype
