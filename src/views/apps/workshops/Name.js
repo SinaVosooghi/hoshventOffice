@@ -8,7 +8,7 @@ export const Name = ({ id, left, top, children }) => {
   return (
     <div
       className="box"
-      style={{ ...style, left, top, fontWeight: "bold" }}
+      style={{ ...style, left, top, fontWeight: "bold", textAlign: "center" }}
       data-testid="name"
     >
       {children}
