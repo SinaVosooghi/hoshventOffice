@@ -5,11 +5,9 @@ import { Box } from "./Box.js";
 import { ItemTypes } from "./ItemTypes.js";
 import { QrCode } from "./QRCode.js";
 import { Logo } from "./Logo.js";
-import { Button, Col } from "reactstrap";
-import { t } from "i18next";
 const styles = {
-  width: 531,
-  height: 1004,
+  width: "7in",
+  height: "9.25in",
   border: "1px solid black",
   position: "relative",
 };
