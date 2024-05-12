@@ -75,6 +75,12 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
                   </div>
                 </QrCode>
               );
+            } else if (type === "titleen") {
+              return (
+                <Title key={key} id={key} left={left} top={top}>
+                  {data?.user?.titleen ?? user?.titleen}
+                </Title>
+              );
             } else if (type === "name") {
               return (
                 <Name key={key} id={key} left={left} top={top}>
@@ -109,6 +115,14 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
               return (
                 <Title key={key} id={key} left={left} top={top}>
                   {itemUser?.user?.category?.title}
+                </Title>
+              );
+            } else if (type === "parent") {
+              console.log(data?.user?.category, user?.category);
+              return (
+                <Title key={key} id={key} left={left} top={top}>
+                  {data?.user?.category?.category?.title ||
+                    user?.category?.category?.title}
                 </Title>
               );
             } else if (type === "logo") {

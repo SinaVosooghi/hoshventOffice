@@ -91,18 +91,6 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
               {title}
             </Box>
           );
-        } else if (type === "usertitle") {
-          return (
-            <Box
-              key={key}
-              id={key}
-              left={left}
-              top={top}
-              hideSourceOnDrag={true}
-            >
-              {title}
-            </Box>
-          );
         } else if (type === "category") {
           return (
             <Box
@@ -116,6 +104,42 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
             </Box>
           );
         } else if (type === "title") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "usertitle") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "titleen") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "parent") {
           return (
             <Box
               key={key}
