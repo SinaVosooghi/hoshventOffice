@@ -5,11 +5,9 @@ import { Box } from "./Box.js";
 import { ItemTypes } from "./ItemTypes.js";
 import { QrCode } from "./QRCode.js";
 import { Logo } from "./Logo.js";
-import { Button, Col } from "reactstrap";
-import { t } from "i18next";
 const styles = {
-  width: 531,
-  height: 1004,
+  width: "7in",
+  height: "9.25in",
   border: "1px solid black",
   position: "relative",
 };
@@ -91,18 +89,6 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
               {title}
             </Box>
           );
-        } else if (type === "usertitle") {
-          return (
-            <Box
-              key={key}
-              id={key}
-              left={left}
-              top={top}
-              hideSourceOnDrag={true}
-            >
-              {title}
-            </Box>
-          );
         } else if (type === "category") {
           return (
             <Box
@@ -116,6 +102,42 @@ export const Container = ({ hideSourceOnDrag, boxes, setBoxes }) => {
             </Box>
           );
         } else if (type === "title") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "usertitle") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "titleen") {
+          return (
+            <Box
+              key={key}
+              id={key}
+              left={left}
+              top={top}
+              hideSourceOnDrag={true}
+            >
+              {title}
+            </Box>
+          );
+        } else if (type === "parent") {
           return (
             <Box
               key={key}

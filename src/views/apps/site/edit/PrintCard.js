@@ -51,7 +51,7 @@ const PrintCard = ({ prevBoxes }) => {
     } else {
       setBoxes({
         a: { top: 20, left: 80, title: "عنوان رویداد", type: "title" },
-        b: { top: 180, left: 20, title: "نام ونام خانوادگی", type: "name" },
+        b: { top: 180, left: 80, title: "نام ونام خانوادگی", type: "name" },
         c: { top: 150, left: 190, title: "QRCODE", type: "qr" },
         d: { top: 350, left: 190, title: "لوگو رویداد", type: "logo" },
         e: {
@@ -60,9 +60,12 @@ const PrintCard = ({ prevBoxes }) => {
           title: "نام و نام خانوادگی EN",
           type: "nameen",
         },
-        f: { top: 120, left: 90, title: "دسته بندی EN", type: "categoryen" },
-        g: { top: 80, left: 490, title: "دسته بندی", type: "category" },
+        f: { top: 120, left: 80, title: "دسته بندی EN", type: "categoryen" },
+        g: { top: 90, left: 80, title: "دسته بندی", type: "category" },
         h: { top: 70, left: 80, title: "عنوان شخص", type: "usertitle" },
+        i: { top: 230, left: 80, title: "دسته بندی والد", type: "parent" },
+        j: { top: 260, left: 80, title: "عنوان کاربر", type: "titleen" },
+        k: { top: 290, left: 80, title: "عنوان کابر EN", type: "usertitle" },
       });
     }
   }, [prevBoxes]);
