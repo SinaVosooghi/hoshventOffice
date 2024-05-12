@@ -48,6 +48,7 @@ export const GET_ITEMS_QUERY = gql`
         firstName
         lastName
         firstNameen
+        nationalcode
         lastNameen
         usertype
         updated
@@ -147,7 +148,10 @@ export const GET_ITEM_QUERY = gql`
       username
       firstName
       lastName
+      title
+      titleen
       firstNameen
+      nationalcode
       lastNameen
       mobilenumber
       phonenumber

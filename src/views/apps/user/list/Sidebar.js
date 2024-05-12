@@ -259,6 +259,68 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             </div>
           </Col>
         </Row>
+        <Row>
+          <Col md={6}>
+            <div className="mb-1">
+              <Label className="form-label" for="nationalcode">
+                کد ملی
+              </Label>
+              <Controller
+                name="nationalcode"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    className="form-control"
+                    placeholder="33884736"
+                    options={options}
+                    invalid={errors.nationalcode && true}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <div className="mb-1">
+              <Label className="form-label" for="title">
+                عنوان
+              </Label>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    className="form-control"
+                    placeholder="مدیر"
+                    invalid={errors.title && true}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+          </Col>
+          <Col md={6}>
+            <div className="mb-1">
+              <Label className="form-label" for="titleen">
+                عنوان انگلیسی
+              </Label>
+              <Controller
+                name="titleen"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    className="form-control"
+                    placeholder="Manager"
+                    invalid={errors.titleen && true}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+          </Col>
+        </Row>
         <div className="mb-1">
           <Label className="form-label" for="company">
             {t("Password")} <span className="text-danger">*</span>

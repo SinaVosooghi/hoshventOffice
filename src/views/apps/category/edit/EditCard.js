@@ -320,7 +320,7 @@ const EditCard = () => {
                             placeholder={t("Select...")}
                             className={classnames("react-select", {
                               "is-invalid":
-                                data !== null && data.status === null,
+                                data !== null && data?.status === null,
                             })}
                             {...field}
                           />
@@ -344,7 +344,7 @@ const EditCard = () => {
                             placeholder={t("Select...")}
                             className={classnames("react-select", {
                               "is-invalid":
-                                data !== null && data.featured === null,
+                                data !== null && data?.featured === null,
                             })}
                             {...field}
                           />

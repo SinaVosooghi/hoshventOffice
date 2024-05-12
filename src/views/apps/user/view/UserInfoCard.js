@@ -444,6 +444,7 @@ const UserInfoCard = ({ selectedUser }) => {
                     </Badge>
                   </span>
                 </li>
+
                 {selectedUser?.role && (
                   <li className="mb-75">
                     <span className="fw-bolder me-25">{t("Role")}:</span>
@@ -455,6 +456,33 @@ const UserInfoCard = ({ selectedUser }) => {
                       >
                         {selectedUser?.role?.title}
                       </Badge>
+                    </span>
+                  </li>
+                )}
+
+                {selectedUser?.title && (
+                  <li className="mb-75">
+                    <span className="fw-bolder me-25">عنوان:</span>
+                    <span className="text-capitalize">
+                      {selectedUser?.title}
+                    </span>
+                  </li>
+                )}
+
+                {selectedUser?.titleen && (
+                  <li className="mb-75">
+                    <span className="fw-bolder me-25">عنوان انگلیسی:</span>
+                    <span className="text-capitalize">
+                      {selectedUser?.titleen}
+                    </span>
+                  </li>
+                )}
+
+                {selectedUser?.nationalcode && (
+                  <li className="mb-75">
+                    <span className="fw-bolder me-25">کد ملی:</span>
+                    <span className="text-capitalize">
+                      {selectedUser?.nationalcode}
                     </span>
                   </li>
                 )}
@@ -598,6 +626,58 @@ const UserInfoCard = ({ selectedUser }) => {
                       id="lastName"
                       placeholder="johnDoe99"
                       invalid={errors.lastName && true}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+
+              <Col md={4} xs={12}>
+                <Label className="form-label" for="title">
+                  {t("Title")}
+                </Label>
+                <Controller
+                  name="title"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="title"
+                      placeholder="مدیر"
+                      invalid={errors.title && true}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={4} xs={12}>
+                <Label className="form-label" for="titleen">
+                  عنوان انگلیسی
+                </Label>
+                <Controller
+                  name="titleen"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="titleen"
+                      placeholder="Manager"
+                      invalid={errors.titleen && true}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={4} xs={12}>
+                <Label className="form-label" for="nationalcode">
+                  کد ملی
+                </Label>
+                <Controller
+                  name="nationalcode"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="nationalcode"
+                      placeholder="1231312"
+                      invalid={errors.nationalcode && true}
                       {...field}
                     />
                   )}
