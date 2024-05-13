@@ -1,14 +1,21 @@
 const style = {
   position: "absolute",
-  backgroundColor: "white",
-  padding: "0.5rem 1rem",
   fontSize: 24,
 };
-export const Name = ({ id, left, top, children }) => {
+export const Name = ({ id, left, top, children, styles }) => {
   return (
     <div
       className="box"
-      style={{ ...style, left, top, fontWeight: "bold", textAlign: "center" }}
+      style={{
+        ...style,
+        left,
+        top,
+        color: "#000",
+        whiteSpace: "nowrap",
+        fontWeight: "bold",
+        textAlign:'center',
+        ...styles,
+      }}
       data-testid="name"
     >
       {children}

@@ -1,6 +1,5 @@
 const style = {
   position: "absolute",
-  backgroundColor: "white",
   height: 180,
   width: 180,
 };

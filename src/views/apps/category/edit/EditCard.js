@@ -492,7 +492,9 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.created
-                              ? moment(data?.created).locale("fa").format("YYYY/MM/D HH:mm")
+                              ? moment(data?.created)
+                                  .locale("fa")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>
@@ -505,7 +507,9 @@ const EditCard = () => {
                           </label>
                           <div className="form-switch">
                             {data?.updated
-                              ? moment(data?.updated).locale("fa").format("YYYY/MM/D HH:mm")
+                              ? moment(data?.updated)
+                                  .locale("fa")
+                                  .format("YYYY/MM/D HH:mm")
                               : "-"}
                           </div>
                         </div>
@@ -586,11 +590,9 @@ const EditCard = () => {
           <div
             ref={componentRef}
             style={{
-              width: "8.27in",
-              backgroundClip: "white",
-              margin: "0 auto",
-              display: "flex",
-              flexDirection: "column",
+              width: "7in",
+              height: "9.25in",
+              position: "relative",
             }}
           >
             {users?.map((user) => {

@@ -55,6 +55,15 @@ export const GET_ITEMS_QUERY = gql`
         mobilenumber
         created
         updated
+        title
+        titleen
+        category {
+          title
+          titleen
+          category {
+            title
+          }
+        }
         status
         avatar
         gender

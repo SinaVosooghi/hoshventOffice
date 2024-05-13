@@ -273,7 +273,6 @@ const UsersList = () => {
     fetchPolicy: "network-only",
     variables: {
       input: {
-        limit: 5,
         skip: 0,
         type: "user",
       },
