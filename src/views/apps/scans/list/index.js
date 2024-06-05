@@ -7,7 +7,7 @@ import { columns } from "./columns";
 
 // ** Third Party Components
 import ReactPaginate from "react-paginate";
-import { ChevronDown, Codesandbox } from "react-feather";
+import { ChevronDown, Codesandbox, DownloadCloud } from "react-feather";
 import DataTable from "react-data-table-component";
 
 // ** Reactstrap Imports
@@ -18,21 +18,54 @@ import Avatar from "@components/avatar";
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 import { t } from "i18next";
-import { GET_ITEMS_QUERY } from "../gql";
+import { GET_ITEMS_QUERY, GET_SCAN_PDF } from "../gql";
 import { useLazyQuery } from "@apollo/client";
 import { noDataToDisplay } from "../../../../utility/Utils";
 
-const CustomHeader = () => {
+const CustomHeader = ({ seminar, workshop, service }) => {
+  const [getPdfFile] = useLazyQuery(GET_SCAN_PDF, {
+    fetchPolicy: "network-only",
+
+    onCompleted: ({ scansPdf }) => {
+      var link = document.createElement("a");
+      link.download = name;
+      link.href = import.meta.env.VITE_BASE_API + scansPdf;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+  });
+
+  // ** Downloads CSV
+  function downloadCSV(e) {
+    e.preventDefault();
+    getPdfFile({
+      variables: {
+        input: {
+          skip: 0,
+          ...(service && { service: parseInt(service) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+        },
+      },
+    });
+  }
+
   return (
     <div className="invoice-list-table-header w-100 py-2">
       <Row>
         <Col
           lg="6"
-          className="actions-right d-flex align-items-center flex-lg-nowrap flex-wrap mt-lg-0 mt-1 ps-lg-1 p-0"
+          className="d-flex align-items-sm-center justify-content-xl-start justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
         >
-          <div className="d-flex align-items-center justify-content-start">
+          <div className="d-flex align-items-center justify-content-start ms-2">
             <label htmlFor="search-invoice">آخرین اسکن ها</label>
           </div>
+
+          <Button outline onClick={downloadCSV} className="me-1 ms-1" size="sm">
+            <DownloadCloud className="font-small-4 me-50" />
+            <span>{t("Download CSV")}</span>
+          </Button>
         </Col>
       </Row>
     </div>
@@ -63,7 +96,6 @@ const ScansList = ({ service, workshop, seminar }) => {
           ...(service && { service: parseInt(service) }),
           ...(seminar && { seminar: parseInt(seminar) }),
           ...(workshop && { workshop: parseInt(workshop) }),
-
         },
       },
     });
@@ -233,6 +265,9 @@ const ScansList = ({ service, workshop, seminar }) => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 handleStatusValue={handleStatusValue}
+                service={service}
+                workshop={workshop}
+                seminar={seminar}
               />
             }
           />

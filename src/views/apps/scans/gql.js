@@ -3,6 +3,12 @@ import { gql } from "@apollo/client";
 export const ITEM_NAME = "scans";
 export const ITEM_NAME_SINGULAR = "Scan";
 
+export const GET_SCAN_PDF = gql`
+  query scansPdf($input: GetScansArgs!) {
+    scansPdf(input: $input)
+  }
+`;
+
 export const CREATE_ITEM_MUTATION = gql`
   mutation CreateScan($input: CreateScanInput!) {
     createScan(input: $input) {

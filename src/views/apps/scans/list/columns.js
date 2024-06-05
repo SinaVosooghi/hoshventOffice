@@ -1,19 +1,9 @@
-// ** React Imports
-import { Link, useParams } from "react-router-dom";
-
 // ** Custom Components
 import Avatar from "@components/avatar";
 
-// ** Reactstrap Imports
-import { Badge, Button } from "reactstrap";
-
 // ** Third Party Components
-import { Trash, Edit2 } from "react-feather";
 import { t } from "i18next";
 import moment from "jalali-moment";
-import { DELETE_ITEM_MUTATION, GET_ITEMS_QUERY } from "../gql";
-import { fallbackHandler } from "../../../../utility/helpers/fallbackhandler";
-import { useMutation } from "@apollo/client";
 
 // ** renders client column
 const renderClient = (row) => {
