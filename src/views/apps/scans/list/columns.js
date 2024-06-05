@@ -4,9 +4,12 @@ import Avatar from "@components/avatar";
 // ** Third Party Components
 import { t } from "i18next";
 import moment from "jalali-moment";
+import { useLocation } from "react-router-dom";
 
 // ** renders client column
 const renderClient = (row) => {
+  const location = useLocation();
+
   const stateNum = Math.floor(Math.random() * 6),
     states = [
       "light-success",
@@ -22,14 +25,14 @@ const renderClient = (row) => {
     <Avatar
       color={color}
       className="me-50"
-      content={row.title ?? "John Doe"}
+      content={row?.user?.firstName + " " + row?.user?.lastName ?? "John Doe"}
       img={`${import.meta.env.VITE_BASE_API}/${row.image}`}
     />
   ) : (
     <Avatar
       color={color}
       className="me-50"
-      content={row.title ?? "John Doe"}
+      content={row?.user?.firstName + " " + row?.user?.lastName ?? "John Doe"}
       initials
     />
   );
@@ -43,9 +46,12 @@ export const columns = [
     width: "150px",
     cell: (row) => {
       return (
-        <p className="text-capitalize mx-50" color={"light-primary"}>
-          {row?.user?.firstName + " " + row?.user?.lastName}
-        </p>
+        <div className="d-flex justify-content-left align-items-center">
+          {renderClient(row)}
+          <div className="d-flex flex-column">
+            {row?.user?.firstName + " " + row?.user?.lastName}
+          </div>
+        </div>
       );
     },
   },
@@ -61,7 +67,6 @@ export const columns = [
       const slug = row.slug;
       return (
         <div className="d-flex justify-content-left align-items-center">
-          {renderClient(row)}
           <div className="d-flex flex-column">
             <h6 className="user-name text-truncate mb-0">{name}</h6>
             <small className="text-truncate text-muted mb-0">{slug}</small>
@@ -87,9 +92,17 @@ export const columns = [
     sortable: true,
     ellipsis: true,
     cell: (row) => {
+      const hasServices = location.pathname.includes("services");
+
       return (
         <div className="white-space-nowrap overflow-hidden text-overflow-ellipsis">
-          {row?.type === "checkin" ? "ورود" : "خروج"}
+          {hasServices
+            ? row?.type === "checkin"
+              ? "دریافت شده"
+              : "خروج"
+            : row?.type === "checkin"
+            ? "ورود"
+            : "خروج"}
         </div>
       );
     },

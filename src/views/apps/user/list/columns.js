@@ -81,7 +81,7 @@ const renderRole = (row) => {
   return (
     <span className="text-truncate text-capitalize align-middle">
       <Link
-        to={`/apps/roles/edit/${row.role?.id}`}
+        to={`/apps/user/view/${row.id}`}
         className="user_name text-truncate text-body"
       >
         <Icon
@@ -104,21 +104,20 @@ export const columns = [
     sortField: "fullName",
     selector: (row) => row.firstName,
     cell: (row) => (
-      <div className="d-flex justify-content-left align-items-center">
+      <Link
+        to={`/apps/user/view/${row.id}`}
+        className="d-flex justify-content-left align-items-center"
+      >
         {renderClient(row)}
         <div className="d-flex flex-column">
-          <Link
-            to={`/apps/user/view/${row.id}`}
-            className="user_name text-truncate text-body"
-            onClick={() => store.dispatch(getUser(row.id))}
-          >
+          <div className="user_name text-truncate text-body">
             <span className="fw-bolder">
               {row.firstName + " " + row.lastName}{" "}
             </span>
-          </Link>
+          </div>
           <small className="text-truncate text-muted mb-0">{row.email}</small>
         </div>
-      </div>
+      </Link>
     ),
   },
   {
@@ -147,9 +146,7 @@ export const columns = [
     minWidth: "172px",
     sortField: "usetype",
     cell: (row) => (
-      <span className="text-capitalize">
-        {row?.category?.title}
-      </span>
+      <span className="text-capitalize">{row?.category?.title}</span>
     ),
   },
   {
@@ -160,7 +157,9 @@ export const columns = [
     selector: (row) => row.updated,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.updated ? moment(row.updated).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.updated
+          ? moment(row.updated).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
@@ -172,7 +171,9 @@ export const columns = [
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.created ? moment(row.created).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.created
+          ? moment(row.created).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },

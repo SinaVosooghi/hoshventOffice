@@ -73,9 +73,15 @@ export const columns = [
     sortable: true,
     minWidth: "150px",
     cell: (row) => {
-      return `${row.attendees?.length} از ${
-        row?.timelines.filter((t) => !t.checkin)?.length
-      }`;
+      return `${row.attendees?.length}`;
+    },
+  },
+  {
+    name: "تعداد کل",
+    sortable: true,
+    minWidth: "150px",
+    cell: (row) => {
+      return `${row?.timelines.filter((t) => !t.checkin)?.length}`;
     },
   },
   {
