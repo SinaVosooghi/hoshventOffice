@@ -73,7 +73,7 @@ export const columns = [
     sortable: true,
     minWidth: "150px",
     cell: (row) => {
-      return `${row.attendees?.length}`;
+      return `${row.attendees?.length ?? "-"}`;
     },
   },
   {
