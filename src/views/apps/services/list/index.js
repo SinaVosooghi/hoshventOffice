@@ -104,7 +104,7 @@ const ItemList = () => {
   const { type } = useParams();
 
   const [getItems, { data: services }] = useLazyQuery(GET_ITEMS_QUERY, {
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
   });
 
   // ** Get data on mount
