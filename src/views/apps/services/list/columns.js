@@ -81,7 +81,7 @@ export const columns = [
     sortable: true,
     minWidth: "150px",
     cell: (row) => {
-      return `${row?.timelines.filter((t) => !t.checkin)?.length}`;
+      return `${row?.timelines?.filter((t) => !t.checkin)?.length}`;
     },
   },
   {
