@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { createUploadLink } from 'apollo-upload-client'
+import { createUploadLink } from "apollo-upload-client";
 
 const httpLink = new createUploadLink({
   uri: import.meta.env.VITE_BASE_API + "/graphql",

@@ -177,8 +177,8 @@ const AccountSettings = () => {
   return (
     <Fragment>
       <Breadcrumbs
-        title={t("New Site")}
-        data={[{ title: t("Pages") }, { title: t("New Site") }]}
+        title={t("Site")}
+        data={[{ title: t("Pages") }, { title: t("Site") }]}
       />
       <Row>
         <Form onSubmit={handleSubmit(onSubmit)}>

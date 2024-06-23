@@ -263,6 +263,7 @@ const UserInfoCard = ({ selectedUser }) => {
     const seminarFiltered = seminarItems.map((m) => m.value);
     const servicesFiltered = servicesItems.map((m) => m.value);
 
+    console.log(avatar);
     update({
       variables: {
         input: {
