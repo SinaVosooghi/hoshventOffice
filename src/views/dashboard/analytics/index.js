@@ -1,5 +1,5 @@
 // ** React Imports
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // ** Icons Imports
 import { List } from "react-feather";
@@ -46,6 +46,8 @@ import { useGetAttendees } from "../../../utility/gqlHelpers/useGetAttendees";
 import { useGetScans } from "../../../utility/gqlHelpers/useGetScans";
 import UsersWidget from "../../ui-elements/cards/analytics/Users";
 import ScansList from "../../apps/scans/list";
+import { useGetPrints } from "../../../utility/gqlHelpers/useGetPrints";
+import moment from "moment";
 
 const AnalyticsDashboard = () => {
   // ** Context
@@ -57,8 +59,25 @@ const AnalyticsDashboard = () => {
   const { user } = useGetUser();
   const { count } = useGetAttendees();
   const { count: scanCount } = useGetScans();
+  const { count: printsCount } = useGetPrints();
 
   const smsCount = chats.filter((c) => c.sms).length;
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  useEffect(() => {
+    // Calculate end date as current time
+    const end = new Date();
+    // Calculate start date as 24 hours before the end date
+    const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
+
+    // Format dates to ISO strings
+    setStartDate(start.toISOString());
+    setEndDate(end.toISOString());
+  }, []);
+
+  const { count: printsCountDay } = useGetPrints(null, startDate, endDate);
 
   return (
     <div id="dashboard-analytics">
@@ -73,6 +92,8 @@ const AnalyticsDashboard = () => {
             productsCount={productsCount}
             attendeesCount={count}
             scanCount={scanCount}
+            printsCount={printsCount}
+            printsCountDay={printsCountDay}
           />
         </Col>
         <Col lg="3" sm="6">

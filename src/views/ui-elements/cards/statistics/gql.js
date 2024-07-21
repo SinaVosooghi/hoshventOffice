@@ -12,3 +12,14 @@ export const GET_SCANS_ITEMS = gql`
     }
   }
 `;
+
+export const GET_PRINT_ITEMS = gql`
+  query prints($input: GetPrintsArgs!) {
+    prints(input: $input) {
+      prints {
+        id
+      }
+      count
+    }
+  }
+`;
