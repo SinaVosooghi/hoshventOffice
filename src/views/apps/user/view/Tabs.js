@@ -5,16 +5,9 @@ import { Fragment } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link, Clock, Code } from "react-feather";
+import { Clock, Code } from "react-feather";
 
 // ** User Components
-import InvoiceList from "./InvoiceList";
-import SecurityTab from "./SecurityTab";
-import Connections from "./Connections";
-import BillingPlanTab from "./BillingTab";
-import UserTimeline from "./UserTimeline";
-import Notifications from "./Notifications";
-import UserProjectsList from "./UserProjectsList";
 import UserAttends from "./UserAttends";
 import Scanner from "./scanner";
 
@@ -22,15 +15,14 @@ const UserTabs = ({ active, toggleTab, user, type }) => {
   return (
     <Fragment>
       <Nav pills className="mb-2">
-        {type === "user" ||
-          (type === "guest" && (
-            <NavItem>
-              <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
-                <Clock className="font-medium-3 me-50" />
-                <span className="fw-bold">نتایج</span>
-              </NavLink>
-            </NavItem>
-          ))}
+        {type === "user" || type === "guest" || (
+          <NavItem>
+            <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
+              <Clock className="font-medium-3 me-50" />
+              <span className="fw-bold">نتایج</span>
+            </NavLink>
+          </NavItem>
+        )}
 
         {type === "instructor" && (
           <NavItem>

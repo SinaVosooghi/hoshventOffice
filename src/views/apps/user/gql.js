@@ -97,23 +97,12 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
           id
           title
           slug
-          hall {
-            event {
-              title
-              image
-            }
-          }
+        
         }
         seminar {
           id
           title
           slug
-          hall {
-            event {
-              title
-              image
-            }
-          }
         }
         service {
           id
