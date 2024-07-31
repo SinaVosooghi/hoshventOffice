@@ -1,9 +1,23 @@
-@import '../../../base/bootstrap-extended/include';
-@import '../../../base/components/include';
+@import "../../../base/bootstrap-extended/include";
+@import "../../../base/components/include";
 
-@import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+@import "~react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 .rdw-editor-wrapper {
+  .rdw-left-aligned-block {
+    direction: rtl !important;
+    text-align: right !important;
+  }
+
+  .public-DraftStyleDefault-rtl {
+    direction: inherit !important;
+    text-align: inherit !important;
+  }
+
+  .rdw-right-aligned-block {
+    direction: ltr !important;
+    text-align: left !important;
+  }
   .rdw-editor-toolbar {
     margin-bottom: 0;
     padding: 0.5rem;

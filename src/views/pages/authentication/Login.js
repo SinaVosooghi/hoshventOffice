@@ -1,57 +1,51 @@
-// ** React Imports
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// ** Styles
+import "@styles/react/pages/page-authentication.scss";
 
-// ** Custom Hooks
-import { useSkin } from "@hooks/useSkin";
-import toast from "react-hot-toast";
-
-// ** Third Party Components
-import { useDispatch } from "react-redux";
-import { useForm, Controller } from "react-hook-form";
-import { Coffee, X } from "react-feather";
-
-// ** Actions
-import { handleLogin } from "@store/authentication";
-
-// ** Context
-import { AbilityContext } from "@src/utility/context/Can";
-
-// ** Custom Components
-import InputPasswordToggle from "@components/input-password-toggle";
-
-// ** Utils
-import { getHomeRouteForLoggedInUser, isObjEmpty } from "@utils";
-import Avatar from "@components/avatar";
+import * as yup from "yup";
 
 // ** Reactstrap Imports
 import {
-  Card,
-  CardBody,
-  Form,
-  Input,
-  Label,
   Alert,
   Button,
+  Card,
+  CardBody,
   CardText,
   CardTitle,
+  Form,
   FormFeedback,
+  Input,
+  Label,
   UncontrolledTooltip,
 } from "reactstrap";
+import { Coffee, X } from "react-feather";
+import { Controller, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+// ** Utils
+import { getHomeRouteForLoggedInUser, isObjEmpty } from "@utils";
 
+// ** Context
+import { AbilityContext } from "@src/utility/context/Can";
+import Avatar from "@components/avatar";
+// ** Custom Components
+import InputPasswordToggle from "@components/input-password-toggle";
+import api from "./loginApi";
+// ** Actions
+import { handleLogin } from "@store/authentication";
+import illustrationsDark from "@src/assets/images/pages/auth-v2-login-illustration-dark.png";
 // ** Illustrations Imports
 import illustrationsLight from "@src/assets/images/pages/auth-v2-login-illustration-light.png";
-import illustrationsDark from "@src/assets/images/pages/auth-v2-login-illustration-dark.png";
-
-// ** Styles
-import "@styles/react/pages/page-authentication.scss";
-import useGetSetting from "../../../utility/gqlHelpers/useGetSetting";
-import { t } from "i18next";
-import * as yup from "yup";
-import { useTranslation } from "react-i18next";
 import { renderUserImg } from "../../../utility/helpers/renderDashboardLogo";
+import { t } from "i18next";
+import toast from "react-hot-toast";
+// ** React Imports
+import { useContext } from "react";
+// ** Third Party Components
+import { useDispatch } from "react-redux";
+import useGetSetting from "../../../utility/gqlHelpers/useGetSetting";
+// ** Custom Hooks
+import { useSkin } from "@hooks/useSkin";
+import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
-import api from "./loginApi";
 
 const ToastContent = ({ dir, name, role }) => {
   return (
@@ -285,13 +279,7 @@ const Login = () => {
                     <FormFeedback>{errors.password.message}</FormFeedback>
                   )}
                 </div>
-                <div className="form-check mb-1">
-                  <Input type="checkbox" id="remember-me" />
-                  <Label className="form-check-label" for="remember-me">
-                    {t("Remember Me")}
-                  </Label>
-                </div>
-                <Button type="submit" color="primary" block>
+                <Button type="submit" color="primary" block className="mt-2">
                   {t("Sign in")}
                 </Button>
               </Form>
