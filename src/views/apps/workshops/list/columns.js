@@ -98,7 +98,9 @@ export const columns = [
     selector: (row) => row.updated,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.updated ? moment(row?.updated).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.updated
+          ? moment(row?.updated).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
@@ -110,7 +112,9 @@ export const columns = [
     selector: (row) => row.created,
     cell: (row) => (
       <span className="text-capitalize">
-        {row.created ? moment(row?.created).locale("fa").format("YYYY/MM/D") : "-"}
+        {row.created
+          ? moment(row?.created).locale("fa").format("YYYY/MM/D")
+          : "-"}
       </span>
     ),
   },
@@ -166,11 +170,12 @@ export const columns = [
               {t("Edit")}
             </Button>{" "}
           </Link>
-          <Link
-            className="ms-50"
-            to={"#"}
+          <Button
+            color="danger"
+            outline
+            size="sm"
+            style={{ marginRight: 8 }}
             onClick={(e) => {
-              e.prhallDefault();
               if (confirm(t("Do you want to delete?"))) {
                 deleteItem({
                   variables: { id: row.id },
@@ -179,10 +184,8 @@ export const columns = [
               }
             }}
           >
-            <Button color="danger" outline size="sm">
-              {t("Remove")}
-            </Button>{" "}
-          </Link>
+            {t("Remove")}
+          </Button>{" "}
         </>
       );
     },

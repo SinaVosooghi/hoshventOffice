@@ -263,7 +263,6 @@ const UserInfoCard = ({ selectedUser }) => {
     const seminarFiltered = seminarItems.map((m) => m.value);
     const servicesFiltered = servicesItems.map((m) => m.value);
 
-    console.log(avatar);
     update({
       variables: {
         input: {
@@ -271,7 +270,7 @@ const UserInfoCard = ({ selectedUser }) => {
           ...(typeof avatar !== "string" && { avatar }),
           ...(data.role && { role: parseInt(data.role.value) }),
           ...(data.category && { category: parseInt(data.category.value) }),
-          status: data.usertype.status,
+          status: data.status?.value,
           usertype: data.usertype.value,
           mobilenumber: parseInt(data.mobilenumber),
           phonenumber: parseInt(data.phonenumber),
@@ -598,7 +597,7 @@ const UserInfoCard = ({ selectedUser }) => {
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
-              <Col md={6} xs={12}>
+              <Col md={3} xs={12}>
                 <Label className="form-label" for="firstName">
                   {t("Firstname")} <span className="text-danger">*</span>
                 </Label>
@@ -615,7 +614,7 @@ const UserInfoCard = ({ selectedUser }) => {
                   )}
                 />
               </Col>
-              <Col md={6} xs={12}>
+              <Col md={3} xs={12}>
                 <Label className="form-label" for="lastName">
                   {t("lastname")} <span className="text-danger">*</span>
                 </Label>
@@ -627,6 +626,40 @@ const UserInfoCard = ({ selectedUser }) => {
                       id="lastName"
                       placeholder="johnDoe99"
                       invalid={errors.lastName && true}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={3} xs={12}>
+                <Label className="form-label" for="firstNameen">
+                  {t("Firstname EN")} <span className="text-danger">*</span>
+                </Label>
+                <Controller
+                  name="firstNameen"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="firstNameen"
+                      placeholder="John Doe"
+                      invalid={errors.firstNameen && true}
+                      {...field}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={3} xs={12}>
+                <Label className="form-label" for="lastNameen">
+                  {t("Lastname EN")} <span className="text-danger">*</span>
+                </Label>
+                <Controller
+                  name="lastNameen"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="lastNameen"
+                      placeholder="johnDoe99"
+                      invalid={errors.lastNameen && true}
                       {...field}
                     />
                   )}
@@ -815,21 +848,29 @@ const UserInfoCard = ({ selectedUser }) => {
                 <Label className="form-label" for="status">
                   {t("Status")}:
                 </Label>
-                <Select
-                  id="status"
-                  isClearable={false}
-                  placeholder={t("Select...")}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={statusOptions}
-                  theme={selectThemeColors}
-                  defaultValue={
-                    statusOptions[
-                      statusOptions.findIndex(
-                        (i) => i.value === selectedUser?.status
-                      )
-                    ]
-                  }
+                <Controller
+                  name="status"
+                  required
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      id="status"
+                      isClearable={false}
+                      placeholder={t("Select...")}
+                      className="react-select"
+                      classNamePrefix="select"
+                      options={statusOptions}
+                      theme={selectThemeColors}
+                      defaultValue={
+                        statusOptions[
+                          statusOptions.findIndex(
+                            (i) => i.value === selectedUser?.status
+                          )
+                        ]
+                      }
+                      {...field}
+                    />
+                  )}
                 />
               </Col>
               <Col md={6} xs={12}>

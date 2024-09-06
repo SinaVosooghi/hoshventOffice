@@ -351,7 +351,7 @@ const MailDetails = (props) => {
   const handleSubmit = () => {
     const rawContentState = convertToRaw(description.getCurrentContent());
     const markup = draftToHtml(rawContentState, hashConfig, true);
-
+    setDescription("");
     create({
       variables: {
         input: {
