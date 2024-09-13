@@ -148,6 +148,7 @@ const ComposePopup = (props) => {
     const rawContentState = convertToRaw(description.getCurrentContent());
     const markup = draftToHtml(rawContentState, hashConfig, true);
     const users = data?.to?.map((user) => user.value);
+    const selectedCategory = data.category;
     delete data.to;
 
     create({
@@ -162,7 +163,9 @@ const ComposePopup = (props) => {
           type: data.type?.value,
           priority: data.priority?.value,
           department: data.department?.value,
-          category: data.category?.value,
+          ...(selectedCategory.category?.value !== null && {
+            category: selectedCategory.category?.value,
+          }),
           to: users,
         },
       },

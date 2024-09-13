@@ -300,6 +300,11 @@ const UserInfoCard = ({ selectedUser }) => {
       if (result.value) {
         delete selectedUser?.__typename;
         delete selectedUser?.site;
+        delete selectedUser.avatar;
+        delete selectedUser.site;
+        delete selectedUser.siteid;
+        delete selectedUser.updated;
+        delete selectedUser.created;
 
         update({
           variables: {
