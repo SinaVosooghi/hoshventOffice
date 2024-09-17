@@ -58,6 +58,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
       {elements &&
         Object.keys(elements).map((key) => {
           const { left, top, title, type } = elements[key];
+
           if (type === "qr") {
             return (
               <QrCode key={key} id={key} left={left} top={top}>
@@ -69,7 +70,9 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
                   }}
                 >
                   <ReactQrCode
-                    value={url}
+                    value={`${
+                      import.meta.env.VITE_BASE_API + "/graphql"
+                    }/scan&u=${itemUser?.user?.id}`}
                     size={100}
                     viewBox={`0 0 100 100`}
                     style={{
@@ -92,7 +95,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
                 top={top}
                 styles={{ color: "#000" }}
               >
-                {itemUser?.user?.titleen ?? user?.titleen}
+                {itemUser?.user?.titleen ?? itemUser?.titleen}
               </Title>
             );
           } else if (type === "name") {
