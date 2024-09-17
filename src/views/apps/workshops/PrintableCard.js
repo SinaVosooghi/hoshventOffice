@@ -47,7 +47,12 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
 
   return (
     <div
-      style={{ ...styles, transform: "scale(.94)" }}
+      style={{
+        ...styles,
+        marginLeft: 110,
+        transform: "scale(.94)",
+        position: "relative",
+      }}
       className="print-page"
     >
       {elements &&

@@ -39,6 +39,44 @@ export const DELETE_ITEM_MUTATION = gql`
   }
 `;
 
+export const FIND_ALL_USERS = gql`
+  query allUsers($input: GetUsersApiArgs!) {
+    allUsers(input: $input) {
+      users {
+        id
+        email
+        firstName
+        lastName
+        firstNameen
+        nationalcode
+        lastNameen
+        usertype
+        updated
+        mobilenumber
+        created
+        updated
+        title
+        titleen
+        category {
+          title
+          titleen
+          category {
+            title
+          }
+        }
+        status
+        avatar
+        gender
+        role {
+          id
+          title
+        }
+      }
+      count
+    }
+  }
+`;
+
 export const GET_ITEMS_QUERY = gql`
   query users($input: GetUsersApiArgs!) {
     users(input: $input) {
@@ -67,11 +105,6 @@ export const GET_ITEMS_QUERY = gql`
         status
         avatar
         gender
-        category {
-          id
-          title
-          titleen
-        }
         role {
           id
           title
@@ -97,7 +130,6 @@ export const GET_TIMELINE_ITEMS_QUERY = gql`
           id
           title
           slug
-        
         }
         seminar {
           id

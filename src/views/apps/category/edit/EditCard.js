@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import Select from "react-select";
 
@@ -34,8 +34,13 @@ import "@styles/base/pages/app-invoice.scss";
 import { t, use } from "i18next";
 import { useQuery, useMutation } from "@apollo/client";
 import FileUploaderSingle from "../../../forms/form-elements/file-uploader/FileUploaderSingle";
-import { GET_ITEMS_QUERY, GET_ITEM_QUERY, UPDATE_ITEM_MUTATION } from "../gql";
-import { GET_ITEMS_QUERY as GET_USER_ITEMS } from "../../user/gql";
+import {
+  GET_ITEMS_QUERY,
+  GET_ITEM_QUERY,
+  SITE_CREATE_PRINT,
+  UPDATE_ITEM_MUTATION,
+} from "../gql";
+import { FIND_ALL_USERS, GET_ITEMS_QUERY as GET_USER_ITEMS } from "../../user/gql";
 
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
@@ -56,6 +61,7 @@ import { Printer } from "react-feather";
 import PrintableCard from "../../workshops/PrintableCard";
 import ReactToPrint from "react-to-print";
 import "./print.css"; // Import your CSS file
+import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -92,11 +98,11 @@ const EditCard = () => {
 
   const [users, setUsers] = useState([]);
 
-  useQuery(GET_USER_ITEMS, {
+  useQuery(FIND_ALL_USERS, {
     fetchPolicy: "network-only",
-    onCompleted: ({ users }) => {
+    onCompleted: ({ allUsers }) => {
       setUsers([]);
-      setUsers(users?.users);
+      setUsers(allUsers?.users);
     },
     variables: {
       input: {
@@ -122,6 +128,8 @@ const EditCard = () => {
       );
     },
   });
+
+  const [createPrint] = useMutation(SITE_CREATE_PRINT);
 
   useQuery(GET_ITEM_QUERY, {
     variables: { id: parseInt(id) },
@@ -223,6 +231,24 @@ const EditCard = () => {
   };
   const handleReset = () => {
     window.history.back();
+  };
+
+  const [userData, setUserData] = useState(null);
+  const { user, error } = useGetUser();
+
+  useEffect(() => {
+    console.log(user);
+    if (user) {
+      setUserData(user);
+    }
+  }, [user]);
+
+  const handlePrint = () => {
+    {
+      users?.map((user) => {
+        return createPrint({ variables: { input: {} } });
+      });
+    }
   };
 
   return (
@@ -551,6 +577,7 @@ const EditCard = () => {
                       {type === "user" && (
                         <Col md={12} className="mb-2">
                           <ReactToPrint
+                            onAfterPrint={handlePrint}
                             trigger={() => (
                               <Button color="success" outline block>
                                 <Printer className="mx-1" />
@@ -586,7 +613,7 @@ const EditCard = () => {
           </Col>
         </Row>
 
-        <div style={{ display: "none" }}>
+        <div style={{ display: "block" }}>
           <div
             ref={componentRef}
             style={{

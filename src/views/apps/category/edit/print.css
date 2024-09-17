@@ -3,13 +3,17 @@
     margin: 0;
   }
 
-  .print-container {
-    display: flex;
-    flex-direction: column;
-    page-break-before: always;
-  }
+
 
   .print-page {
+    width: 8.5in;
+    height: 11in;
+    margin: 0; /* Ensure no extra margins on the print page */
+    padding: 0.5in; /* Optional padding if needed */
+    position: relative; /* Reset position for print */
+    transform: scale(2); /* Ensure no scaling issues */
+    background: none; /* Remove background color for print */
+    box-sizing: border-box; 
     page-break-before: always;
     page-break-inside: avoid;
   }

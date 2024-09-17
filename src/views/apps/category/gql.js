@@ -19,6 +19,14 @@ export const UPDATE_ITEM_MUTATION = gql`
   }
 `;
 
+export const SITE_CREATE_PRINT = gql`
+  mutation createPrintUser($input: CreatePrintInput!) {
+    createPrintUser(input: $input) {
+      id
+    }
+  }
+`;
+
 export const DELETE_ITEM_MUTATION = gql`
   mutation removeCategory($id: Int!) {
     removeCategory(id: $id)
