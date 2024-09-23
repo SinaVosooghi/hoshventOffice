@@ -6,8 +6,8 @@ const style = {
   backgroundColor: "white",
   padding: "0.5rem 1rem",
   cursor: "move",
-  height: 180,
-  width: 180,
+  height: 113,
+  width: 113,
 };
 export const QrCode = ({ id, left, top, hideSourceOnDrag, children }) => {
   const [{ isDragging }, drag] = useDrag(
