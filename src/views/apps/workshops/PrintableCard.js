@@ -62,10 +62,10 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
 
           if (type === "qr") {
             return (
-              <QrCode key={key} id={key} left={left + 5} top={top + 18}>
+              <QrCode key={key} id={key} left={left + 5} top={top + 10}>
                 <div
                   style={{
-                    width: 150,
+                    width: 113,
                     textAlign: "center",
                     margin: "0 auto",
                   }}
@@ -74,8 +74,8 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
                     value={`${
                       import.meta.env.VITE_BASE_API + "/graphql"
                     }/scan&u=${itemUser?.user?.id}`}
-                    size={100}
-                    viewBox={`0 0 100 100`}
+                    size={113}
+                    viewBox={`0 0 113 113`}
                     style={{
                       width: "100%",
                       height: "100%",
