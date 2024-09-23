@@ -613,7 +613,7 @@ const EditCard = () => {
           </Col>
         </Row>
 
-        <div style={{ display: "none" }}>
+        <div style={{ display: "block" }}>
           <div
             ref={componentRef}
             style={{

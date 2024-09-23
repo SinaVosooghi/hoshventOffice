@@ -6,6 +6,7 @@ export const Title = ({ id, left, top, children, styles }) => {
   return (
     <div
       className="box"
+      dir="rtl"
       style={{
         ...style,
         left,

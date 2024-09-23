@@ -8,6 +8,7 @@ import { GET_ITEM_QUERY } from "../site/gql";
 import { useGetUser } from "../../../utility/gqlHelpers/useGetUser";
 import { useLazyQuery } from "@apollo/client";
 import "./print.css"; // Import your CSS file
+import { Direction } from "react-data-table-component";
 
 const styles = {
   width: "7in",
@@ -49,7 +50,7 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
     <div
       style={{
         ...styles,
-        marginLeft: 110,
+        marginLeft: 120,
         transform: "scale(.94)",
         position: "relative",
       }}
@@ -61,10 +62,10 @@ const PrintableCard = ({ event, url, itemUser, showCard = false }) => {
 
           if (type === "qr") {
             return (
-              <QrCode key={key} id={key} left={left} top={top}>
+              <QrCode key={key} id={key} left={left + 5} top={top + 18}>
                 <div
                   style={{
-                    width: 180,
+                    width: 150,
                     textAlign: "center",
                     margin: "0 auto",
                   }}
