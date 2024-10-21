@@ -62,6 +62,7 @@ import { Printer } from "react-feather";
 import PrintableCertificate from "../PrintableCertificate";
 import { GET_ATTENDEES_ITEMS } from "../../../extensions/import-export/gql";
 import "./print.css"; // Import your CSS file
+import PrintableCard from "../PrintableCard";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -777,7 +778,7 @@ const EditCard = () => {
           {attendees?.attendees?.attends?.map((user) => {
             const itemUser = { user: user };
             return (
-              <PrintableCertificate
+              <PrintableCard
                 itemUser={itemUser?.user}
                 event={data?.title}
                 type="workshop"

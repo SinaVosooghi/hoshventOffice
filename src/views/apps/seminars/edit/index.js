@@ -7,7 +7,6 @@ import { Row, Col } from "reactstrap";
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss";
 import "@styles/base/pages/app-invoice.scss";
-import Attendees from "../../../extensions/import-export/Attendees";
 import { GET_ITEM_QUERY } from "../gql";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";

@@ -59,6 +59,7 @@ import momentJalali from "moment-jalaali";
 import { selectThemeColors } from "@utils";
 import toast from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
+import PrintableCard from "../../workshops/PrintableCard";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -776,7 +777,7 @@ const EditCard = () => {
           {attendees?.attendees?.attends?.map((user) => {
             const itemUser = { user: user };
             return (
-              <PrintableCertificate
+              <PrintableCard
                 itemUser={itemUser?.user}
                 event={data?.title}
                 type="seminar"

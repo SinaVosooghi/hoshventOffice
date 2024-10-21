@@ -2,17 +2,7 @@
 import { Nav, NavItem, NavLink } from "reactstrap";
 
 // ** Icons Imports
-import {
-  User,
-  Lock,
-  Bookmark,
-  Link,
-  Bell,
-  Globe,
-  CreditCard,
-  UserCheck,
-  Printer,
-} from "react-feather";
+import { Globe, CreditCard, UserCheck, Printer } from "react-feather";
 import { t } from "i18next";
 
 const Tabs = ({ activeTab, toggleTab }) => {
