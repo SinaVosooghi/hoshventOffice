@@ -1,6 +1,6 @@
 const style = {
   position: "absolute",
-  fontSize: 24,
+  fontSize: 18,
 };
 export const Name = ({ id, left, top, children, styles }) => {
   return (
