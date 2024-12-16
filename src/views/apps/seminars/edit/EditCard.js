@@ -24,7 +24,14 @@ import { Controller, useForm } from "react-hook-form";
 // ** Editor
 import { EditorState, convertToRaw } from "draft-js";
 // ** React Imports
-import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import {
   GET_ITEMS_QUERY,
   GET_ITEM_QUERY,
@@ -45,7 +52,7 @@ import { GET_ATTENDEES_ITEMS } from "../../../extensions/import-export/gql";
 import { GET_ITEMS_QUERY as GET_HALLS_ITEMS } from "../../halls/gql";
 import PrintableCertificate from "../../workshops/PrintableCertificate";
 import { Printer } from "react-feather";
-import ReactToPrint from "react-to-print";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import ScansList from "../../scans/list";
 import Select from "react-select";
 import { ServicesSelect } from "../../workshops/add/ServiceSelect";
@@ -60,6 +67,7 @@ import { selectThemeColors } from "@utils";
 import toast from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PrintableCard from "../../workshops/PrintableCard";
+import { Loader } from "../../../components/loader";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -92,7 +100,22 @@ const EditCard = () => {
   const [endDate, setEndDate] = useState(null);
   const [preSelectedDate, setPreSelectedDate] = useState(null);
   const [preSelectedEndDate, setPreSelectedEndDate] = useState(null);
+  const [renderPrint, setRenderPrint] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  // We store the resolve Promise being used in `onBeforePrint` here
+  const promiseResolveRef = useRef(null);
 
+  // We watch for the state to change here, and for the Promise resolve to be available
+  useEffect(() => {
+    if (renderPrint && promiseResolveRef.current) {
+      const timer = setTimeout(() => {
+        promiseResolveRef.current?.(); // Notify react-to-print that we're ready
+        console.log(renderPrint)
+      }, 1000); // Allow React to complete DOM updates
+
+      return () => clearTimeout(timer);
+    }
+  }, [renderPrint]);
   // ** Hooks
   const {
     reset,
@@ -138,6 +161,7 @@ const EditCard = () => {
     variables: { id: parseInt(id) },
     fetchPolicy: "network-only",
     onCompleted: async ({ seminar }) => {
+      setIsLoading(false);
       if (seminar) {
         setData(seminar);
         setDescription(convertHtmlToDraft(seminar.body));
@@ -299,11 +323,39 @@ const EditCard = () => {
       },
     });
   };
-  const handleReset = () => {
-    window.history.back();
-  };
 
-  return (
+  const Cards = useMemo(() => {
+    console.log('huh')
+    return attendees?.attendees?.attends?.map((user) => {
+      const itemUser = { user: user };
+      return (
+        <PrintableCard
+          key={itemUser?.user?.id}
+          itemUser={itemUser?.user}
+          event={data?.title}
+          type="seminar"
+          //showCard={renderPrint}
+        />
+      );
+    });
+  }, [attendees, data?.title, renderPrint]);
+
+  const reactToPrintFn = useReactToPrint({
+    contentRef: componentRef,
+    onBeforePrint: () => {
+      return new Promise((resolve) => {
+
+        promiseResolveRef.current = resolve; // Save resolve for signaling readiness
+        setRenderPrint(true); // Trigger rendering
+      });
+    },
+    onAfterPrint: () => {
+      setRenderPrint(false); // Cleanup after print
+      promiseResolveRef.current = null; // Reset promise
+    },
+  });
+
+  return !isLoading ? (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
@@ -724,15 +776,15 @@ const EditCard = () => {
                     <CardBody>
                       <Row>
                         <Col md={12} className="mb-2">
-                          <ReactToPrint
-                            trigger={() => (
-                              <Button color="success" outline block>
-                                <Printer className="mx-1" />
-                                {t("Print Certificate")}
-                              </Button>
-                            )}
-                            content={() => componentRef.current}
-                          />
+                          <Button
+                            color="success"
+                            onClick={() => reactToPrintFn()}
+                            outline
+                            block
+                          >
+                            <Printer className="mx-1" />
+                            {t("Print Certificate")}
+                          </Button>
                         </Col>
                         <Col>
                           <Button color="success" type="submit" block>
@@ -772,21 +824,15 @@ const EditCard = () => {
             margin: "0 auto",
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          {attendees?.attendees?.attends?.map((user) => {
-            const itemUser = { user: user };
-            return (
-              <PrintableCard
-                itemUser={itemUser?.user}
-                event={data?.title}
-                type="seminar"
-              />
-            );
-          })}
+          {Cards}
         </div>
       </div>
     </>
+  ) : (
+    <Loader />
   );
 };
 

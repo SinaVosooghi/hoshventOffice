@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, useMemo } from "react";
 
 // ** Custom Components
 import ExtensionsHeader from "@components/extensions-header";
@@ -35,10 +35,10 @@ import moment from "jalali-moment";
 import { toast } from "react-hot-toast";
 import { GET_ATTENDEES_ITEMS } from "./gql";
 import { Printer } from "react-feather";
-import ReactToPrint from "react-to-print";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import { ReactQrCode } from "@devmehq/react-qr-code";
 import { getUserData } from "../../../utility/Utils";
-import PrintableCard from "../../apps/workshops/PrintableCard";
+import PrintableCards from "./PrintableCards";
 
 const initialData = [];
 
@@ -189,64 +189,86 @@ const Attendees = ({ seminar, type }) => {
     });
   };
 
-  const array = value ? filteredData : attendees?.attendees?.attends;
-  const renderTableData = array?.map((col) => {
-    if (loading) <></>;
+  const array = useMemo(
+    () => (value ? filteredData : attendees?.attendees?.attends),
+    [value]
+  );
+  const renderTableData = useMemo(
+    () =>
+      array?.map((col) => {
+        if (loading) <></>;
 
-    return (
-      <tr
-        key={col.id}
-        className={classnames({
-          selected: selectedRows.includes(col.id),
-        })}
-      >
-        <td>
-          <div className="form-check">
-            <Input
-              id={col.id}
-              type="checkbox"
-              onChange={() => handleSelect(col.id)}
-              checked={!!selectedRows.includes(col.id)}
-            />
-          </div>
-        </td>
-        <td>
-          <Link
-            to={`/apps/user/view/${col.user?.id}`}
-            className="user_name text-truncate text-body"
+        return (
+          <tr
+            key={col.id}
+            className={classnames({
+              selected: selectedRows.includes(col.id),
+            })}
           >
-            {col?.user?.firstName} {col?.user?.lastName}
-          </Link>
-        </td>
-        <td>
-          {col?.user?.usertype === "user" && "کاربر"}
-          {col?.user?.usertype === "guest" && "میهمان"}
-        </td>
-        <td>{col?.user?.mobilenumber}</td>
-        <td>
-          {col.created
-            ? moment(col?.created).locale("fa").format("YYYY/MM/D")
-            : "-"}
-        </td>
-        <td>
-          <ReactQrCode
-            value={`${import.meta.env.VITE_BASE_API}/scan&u=${col.user?.id}&e=${
-              seminar?.hall?.site?.id
-            }`}
-            size={80}
-            viewBox={`0 0 80 80`}
-            style={{
-              width: 80,
-              height: 80,
-              backgroundColor: "#fff",
-              marginBottom: 10,
-            }}
-            renderAs="canvas"
-            id="qr"
-          />
-        </td>
-      </tr>
-    );
+            <td>
+              <div className="form-check">
+                <Input
+                  id={col.id}
+                  type="checkbox"
+                  onChange={() => handleSelect(col.id)}
+                  checked={!!selectedRows.includes(col.id)}
+                />
+              </div>
+            </td>
+            <td>
+              <Link
+                to={`/apps/user/view/${col.user?.id}`}
+                className="user_name text-truncate text-body"
+              >
+                {col?.user?.firstName} {col?.user?.lastName}
+              </Link>
+            </td>
+            <td>
+              {col?.user?.usertype === "user" && "کاربر"}
+              {col?.user?.usertype === "guest" && "میهمان"}
+            </td>
+            <td>{col?.user?.mobilenumber}</td>
+            <td>
+              {col.created
+                ? moment(col?.created).locale("fa").format("YYYY/MM/D")
+                : "-"}
+            </td>
+            <td>
+              <ReactQrCode
+                value={`${import.meta.env.VITE_BASE_API}/scan&u=${
+                  col.user?.id
+                }&e=${seminar?.hall?.site?.id}`}
+                size={80}
+                viewBox={`0 0 80 80`}
+                style={{
+                  width: 80,
+                  height: 80,
+                  backgroundColor: "#fff",
+                  marginBottom: 10,
+                }}
+                renderAs="canvas"
+                id="qr"
+              />
+            </td>
+          </tr>
+        );
+      }),
+    [array]
+  );
+
+  const reactToPrintFn = useReactToPrint({
+    contentRef: componentRef,
+    onBeforePrint: () => {
+      return new Promise((resolve) => {
+
+        promiseResolveRef.current = resolve; // Save resolve for signaling readiness
+        setRenderPrint(true); // Trigger rendering
+      });
+    },
+    onAfterPrint: () => {
+      setRenderPrint(false); // Cleanup after print
+      promiseResolveRef.current = null; // Reset promise
+    },
   });
 
   return (
@@ -276,18 +298,14 @@ const Attendees = ({ seminar, type }) => {
                   >
                     {t("Bulk exit")}
                   </Button>
-                  <ReactToPrint
-                    trigger={() => (
-                      <Button
-                        color="secondary"
-                        onClick={() => onBulkCheckoutHandler()}
-                      >
-                        <Printer size={14} className="me-50" />
-                        {t("Print")}
-                      </Button>
-                    )}
-                    content={() => componentRef.current}
-                  />
+
+                  <Button
+                    color="secondary"
+                    onClick={() => onBulkCheckoutHandler()}
+                  >
+                    <Printer size={14} className="me-50" />
+                    {t("Print")}
+                  </Button>
                 </div>
               </div>
             </CardBody>
@@ -358,24 +376,11 @@ const Attendees = ({ seminar, type }) => {
           </Button>
         </ModalFooter>
       </Modal>
-      <div style={{ display: "none" }}>
-        <div
-          ref={componentRef}
-          style={{
-            width: "8.27in",
-            backgroundClip: "white",
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {data?.map((user) => {
-            return (
-              <PrintableCard itemUser={user} event={seminar?.data?.title} />
-            );
-          })}
-        </div>
-      </div>
+      {/*<PrintableCards
+        ref={componentRef}
+        data={data}
+        seminarTitle={seminar?.data?.title}
+      />*/}
     </Fragment>
   );
 };

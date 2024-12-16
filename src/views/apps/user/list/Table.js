@@ -88,7 +88,6 @@ const CustomHeader = ({
         "apollo-require-preflight": true,
       },
     },
-    refetchQueries: [GET_USERS_ITEMS],
     onCompleted: () => {
       history(`/apps/user/list/all`);
       toast.success(t("Data saved successfully"));

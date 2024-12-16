@@ -34,6 +34,8 @@ import { GET_ITEMS_QUERY as GET_HALLS_ITEMS } from "../../halls/gql";
 import Select from "react-select";
 import { selectThemeColors } from "@utils";
 
+import { Loader } from "../../../components/loader";
+
 const CustomHeader = ({
   handlePerPage,
   rowsPerPage,
@@ -126,10 +128,12 @@ const ItemList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [statusValue, setStatusValue] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
   const { type } = useParams();
 
   const [getItems, { data: seminars }] = useLazyQuery(GET_ITEMS_QUERY, {
     fetchPolicy: "network-only",
+    onCompleted: () => setIsLoading(false),
   });
 
   const [currentHall, setCurrentHall] = useState({
@@ -328,37 +332,41 @@ const ItemList = () => {
           </Row>
         </CardBody>
       </Card>
-      <Card>
-        <CardBody>
-          <div className="invoice-list-dataTable react-dataTable">
-            <DataTable
-              noHeader
-              pagination
-              paginationServer
-              subHeader={true}
-              columns={columns}
-              responsive={true}
-              data={dataToRender()}
-              className="react-dataTable"
-              defaultSortField="invoiceId"
-              paginationDefaultPage={currentPage}
-              paginationComponent={CustomPagination}
-              noDataComponent={noDataToDisplay()}
-              subHeaderComponent={
-                <CustomHeader
-                  value={value}
-                  statusValue={statusValue}
-                  rowsPerPage={rowsPerPage}
-                  handleFilter={handleFilter}
-                  handlePerPage={handlePerPage}
-                  handleStatusValue={handleStatusValue}
-                  currentHall={currentHall}
-                />
-              }
-            />
-          </div>
-        </CardBody>
-      </Card>
+      {!isLoading ? (
+        <Card>
+          <CardBody>
+            <div className="invoice-list-dataTable react-dataTable">
+              <DataTable
+                noHeader
+                pagination
+                paginationServer
+                subHeader={true}
+                columns={columns}
+                responsive={true}
+                data={dataToRender()}
+                className="react-dataTable"
+                defaultSortField="invoiceId"
+                paginationDefaultPage={currentPage}
+                paginationComponent={CustomPagination}
+                noDataComponent={noDataToDisplay()}
+                subHeaderComponent={
+                  <CustomHeader
+                    value={value}
+                    statusValue={statusValue}
+                    rowsPerPage={rowsPerPage}
+                    handleFilter={handleFilter}
+                    handlePerPage={handlePerPage}
+                    handleStatusValue={handleStatusValue}
+                    currentHall={currentHall}
+                  />
+                }
+              />
+            </div>
+          </CardBody>
+        </Card>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };

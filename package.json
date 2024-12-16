@@ -85,7 +85,7 @@
     "react-shepherd": "^4.1.0",
     "react-slidedown": "^2.4.7",
     "react-sortablejs": "6.0.0",
-    "react-to-print": "^2.14.13",
+    "react-to-print": "3.0.2",
     "reactstrap": "^9.1.5",
     "recharts": "^2.1.9",
     "redux": "^4.2.0",
@@ -168,5 +168,6 @@
     ">0.2%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

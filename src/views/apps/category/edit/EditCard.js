@@ -40,7 +40,10 @@ import {
   SITE_CREATE_PRINT,
   UPDATE_ITEM_MUTATION,
 } from "../gql";
-import { FIND_ALL_USERS, GET_ITEMS_QUERY as GET_USER_ITEMS } from "../../user/gql";
+import {
+  FIND_ALL_USERS,
+  GET_ITEMS_QUERY as GET_USER_ITEMS,
+} from "../../user/gql";
 
 import classnames from "classnames";
 import { useNavigate, useParams } from "react-router-dom";
@@ -58,10 +61,10 @@ import { ServicesMultiSelect } from "../../user/list/ServiceMultiSelect";
 import { WorkshopMultiSelect } from "../../user/list/WorkshopMultiSelect";
 import { SeminarMultiSelect } from "../../user/list/SeminarMultiSelect";
 import { Printer } from "react-feather";
-import PrintableCard from "../../workshops/PrintableCard";
-import ReactToPrint from "react-to-print";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import "./print.css"; // Import your CSS file
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
+import Cards from "./Cards";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -237,7 +240,6 @@ const EditCard = () => {
   const { user, error } = useGetUser();
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       setUserData(user);
     }
@@ -246,10 +248,17 @@ const EditCard = () => {
   const handlePrint = () => {
     {
       users?.map((user) => {
-        return createPrint({ variables: { input: {} } });
+        return createPrint({ variables: { input: { user: user.id } } });
       });
     }
   };
+
+  const printFn = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "AwesomeFileName",
+    //onAfterPrint: handlePrint,
+    //onBeforePrint: handleBeforePrint,
+  });
 
   return (
     <>
@@ -576,16 +585,15 @@ const EditCard = () => {
                     <Row>
                       {type === "user" && (
                         <Col md={12} className="mb-2">
-                          <ReactToPrint
-                            onAfterPrint={handlePrint}
-                            trigger={() => (
-                              <Button color="success" outline block>
-                                <Printer className="mx-1" />
-                                {t("Print cards")}
-                              </Button>
-                            )}
-                            content={() => componentRef.current}
-                          />
+                          <Button
+                            onClick={printFn}
+                            color="success"
+                            outline
+                            block
+                          >
+                            <Printer className="mx-1" />
+                            {t("Print cards")}
+                          </Button>
                         </Col>
                       )}
                       <Col>
@@ -613,21 +621,7 @@ const EditCard = () => {
           </Col>
         </Row>
 
-        <div style={{ display: "none" }}>
-          <div
-            ref={componentRef}
-            style={{
-              width: "7in",
-              height: "9.25in",
-              position: "relative",
-            }}
-          >
-            {users?.map((user) => {
-              const itemUser = { user: user };
-              return <PrintableCard itemUser={itemUser} event={""} />;
-            })}
-          </div>
-        </div>
+        <Cards ref={componentRef} users={users} />
       </Form>
     </>
   );

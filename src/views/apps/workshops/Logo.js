@@ -6,10 +6,11 @@ const style = {
   width: 180,
   display: "flex",
   alignItems: "center",
+  margin: "0 auto"
 };
-export const Logo = ({ id, left, top, children }) => {
+export const Logo = ({ id, left, top, children, styles }) => {
   return (
-    <div className="qrcode" style={{ ...style, left, top }} data-testid="logo">
+    <div className="qrcode" style={{ ...style, left, top, ...styles }} data-testid="logo">
       {children}
     </div>
   );

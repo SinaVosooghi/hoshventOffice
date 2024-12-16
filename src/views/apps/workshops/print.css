@@ -3,9 +3,11 @@
     display: flex;
     flex-direction: column;
     page-break-before: always;
+    background-color: red;
   }
 
   .print-page {
+    background-color: red;
     width: 8.5in;
     height: 11in;
     margin: 0; /* Ensure no extra margins on the print page */

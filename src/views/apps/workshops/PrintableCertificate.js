@@ -61,7 +61,6 @@ const PrintableCertificate = ({ event, url, itemUser, type }) => {
           backgroundImage: `url('${import.meta.env.VITE_BASE_API}/${
             data?.getCertificate?.image
           }')`,
-          backgroundSize: "100%",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           transform: "rotate(90deg) scale(1.345)",
