@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, useMemo } from "react";
 
 import Select from "react-select";
 
@@ -65,6 +65,7 @@ import ReactToPrint, { useReactToPrint } from "react-to-print";
 import "./print.css"; // Import your CSS file
 import { useGetUser } from "../../../../utility/gqlHelpers/useGetUser";
 import Cards from "./Cards";
+import useDownloadCardPdf from "../../../../utility/gqlHelpers/useDownloadCardPdf";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -98,6 +99,8 @@ const EditCard = () => {
   const [categoriesOptions, setCategoriesOptions] = useState([
     { value: "", label: `${t("Select")} ${t("Category")}` },
   ]);
+
+  const { downloadBatchCardPdf, loading } = useDownloadCardPdf();
 
   const [users, setUsers] = useState([]);
 
@@ -253,12 +256,23 @@ const EditCard = () => {
     }
   };
 
-  const printFn = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: "AwesomeFileName",
-    //onAfterPrint: handlePrint,
-    //onBeforePrint: handleBeforePrint,
-  });
+  const printUsers = useMemo(
+    () =>
+      users.map((user) => ({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        title: user.title ?? "",
+        qrUrl: `${import.meta.env.VITE_BASE_API + "/graphql"}/scan&u=${
+          user.id
+        }`,
+        header: user.category?.title ?? "",
+      })),
+    [users]
+  );
+
+  const printFn = async () => {
+    await downloadBatchCardPdf(printUsers);
+  };
 
   return (
     <>
@@ -592,7 +606,15 @@ const EditCard = () => {
                             block
                           >
                             <Printer className="mx-1" />
-                            {t("Print cards")}
+                            {!loading ? (
+                              t("Print cards")
+                            ) : (
+                              <div
+                                class="spinner-border ml-auto"
+                                role="status"
+                                aria-hidden="true"
+                              ></div>
+                            )}
                           </Button>
                         </Col>
                       )}
@@ -620,8 +642,6 @@ const EditCard = () => {
             </Row>
           </Col>
         </Row>
-
-        <Cards ref={componentRef} users={users} />
       </Form>
     </>
   );

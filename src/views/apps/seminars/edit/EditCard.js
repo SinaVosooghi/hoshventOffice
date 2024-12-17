@@ -68,6 +68,7 @@ import toast from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PrintableCard from "../../workshops/PrintableCard";
 import { Loader } from "../../../components/loader";
+import useDownloadCardPdf from "../../../../utility/gqlHelpers/useDownloadCardPdf";
 
 const statusOptions = [
   { value: true, label: t("Active") },
@@ -100,22 +101,10 @@ const EditCard = () => {
   const [endDate, setEndDate] = useState(null);
   const [preSelectedDate, setPreSelectedDate] = useState(null);
   const [preSelectedEndDate, setPreSelectedEndDate] = useState(null);
-  const [renderPrint, setRenderPrint] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  // We store the resolve Promise being used in `onBeforePrint` here
-  const promiseResolveRef = useRef(null);
 
-  // We watch for the state to change here, and for the Promise resolve to be available
-  useEffect(() => {
-    if (renderPrint && promiseResolveRef.current) {
-      const timer = setTimeout(() => {
-        promiseResolveRef.current?.(); // Notify react-to-print that we're ready
-        console.log(renderPrint)
-      }, 1000); // Allow React to complete DOM updates
+  const { downloadBatchCardPdf, error, loading } = useDownloadCardPdf();
 
-      return () => clearTimeout(timer);
-    }
-  }, [renderPrint]);
   // ** Hooks
   const {
     reset,
@@ -324,36 +313,25 @@ const EditCard = () => {
     });
   };
 
-  const Cards = useMemo(() => {
-    console.log('huh')
-    return attendees?.attendees?.attends?.map((user) => {
-      const itemUser = { user: user };
-      return (
-        <PrintableCard
-          key={itemUser?.user?.id}
-          itemUser={itemUser?.user}
-          event={data?.title}
-          type="seminar"
-          //showCard={renderPrint}
-        />
-      );
-    });
-  }, [attendees, data?.title, renderPrint]);
+  const users = useMemo(
+    () =>
+      attendees?.attendees?.attends?.map((user) => ({
+        firstName: user.user.firstName,
+        lastName: user.user.lastName,
+        title: user.user.category?.title ?? "",
+        qrUrl: `${import.meta.env.VITE_BASE_API + "/graphql"}/scan&u=${
+          user.id
+        }`,
+        header: `${
+          data.hall?.site?.title ? data.hall?.site?.title + " -" : ""
+        } ${data.title}`,
+      })),
+    [attendees]
+  );
 
-  const reactToPrintFn = useReactToPrint({
-    contentRef: componentRef,
-    onBeforePrint: () => {
-      return new Promise((resolve) => {
-
-        promiseResolveRef.current = resolve; // Save resolve for signaling readiness
-        setRenderPrint(true); // Trigger rendering
-      });
-    },
-    onAfterPrint: () => {
-      setRenderPrint(false); // Cleanup after print
-      promiseResolveRef.current = null; // Reset promise
-    },
-  });
+  const savePrintCards = () => {
+    downloadBatchCardPdf(users);
+  };
 
   return !isLoading ? (
     <>
@@ -778,12 +756,20 @@ const EditCard = () => {
                         <Col md={12} className="mb-2">
                           <Button
                             color="success"
-                            onClick={() => reactToPrintFn()}
+                            onClick={() => savePrintCards()}
                             outline
                             block
                           >
                             <Printer className="mx-1" />
-                            {t("Print Certificate")}
+                            {!loading ? (
+                              t("Print Certificate")
+                            ) : (
+                              <div
+                                class="spinner-border ml-auto"
+                                role="status"
+                                aria-hidden="true"
+                              ></div>
+                            )}
                           </Button>
                         </Col>
                         <Col>
@@ -815,21 +801,6 @@ const EditCard = () => {
       <Attendees seminar={data} type="seminar" />
 
       <ScansList seminar={id} />
-
-      <div style={{ display: "none" }}>
-        <div
-          ref={componentRef}
-          style={{
-            backgroundClip: "white",
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {Cards}
-        </div>
-      </div>
     </>
   ) : (
     <Loader />

@@ -18,7 +18,7 @@ import Avatar from "@components/avatar";
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 import { t } from "i18next";
-import { GET_ITEMS_QUERY, GET_SCAN_PDF } from "../gql";
+import { GET_ITEMS_QUERY, GET_SCAN_PDF, GET_SCAN_TOTAL } from "../gql";
 import { useLazyQuery } from "@apollo/client";
 import { noDataToDisplay } from "../../../../utility/Utils";
 
@@ -27,7 +27,7 @@ const CustomHeader = ({ seminar, workshop, service }) => {
     fetchPolicy: "network-only",
 
     onCompleted: ({ scansPdf }) => {
-      var link = document.createElement("a");
+      let link = document.createElement("a");
       link.download = name;
       link.href = import.meta.env.VITE_BASE_API + scansPdf;
       document.body.appendChild(link);
@@ -40,6 +40,34 @@ const CustomHeader = ({ seminar, workshop, service }) => {
   function downloadCSV(e) {
     e.preventDefault();
     getPdfFile({
+      variables: {
+        input: {
+          skip: 0,
+          ...(service && { service: parseInt(service) }),
+          ...(workshop && { workshop: parseInt(workshop) }),
+          ...(seminar && { seminar: parseInt(seminar) }),
+        },
+      },
+    });
+  }
+
+  const [getTotalTimesPdf] = useLazyQuery(GET_SCAN_TOTAL, {
+    fetchPolicy: "network-only",
+
+    onCompleted: ( {scanTotal} ) => {
+      let link = document.createElement("a");
+      link.download = name;
+      link.href = import.meta.env.VITE_BASE_API + scanTotal;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+  });
+
+  // ** Downloads CSV
+  function downloadTotalCSV(e) {
+    e.preventDefault();
+    getTotalTimesPdf({
       variables: {
         input: {
           skip: 0,
@@ -65,6 +93,10 @@ const CustomHeader = ({ seminar, workshop, service }) => {
           <Button outline onClick={downloadCSV} className="me-1 ms-1" size="sm">
             <DownloadCloud className="font-small-4 me-50" />
             <span>{t("Download CSV")}</span>
+          </Button>
+          <Button outline onClick={downloadTotalCSV} className="me-1 ms-1" size="sm">
+            <DownloadCloud className="font-small-4 me-50" />
+            <span>{t("Download TOTAL CSV")}</span>
           </Button>
         </Col>
       </Row>

@@ -9,6 +9,12 @@ export const GET_SCAN_PDF = gql`
   }
 `;
 
+export const GET_SCAN_TOTAL = gql`
+  query scanTotal($input: GetScansArgs!) {
+    scanTotal(input: $input)
+  }
+`;
+
 export const CREATE_ITEM_MUTATION = gql`
   mutation CreateScan($input: CreateScanInput!) {
     createScan(input: $input) {
