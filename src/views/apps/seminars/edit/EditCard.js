@@ -318,7 +318,7 @@ const EditCard = () => {
       attendees?.attendees?.attends?.map((user) => ({
         firstName: user.user.firstName,
         lastName: user.user.lastName,
-        title: user.user.category?.title ?? "",
+        title: user.user.title ?? "",
         qrUrl: `${import.meta.env.VITE_BASE_API + "/graphql"}/scan&u=${
           user.id
         }`,
