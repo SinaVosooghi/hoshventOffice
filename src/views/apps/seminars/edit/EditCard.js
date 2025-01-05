@@ -319,6 +319,7 @@ const EditCard = () => {
         firstName: user.user.firstName,
         lastName: user.user.lastName,
         title: user.user.title ?? "",
+        enTitle: user.user.titleen ?? "",
         qrUrl: `${import.meta.env.VITE_BASE_API + "/graphql"}/scan&u=${
           user.id
         }`,
